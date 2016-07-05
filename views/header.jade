@@ -1,0 +1,14 @@
+.navbar-container
+    .navbar
+        .hamburger-menu
+            .top
+            .mid
+            .bottom
+        .logo
+            a.logo(href='/') Johan Li
+    .items
+        ul
+            li
+                a(href='/', class=(navitem === 'home' ? 'active' : '')) Home
+            li
+                a(href='/blog', class=(navitem === 'blog' ? 'active' : '')) Blog
