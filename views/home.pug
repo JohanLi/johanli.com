@@ -12,8 +12,7 @@ block content
             | It's interesting to reflect over how tech has changed society, as well as predict what will happen in the future.
         .latest-blog
             h2 Latest Blog Posts
-            a.entry(href='/blog')
-                .title Two Tips for Improving Your Resume
-                .excerpt
-                    | It’s undeniable that being able to write a good resume is one factor that will help you
-                    | land a job. At the same time, it’s a skill that many don’t pay enough attention to in my opinion...
+            each entry in blogEntries
+                a.entry(href='/blog')
+                    .title #{entry.title}
+                    .excerpt #{entry.excerpt}

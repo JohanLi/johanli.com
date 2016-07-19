@@ -2,74 +2,12 @@ extends base
 
 block content
     .blog
-        article
-            .date
-                span.month May
-                span.day 11
-                span.year 2016
-            h2 Two Tips for Improving Your Resume
-            .caption.right
-                img.zoom(src='/img/gayle.jpg', alt='Gayle Laakmann McDowell', data-zoom-src='/img/gayle-original.jpg')
-                | Gayle Laakmann McDowell
-            p.
-                It’s undeniable that being able to write a good resume is one factor that will help you land a job. At the same time, it’s a skill that
-                many don’t pay enough attention to in my opinion. This is something that I experience when looking at other resumes, and relating to how
-                little understanding I had of resumes while still in college.
-            p.
-                A person that’s given me valuable insight in this particular subject is Gayle Laakmann McDowell. She has a background as a Software Engineer
-                at Google and was part of their hiring committee, having assessed and interviewed a large number of candidates. Since then, she’s become a
-                successful author that educates people about the interview process at tech companies.
-            p.
-                Two important things I’ve learned through her material is:
-            h3.
-                1. Focus on accomplishments, not responsibilities. Your accomplishments should also, if possible, be quantified.
-            p.
-                Something that I see often, is people writing about their responsibilities and role descriptions for previous jobs. There are at least two
-                problems with doing this: it doesn’t tell whoever is reading your resume how well you performed, and in most cases responsibilities are obvious
-                from the job title. For instance, if you’re a Web Developer, of course some of your responsibilities include gathering requirements, making estimations, implementing user interfaces and maintaining applications.
-            p.
-                What you should do instead, as Gayle points out, is focus on what you built, created, implemented, designed, architected or optimized.
-                If you can list and quantify some of these, it at least shows you did something and made an impact.
-            p.
-                One such bullet point I have for my current job, is that I reduced the average application response time of our Magento application from 980 ms
-                to 120 ms through code optimizations, better caching and migrating to PHP 7. Apart from showing what impact you made, you’re also making it
-                easier for companies in evaluating you. People interviewing you, upon seeing such a bullet point, will most likely touch on topics like monitoring
-                tools, profiling, caching and what you do to keep up with tech. In return, you’ll be given the opportunity to demonstrate your experience.
-            h3.
-                2. Resumes should be kept short, ideally a single page only.
-            p.
-                Gayle mentions that people reading your resume tend to only spend 15 - 30 seconds glancing at it. Hence, it’s important to keep it short and focus
-                on highlights. If you go over one page, you dilute your resume with weaker content and give readers a worse impression of you. Furthermore,
-                she finds that there is no correlation between the length of resumes and how much experience someone has.
-            p.
-                What she says about people reading resumes is spot on from what I’ve experienced. The times when my colleagues or I have gone through a candidate’s
-                resume, it’s at most just a quick glance. Hence, you should carefully consider what to include in your resume while leaving out all the fluff.
-                Some examples of content that just add padding are:
-            ul
-                li.
-                    Listing soft skills such as being passionate, analytical, driven or a team player. As the name implies, these skills are subjective and
-                    hard to measure. Instead, being passionate can be implied if you work on side projects or attend tech meetups.
-                li.
-                    Content that is outweighed by your other accomplishments. If you have worked at several companies, less emphasis should be put on your
-                    earlier roles. You’ve hopefully improved as a developer, so your latest accomplishments outshine what you did earlier. Similarly, listing college
-                    projects is unnecessary if you’re already working at a tech company. You already demonstrate technical competence and coding ability through your accomplishments at work.
-                li.
-                    Listing skills and previous jobs that have little to do with software development. Unless you’re new to the industry, including odd jobs you
-                    did during college doesn’t add anything. Neither does listing proficiency in Word, Excel, Windows or Mac OS, because any half-decent developer
-                    would have no problems picking those “skills” up.
-            h3.
-                Own reflections
-            p.
-                Needless to say, having a great resume is helped by excelling at what you do. However, from what I’ve experienced, it also helps
-                if you work for a company where you’re given a certain degree of autonomy and able to take initiative. In such cases, there’s room to create
-                or optimize things as long as there’s business value, giving you more control over your eventual accomplishments.
-            p.
-                In contrast, when I worked as a consultant delivering e-commerce solutions, there was an endless stream of features and designs waiting to be
-                implemented. As invoicing hours was the focal point for the company and metric for how well you performed, it was hard to take initiative.
-                Hence, I didn’t have much control over my accomplishments as they were heavily dependent on what the sales department had sold to our clients.
-            p.
-                It’s also important to note that Gayle’s advice isn’t universal for all companies and in all countries, as it mainly focuses on top tier tech
-                companies in the US. One area where I think some of her advice isn’t as applicable, is for companies that aren’t strong when it comes to tech.
-                The reason is that such companies don’t have the same ability or resources to evaluate talent, and may base more of that on what would otherwise
-                be fluff in your resume. While they may be impressed by seeing text like “5+ years of experience in X language with strong Y skills”,
-                technically stronger companies see it a different way.
+        each entry in entries
+            article
+                .date
+                    span.month #{entry.published.monthName}
+                    span.day #{entry.published.getDate()}
+                    span.year #{entry.published.getFullYear()}
+                h2 #{entry.title}
+                .
+                    !{entry.html}
