@@ -1,0 +1,43 @@
+---
+- hosts: database
+
+  tasks:
+
+  - name: install mysql-server
+    apt: name={{ item }} state=latest update_cache=yes
+    with_items:
+    - mysql-server
+    - python-mysqldb
+
+  - name: delete anonymous users
+    mysql_user: user="" state="absent"
+
+  - name: remove test database
+    mysql_db: db=test state=absent
+
+  - name: add user for remote access, and set password for all users
+    mysql_user: name=root
+                password={{ mysql_root_password }}
+                priv=*.*:ALL,GRANT
+                host={{ item }}
+    with_items:
+      - "{{ home_ip }}"
+      - "{{ domain }}"
+      - 127.0.0.1
+      - ::1
+      - localhost
+
+  - name: add .my.cnf with new credentials
+    template: src=templates/.my.cnf dest=~/.my.cnf owner=root group=root mode=0600
+
+  - name: add user for remote access
+    mysql_user: name=root
+                password={{ mysql_root_password }}
+                priv=*.*:ALL,GRANT
+                host={{ home_ip }}
+
+  - name: comment out bind-address for remote access
+    replace: dest=/etc/mysql/my.cnf regexp='^bind-address' replace='#bind-address'
+
+  - name: restart mysql
+    service: name=mysql enabled=yes state=restarted

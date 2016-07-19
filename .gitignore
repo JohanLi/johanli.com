@@ -5,3 +5,7 @@ npm-debug.log
 
 public/css/
 public/js/
+
+ansible/templates/
+ansible/*.retry
+ansible/hosts

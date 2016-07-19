@@ -1,0 +1,72 @@
+---
+- hosts: webservers
+
+  tasks:
+
+  # required because NodeSource uses https repositories
+  - name: install apt-transport-https
+    apt: name=apt-transport-https state=latest update_cache=yes
+
+  # https://github.com/nodesource/distributions
+  - name: add NodeSource package signing key
+    apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+
+  - name: add NodeSource repository
+    copy: src=templates/nodesource.list dest=/etc/apt/sources.list.d/nodesource.list
+
+  - name: install nodejs, git, nginx
+    apt: name={{ item }} state=latest update_cache=yes
+    with_items:
+    - nodejs
+    - git
+    - nginx
+
+  - name: delete default server block
+    file: path={{ item }} state=absent
+    with_items:
+    - /etc/nginx/sites-available/default
+    - /etc/nginx/sites-enabled/default
+
+  - name: add server block
+    template: src=templates/server-block.conf dest=/etc/nginx/sites-available/{{ domain }}.conf
+
+  - name: enable server block
+    file: src=/etc/nginx/sites-available/{{ domain }}.conf dest=/etc/nginx/sites-enabled/{{ domain }}.conf state=link
+
+  - name: create /etc/ssl/{{ domain }} directory
+    file: path=/etc/ssl/{{ domain }} state=directory
+
+  - name: copy ssl bundle
+    copy: src=templates/ssl-bundle.crt dest=/etc/ssl/{{ domain }}/ssl-bundle.crt
+
+  - name: copy private key
+    copy: src=templates/server.key dest=/etc/ssl/{{ domain }}/server.key
+
+  - name: restart nginx
+    service: name=nginx enabled=yes state=restarted
+
+  - name: install forever and gulp
+    npm: name={{ item }} global=yes
+    with_items:
+    - forever
+    - gulp
+
+  - name: deploy master branch
+    git: repo=https://github.com/JohanLi/johanli.com.git dest=/var/www/{{ domain }}
+
+  - name: deploy .env file
+    copy: src=templates/.env dest=/var/www/{{ domain }}/.env
+
+  - name: npm install
+    npm: path=/var/www/{{ domain }}
+    register: result
+    failed_when: '"ERR!" in result.stderr'
+
+  - name: start node application
+    command: "{{ item }} chdir=/var/www/{{ domain }}"
+    environment:
+      NODE_ENV: production
+    with_items:
+    - npm rebuild node-sass
+    - gulp
+    - forever start app.js
