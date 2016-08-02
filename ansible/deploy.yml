@@ -13,4 +13,4 @@
     with_items:
     - npm install
     - gulp
-    - forever start app.js
+    - forever restart app.js
