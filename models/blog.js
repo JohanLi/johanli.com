@@ -3,7 +3,7 @@ var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July'
 
 exports.get = function(callback) {
 
-    database.query('SELECT * FROM blog', function (error, entries) {
+    database.query('SELECT * FROM blog ORDER BY published DESC', function (error, entries) {
         if (error)
             return callback(error);
 
