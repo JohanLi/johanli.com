@@ -1,18 +1,34 @@
 var database = require('../database');
 var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-exports.get = function(callback) {
+function select(sql, values) {
 
-    database.query('SELECT * FROM blog ORDER BY published DESC', function (error, entries) {
-        if (error)
-            return callback(error);
+    return new Promise(function (resolve, reject) {
 
-        for (let entry of entries) {
-            entry.published = new Date(entry.published * 1000);
-            entry.published.monthName = monthNames[entry.published.getMonth()];
-        }
+        database.query(sql, values, function (error, entries) {
+            if (error)
+                reject(error);
 
-        callback(entries);
+            for (let entry of entries) {
+                entry.published = new Date(entry.published * 1000);
+                entry.published.monthName = monthNames[entry.published.getMonth()];
+            }
+
+            resolve(entries);
+        });
+
     });
+
+}
+
+module.exports = {
+
+    getAll: function() {
+        return select('SELECT * FROM blog ORDER BY published DESC', []);
+    },
+
+    getByUrl(url) {
+        return select('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [url]);
+    }
 
 };

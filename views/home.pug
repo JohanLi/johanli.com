@@ -13,6 +13,6 @@ block content
         .latest-blog
             h2 Latest Blog Posts
             each entry in blogEntries
-                a.entry(href='/blog')
+                a.entry(href='/blog/' + entry.url)
                     .title #{entry.title}
                     .excerpt #{entry.excerpt}
