@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-var blog = require('../models/blog');
+let blog = require('../models/blog');
+let PokemonGoMap = require('../models/pokemon-go-map');
 
 router.get('/', function(request, response) {
 
@@ -26,6 +27,19 @@ router.get('/blog/:blogUrl', function(request, response) {
     blog.getByUrl(request.params.blogUrl)
         .then(function(entries) {
             response.render('blog', {title: entries[0].title + ' | Johan Li', metaDescription: '', navitem: 'blog', entries: entries});
+        });
+
+});
+
+router.get('/pokemon-go', function(request, response) {
+    response.render('pokemon-go-map');
+});
+
+router.get('/pokemon-go/map-objects', function(request, response) {
+
+    PokemonGoMap.getMapObjects()
+        .then(mapObjects => {
+            response.json(mapObjects);
         });
 
 });
