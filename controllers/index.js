@@ -31,8 +31,8 @@ router.get('/blog/:blogUrl', function(request, response) {
 
 });
 
-router.get('/pokemon-go', function(request, response) {
-    response.render('pokemon-go-map');
+router.get('/pokemon-go/map', function(request, response) {
+    response.render('pokemon-go/map', {title: 'Pokestops and Gyms in Stockholm | Johan Li', navitem: 'pokemon-go'});
 });
 
 router.get('/pokemon-go/map-objects', function(request, response) {
