@@ -1,14 +1,17 @@
 (function(window, document, undefined) {
 
     var self = window.PokemonGoMap = {};
-
     self.mapElement = document.querySelector('.pokemon-go .map');
+
+    if (!self.mapElement) {
+        return;
+    }
+
     self.checkboxGyms = document.querySelector('.pokemon-go input[type=checkbox].gyms');
     self.checkboxPokestops = document.querySelector('.pokemon-go input[type=checkbox].pokestops');
 
     self.gymMarkers = [];
     self.pokestopMarkers = [];
-
     self.markerClusterer = {};
 
     self.init = function() {
