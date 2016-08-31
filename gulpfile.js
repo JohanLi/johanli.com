@@ -6,8 +6,35 @@ var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
 var changed = require('gulp-changed');
 var nodemon = require('gulp-nodemon');
+var browserSync = require('browser-sync').create();
 
-gulp.task('sass', function () {
+gulp.task('start', function () {
+    nodemon({
+        script: 'app.js',
+        ext: 'js pug',
+        ignore: 'src',
+        env: {'NODE_ENV': 'development'}
+    })
+});
+
+gulp.task('browser-sync', function() {
+    browserSync.init({
+        proxy: "localhost:8080"
+    });
+});
+
+gulp.task('reload', function() {
+    browserSync.reload();
+});
+
+gulp.task('watch', function() {
+    gulp.watch('src/sass/**/*.scss', ['sass', 'reload']);
+    gulp.watch('src/js/**/*.js', ['scripts', 'reload']);
+    gulp.watch('src/img/*.*', ['imagemin', 'reload']);
+    gulp.watch('views/**/*.pug', ['reload']);
+});
+
+gulp.task('sass', function() {
     gulp.src('src/sass/base.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(sass({outputStyle: 'compressed'}))
@@ -31,21 +58,6 @@ gulp.task('imagemin', function() {
         .pipe(gulp.dest(imgDestination));
 });
 
-gulp.task('watch', function () {
-    gulp.watch('src/sass/**/*.scss', ['sass']);
-    gulp.watch('src/js/**/*.js', ['scripts']);
-    gulp.watch('src/img/*.*', ['imagemin']);
-});
+gulp.task('default', ['watch', 'start', 'browser-sync'], function() {});
 
-gulp.task('start', function () {
-    nodemon({
-        script: 'app.js',
-        ext: 'js pug',
-        ignore: 'src',
-        env: {'NODE_ENV': 'development'}
-    })
-});
-
-gulp.task('default', ['sass', 'scripts', 'imagemin'], function() {});
-
-gulp.task('dev', ['watch', 'start'], function() {});
+gulp.task('build', ['sass', 'scripts', 'imagemin'], function() {});
