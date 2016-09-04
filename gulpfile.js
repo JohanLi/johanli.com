@@ -8,13 +8,18 @@ var changed = require('gulp-changed');
 var nodemon = require('gulp-nodemon');
 var browserSync = require('browser-sync').create();
 
-gulp.task('start', function () {
+gulp.task('start', function() {
     nodemon({
         script: 'app.js',
         ext: 'js pug',
         ignore: 'src',
         env: {'NODE_ENV': 'development'}
     })
+    .on('restart', function() {
+        setTimeout(function() {
+            browserSync.reload();
+        }, 1000);
+    });
 });
 
 gulp.task('browser-sync', function() {
@@ -31,7 +36,6 @@ gulp.task('watch', function() {
     gulp.watch('src/sass/**/*.scss', ['sass', 'reload']);
     gulp.watch('src/js/**/*.js', ['scripts', 'reload']);
     gulp.watch('src/img/*.*', ['imagemin', 'reload']);
-    gulp.watch('views/**/*.pug', ['reload']);
 });
 
 gulp.task('sass', function() {

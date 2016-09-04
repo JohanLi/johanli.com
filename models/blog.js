@@ -1,5 +1,4 @@
 var database = require('../database');
-var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 function select(sql, values) {
 
@@ -11,7 +10,6 @@ function select(sql, values) {
 
             for (let entry of entries) {
                 entry.published = new Date(entry.published * 1000);
-                entry.published.monthName = monthNames[entry.published.getMonth()];
             }
 
             resolve(entries);

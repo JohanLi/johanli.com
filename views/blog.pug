@@ -5,7 +5,7 @@ block content
         each entry in entries
             article
                 .date
-                    span.month #{entry.published.monthName}
+                    span.month #{entry.published.toLocaleString('en-us', {month: "short"})}
                     span.day #{entry.published.getDate()}
                     span.year #{entry.published.getFullYear()}
                 h2 #{entry.title}
