@@ -1,0 +1,20 @@
+.content {
+  padding: 0 15px 30px;
+
+  @media #{$breakpoint-sm} {
+    margin: 30px auto;
+    padding: 0 30px;
+  }
+
+  @media #{$breakpoint-md} {
+    max-width: 1200px;
+    padding: 40px 15px 60px;
+    margin: 0 auto;
+  }
+
+  @media #{$breakpoint-lg} {
+    max-width: 1400px;
+    padding: 60px 15px 90px;
+    margin: 0 auto;
+  }
+}

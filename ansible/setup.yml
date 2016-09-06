@@ -68,5 +68,5 @@
       NODE_ENV: production
     with_items:
     - npm rebuild node-sass
-    - gulp
+    - gulp build
     - forever start app.js

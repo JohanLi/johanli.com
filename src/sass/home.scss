@@ -2,18 +2,33 @@
   background: url(/img/stockholm640.jpg) no-repeat;
   background-size: contain;
   width: 100%;
-  padding-bottom: 68.75%;
+  padding-bottom: 68.75%; // width / height of background image, with the last digit rounded up
+
+  @media #{$breakpoint-sm} {
+    background-image: url(/img/stockholm1200.jpg);
+    padding-bottom: 36.67%;
+  }
+
+  @media #{$breakpoint-md} {
+    background-image: url(/img/stockholm1600.jpg);
+    padding-bottom: 27.5%;
+  }
+
+  @media #{$breakpoint-lg} {
+    background-image: url(/img/stockholm1920.jpg);
+    padding-bottom: 22.92%;
+  }
 }
 
 .about-me {
-  padding: 20px;
+  padding: 25px 0 15px 0;
 
   img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
+    min-width: 100px;
+    max-width: 200px;
+    width: 33%;
     float: right;
-    margin: 0 0 20px 20px;
+    margin: 0 0 15px 15px;
   }
 
   a {
@@ -24,110 +39,75 @@
       border-bottom: 1px solid #41b7d8;
     }
   }
+
+  @media #{$breakpoint-sm} {
+    img {
+      margin: 0 0 30px 30px;
+    }
+  }
+
+  @media #{$breakpoint-md} {
+    padding: 0 0 0 40px;
+    width: 50%;
+    float: right;
+
+    img {
+      margin: 0 0 40px 40px;
+    }
+  }
+
+  @media #{$breakpoint-lg} {
+    width: 60%;
+
+    img {
+      margin: 0 0 60px 60px;
+      max-width: 400px;
+    }
+  }
 }
 
 .latest-blog {
-  padding: 0 20px 30px 20px;
-
   h2 {
-    font-size: 24px;
+    font-size: 18px;
     margin: 0;
   }
 
   .entry {
-    margin: 20px 0;
     display: block;
-    color: inherit;
     text-decoration: none;
     border-bottom: 0;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+    color: #222;
+
+    &:last-child {
+      border-bottom-color: transparent;
+    }
   }
 
   .title {
     font-weight: 700;
+    margin-bottom: 10px;
+    color: #000;
   }
 
   .excerpt {
     margin-top: 5px;
-    color: #aaa;
-  }
-}
-
-@media (min-width: 641px) {
-
-  .home {
-    margin: 30px auto;
-    padding: 0 20px;
   }
 
-  .banner {
-    background-image: url(/img/stockholm1200.jpg);
-    padding-bottom: 36.67%;
-  }
+  @media #{$breakpoint-md} {
+    width: 50%;
 
-  .about-me {
-    padding: 0 0 0 60px;
-    width: 640px;
-    float: right;
+    h2 {
+      font-size: 24px;
+    }
 
-    img {
-      width: 150px;
-      height: 150px;
-      border-radius: 75px;
-      float: right;
-      margin: 0 0 40px 40px;
+    .entry {
+      padding: 30px 0;
     }
   }
 
-}
-
-@media (min-width: 1201px) {
-
-  .banner {
-    background-image: url(/img/stockholm1600.jpg);
-    padding-bottom: 27.5%;
+  @media #{$breakpoint-lg} {
+    width: 40%;
   }
-
-  .home {
-    max-width: 1200px;
-    margin: 60px auto;
-  }
-
-  .about-me {
-    padding: 0 0 0 60px;
-    width: 640px;
-    float: right;
-
-    img {
-      width: 200px;
-      height: 200px;
-      border-radius: 100px;
-      float: right;
-      margin: 0 0 40px 40px;
-    }
-  }
-
-}
-
-@media (min-width: 1601px) {
-
-  .banner {
-    background-image: url(/img/stockholm1920.jpg);
-    padding-bottom: 22.92%;
-  }
-
-  .home {
-    max-width: 1400px;
-    margin: 60px auto;
-  }
-
-  .about-me {
-    padding: 0 0 0 100px;
-    width: 800px;
-    float: right;
-
-    img {
-      margin: 0 0 60px 60px;
-    }
-  }
-
 }
