@@ -15,6 +15,7 @@
     "build:js-folder": "mkdirp public/js/",
     "build:js": "babel src/js/ --out-file public/js/scripts.min.js --minified --no-comments ",
     "build:css": "node-sass src/sass/base.scss public/css/base.css --output-style compressed",
+    "build:imagemin": "node imagemin.js",
     "watch:js": "npm run build:js -- --watch src/js/",
     "watch:css": "npm run build:css && npm run build:css -- --watch src/sass/"
   },
@@ -30,6 +31,9 @@
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "browser-sync": "^2.14.3",
+    "imagemin": "^5.2.2",
+    "imagemin-mozjpeg": "^6.0.0",
+    "imagemin-optipng": "^5.2.1",
     "node-sass": "^4.0.0",
     "nodemon": "^1.11.0",
     "npm-run-all": "^3.1.2"
