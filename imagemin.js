@@ -5,7 +5,7 @@ const optipng = require('imagemin-optipng');
 imagemin(['src/img/*.{jpg,png,ico}'], 'public/img/', {
     plugins: [
         mozjpeg({
-            quality: 90,
+            quality: 85,
             progressive: false
         }),
         optipng()

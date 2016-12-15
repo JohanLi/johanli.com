@@ -6,11 +6,12 @@
   - name: deploy master branch
     git: repo=https://github.com/JohanLi/johanli.com.git dest=/var/www/{{ domain }}
 
+  - name: copy images
+    copy: src=../public/img/ dest=/var/www/{{ domain }}/public/img/
+
   - name: start node application
     command: "{{ item }} chdir=/var/www/{{ domain }}"
     environment:
       NODE_ENV: production
     with_items:
-    - npm install
-    - gulp build
-    - forever restart app.js
+    - npm run production:start

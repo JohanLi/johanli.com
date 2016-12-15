@@ -10,20 +10,22 @@
   "scripts": {
     "postinstall": "npm-run-all build:*",
     "start": "npm-run-all --parallel nodemon browser-sync watch:*",
+    "production:start": "npm install && forever restart app.js || forever start app.js",
     "nodemon": "nodemon app.js --ext js,pug --ignore src/",
     "browser-sync": "browser-sync start --proxy localhost:8080 --files \"public/**\"",
     "build:js-folder": "mkdirp public/js/",
     "build:js": "babel src/js/ --out-file public/js/scripts.min.js --minified --no-comments ",
     "build:css": "node-sass src/sass/base.scss public/css/base.css --output-style compressed",
-    "build:imagemin": "node imagemin.js",
     "watch:js": "npm run build:js -- --watch src/js/",
-    "watch:css": "npm run build:css && npm run build:css -- --watch src/sass/"
+    "watch:css": "npm run build:css && npm run build:css -- --watch src/sass/",
+    "imagemin": "node imagemin.js"
   },
   "author": "Johan Li",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
+    "forever": "^0.15.3",
     "mkdirp": "^0.5.1",
     "mysql": "^2.11.1",
     "pug": "^2.0.0-beta3"

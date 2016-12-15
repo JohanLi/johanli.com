@@ -45,12 +45,6 @@
   - name: restart nginx
     service: name=nginx enabled=yes state=restarted
 
-  - name: install forever and gulp
-    npm: name={{ item }} global=yes
-    with_items:
-    - forever
-    - gulp
-
   - name: deploy master branch
     git: repo=https://github.com/JohanLi/johanli.com.git dest=/var/www/{{ domain }}
 
@@ -67,6 +61,4 @@
     environment:
       NODE_ENV: production
     with_items:
-    - npm rebuild node-sass
-    - gulp build
-    - forever start app.js
+    - npm run production:start
