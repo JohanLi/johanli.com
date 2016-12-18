@@ -48,17 +48,14 @@
   - name: deploy master branch
     git: repo=https://github.com/JohanLi/johanli.com.git dest=/var/www/{{ domain }}
 
+  - name: deploy images
+    copy: src=../public/img/ dest=/var/www/{{ domain }}/public/img/
+
   - name: deploy .env file
     copy: src=templates/.env dest=/var/www/{{ domain }}/.env
 
-  - name: npm install
-    npm: path=/var/www/{{ domain }}
-    register: result
-    failed_when: '"ERR!" in result.stderr'
-
-  - name: start node application
+  - name: npm install and rebuild node-sass
     command: "{{ item }} chdir=/var/www/{{ domain }}"
-    environment:
-      NODE_ENV: production
     with_items:
-    - npm run production:start
+    - npm install
+    - npm rebuild node-sass
