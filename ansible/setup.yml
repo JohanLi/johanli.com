@@ -59,3 +59,8 @@
     with_items:
     - npm install
     - npm rebuild node-sass
+
+  - cron:
+      name: "start application on reboot"
+      special_time: reboot
+      job: "cd /var/www/{{ domain }} && npm run production:start"
