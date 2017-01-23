@@ -11,7 +11,7 @@
     "start": "npm-run-all --parallel nodemon browser-sync watch",
     "production:start": "forever restart app.js || forever start app.js",
     "nodemon": "nodemon app.js --ext js,pug --ignore src/",
-    "browser-sync": "browser-sync start --proxy localhost:8080 --files \"public/**\"",
+    "browser-sync": "browser-sync start --proxy localhost:8080 --files \"public/**/*, views/**/*\" --reload-delay 200 --no-inject-changes",
     "build": "npm-run-all build:*",
       "build:js-folder": "mkdirp public/js/",
       "build:js": "babel src/js/ --out-file public/js/scripts.min.js --minified --no-comments ",
