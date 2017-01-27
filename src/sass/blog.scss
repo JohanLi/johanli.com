@@ -35,6 +35,20 @@
       margin-bottom: 10px;
       display: block;
     }
+
+    pre {
+      width: 100%;
+      font-size: 14px;
+    }
+  }
+
+  a {
+    color: #41b7d8;
+    text-decoration: none;
+
+    &:hover {
+      border-bottom: 1px solid #41b7d8;
+    }
   }
 }
 
