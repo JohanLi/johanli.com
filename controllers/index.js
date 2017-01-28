@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-let blog = require('../models/blog');
-let PokemonGoMap = require('../models/pokemon-go-map');
+const blog = require('../models/blog');
+const PokemonGoMap = require('../models/pokemon-go-map');
 
 router.get('/', function(request, response) {
 
