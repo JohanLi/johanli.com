@@ -52,7 +52,7 @@
   }
 }
 
-@media (min-width: 1201px) {
+@media #{$breakpoint-lg} {
 
   .blog {
     max-width: 980px;
@@ -73,30 +73,6 @@
       position: relative;
     }
 
-    .date {
-      position: absolute;
-      top: 60px;
-      left: -120px;
-      text-align: center;
-      color: #ccc;
-      border-right: 1px solid #f4f4f4;
-      width: 80px;
-
-      > span {
-        display: block;
-        margin-right: 0;
-      }
-
-      .month, .year {
-        text-transform: uppercase;
-        font-size: 18px;
-      }
-
-      .day {
-        font-size: 30px;
-      }
-    }
-
     .caption {
       &.center {
         margin: 40px 0;
@@ -104,9 +80,41 @@
 
       &.right {
         float: right;
-        margin: 0 -120px 40px 40px;
+        margin: 0 0 40px 40px;
       }
     }
+  }
+
+}
+
+@media #{$breakpoint-xl} {
+
+  .date {
+    position: absolute;
+    top: 60px;
+    left: -120px;
+    text-align: center;
+    color: #ccc;
+    border-right: 1px solid #f4f4f4;
+    width: 80px;
+
+    > span {
+      display: block;
+      margin-right: 0;
+    }
+
+    .month, .year {
+      text-transform: uppercase;
+      font-size: 18px;
+    }
+
+    .day {
+      font-size: 30px;
+    }
+  }
+
+  .caption.right {
+    margin-right: -120px;
   }
 
 }

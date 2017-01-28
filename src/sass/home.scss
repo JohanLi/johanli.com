@@ -5,16 +5,16 @@
   padding-bottom: 68.75%; // width / height of background image, with the last digit rounded up
 
   @media #{$breakpoint-sm} {
-    background-image: url(/img/stockholm1200.jpg);
-    padding-bottom: 36.67%;
-  }
-
-  @media #{$breakpoint-md} {
-    background-image: url(/img/stockholm1600.jpg);
-    padding-bottom: 27.5%;
+    background-image: url(/img/stockholm1024.jpg);
+    padding-bottom: 42.97%;
   }
 
   @media #{$breakpoint-lg} {
+    background-image: url(/img/stockholm1400.jpg);
+    padding-bottom: 31.43%;
+  }
+
+  @media #{$breakpoint-xl} {
     background-image: url(/img/stockholm1920.jpg);
     padding-bottom: 22.92%;
   }
@@ -46,7 +46,7 @@
     }
   }
 
-  @media #{$breakpoint-md} {
+  @media #{$breakpoint-lg} {
     padding: 0 0 0 40px;
     width: 50%;
     float: right;
@@ -56,7 +56,7 @@
     }
   }
 
-  @media #{$breakpoint-lg} {
+  @media #{$breakpoint-xl} {
     width: 60%;
 
     img {
@@ -95,7 +95,7 @@
     margin-top: 5px;
   }
 
-  @media #{$breakpoint-md} {
+  @media #{$breakpoint-lg} {
     width: 50%;
 
     h2 {
@@ -107,7 +107,7 @@
     }
   }
 
-  @media #{$breakpoint-lg} {
+  @media #{$breakpoint-xl} {
     width: 40%;
   }
 }
