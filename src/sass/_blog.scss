@@ -25,20 +25,23 @@
   }
 
   .caption {
-    margin: 20px 0 10px 0;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    margin: 20px auto 10px auto;
     font-size: 14px;
     color: #ccc;
     text-align: center;
 
-    img {
+    img, pre {
       max-width: 100%;
       margin: 0 auto 10px auto;
       display: block;
     }
 
-    pre {
-      width: 100%;
-      font-size: 14px;
+    > div {
+      display: table-caption;
+      caption-side: bottom;
     }
   }
 
@@ -50,13 +53,13 @@
       border-bottom: 1px solid #41b7d8;
     }
   }
-}
 
-@media #{$breakpoint-lg} {
+  @media #{$breakpoint-lg} {
 
-  .blog {
-    max-width: 980px;
-    margin: 0 auto;
+    & {
+      max-width: 980px;
+      margin: 0 auto;
+    }
 
     h2 {
       font-size: 24px;
@@ -74,47 +77,50 @@
     }
 
     .caption {
+      width: auto;
+
       &.center {
-        margin: 40px 0;
+        margin-top: 40px;
+        margin-bottom: 40px;
       }
 
       &.right {
         float: right;
-        margin: 0 0 40px 40px;
+        margin-left: 40px;
+        margin-bottom: 40px;
       }
     }
   }
 
-}
+  @media #{$breakpoint-xl} {
 
-@media #{$breakpoint-xl} {
+    .date {
+      position: absolute;
+      top: 60px;
+      left: -120px;
+      text-align: center;
+      color: #ccc;
+      border-right: 1px solid #f4f4f4;
+      width: 80px;
 
-  .date {
-    position: absolute;
-    top: 60px;
-    left: -120px;
-    text-align: center;
-    color: #ccc;
-    border-right: 1px solid #f4f4f4;
-    width: 80px;
+      > span {
+        display: block;
+        margin-right: 0;
+      }
 
-    > span {
-      display: block;
-      margin-right: 0;
+      .month, .year {
+        text-transform: uppercase;
+        font-size: 18px;
+      }
+
+      .day {
+        font-size: 30px;
+      }
     }
 
-    .month, .year {
-      text-transform: uppercase;
-      font-size: 18px;
+    .caption.right {
+      margin-right: -120px;
     }
 
-    .day {
-      font-size: 30px;
-    }
   }
-
-  .caption.right {
-    margin-right: -120px;
-  }
-
 }
