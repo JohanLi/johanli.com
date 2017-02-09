@@ -83,8 +83,8 @@
 
             var marker = new google.maps.Marker({
                 position: {
-                    lat: mapObject.latitude,
-                    lng: mapObject.longitude
+                    lat: parseFloat(mapObject.latitude),
+                    lng: parseFloat(mapObject.longitude)
                 },
                 icon: '/img/gym.png'
             });
@@ -104,8 +104,8 @@
 
             var marker = new google.maps.Marker({
                 position: {
-                    lat: mapObject.latitude,
-                    lng: mapObject.longitude
+                    lat: parseFloat(mapObject.latitude),
+                    lng: parseFloat(mapObject.longitude)
                 },
                 icon: '/img/pokestop.png'
             });
