@@ -1,32 +1,29 @@
-var database = require('./database');
+const database = require('./database');
 
-function select(sql, values) {
+const setPublishedDate = (entries) => {
+    for (let entry of entries) {
+        entry.published = new Date(entry.published * 1000);
+    }
 
-    return new Promise(function (resolve, reject) {
-
-        database.query(sql, values, function (error, entries) {
-            if (error)
-                reject(error);
-
-            for (let entry of entries) {
-                entry.published = new Date(entry.published * 1000);
-            }
-
-            resolve(entries);
-        });
-
-    });
-
-}
+    return entries;
+};
 
 module.exports = {
 
-    getAll: function() {
-        return select('SELECT * FROM blog ORDER BY published DESC', []);
+    getAll() {
+        return database
+            .query('SELECT * FROM blog ORDER BY published DESC')
+            .then(([entries]) => {
+                return setPublishedDate(entries);
+            });
     },
 
     getByUrl(url) {
-        return select('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [url]);
+        return database
+            .query('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [url])
+            .then(([entries]) => {
+                return setPublishedDate(entries);
+            });
     }
 
 };

@@ -1,53 +1,23 @@
 const database = require('./database');
 
-class PokemonGoMap {
+module.exports = {
 
     getMapObjects() {
-
-        let mapObjects = {};
-
-        return this.getGyms()
-            .then(gyms => {
-                mapObjects.gyms = gyms;
-                return this.getPokestops();
-            })
-            .then(pokestops => {
-                mapObjects.pokestops = pokestops;
-                return mapObjects;
+        return Promise.all([this.getGyms(), this.getPokestops()])
+            .then(([[gyms], [pokestops]]) => {
+                return {
+                    gyms: gyms,
+                    pokestops: pokestops
+                };
             });
-
-    }
+    },
 
     getGyms() {
-
-        return new Promise((resolve, reject) => {
-
-            database.query('SELECT * FROM pokemon_go_map_objects WHERE type = 0', (err, results) => {
-                if (err)
-                    reject(err);
-
-                resolve(results);
-            });
-
-        });
-
-    }
+        return database.query('SELECT * FROM pokemon_go_map_objects WHERE type = 0');
+    },
 
     getPokestops() {
-
-        return new Promise((resolve, reject) => {
-
-            database.query('SELECT * FROM pokemon_go_map_objects WHERE type = 1 AND neighbor_group_count > 2', (err, results) => {
-                if (err)
-                    reject(err);
-
-                resolve(results);
-            });
-
-        });
-
+        return database.query('SELECT * FROM pokemon_go_map_objects WHERE type = 1 AND neighbor_group_count > 2');
     }
 
-}
-
-module.exports = new PokemonGoMap();
+};
