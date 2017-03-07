@@ -9,7 +9,7 @@ block content
                         h2 #{project.name}
                         .pull-right
                             if project.state === 2
-                                .status.active Active
+                                .status.in-progress In Progress
                             else if project.state === 1
                                 .status.complete Complete
                     p #{project.description}
