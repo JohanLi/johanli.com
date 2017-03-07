@@ -47,6 +47,10 @@
       }
     }
 
+    p {
+      white-space: pre-wrap;
+    }
+
     .links-container {
       display: flex;
       flex-wrap: wrap;

@@ -1,0 +1,37 @@
+extends base
+
+block content
+    .side-projects.content
+        each project in projects
+            .project
+                .description
+                    .title
+                        h2 #{project.name}
+                        .pull-right
+                            if project.state === 2
+                                .status.active Active
+                            else if project.state === 1
+                                .status.complete Complete
+                    p #{project.description}
+                    .links-container
+                        if project.homepage_url || project.github_url
+                            .links
+                                h3 Links
+                                ul
+                                    if project.homepage_url
+                                        li
+                                            a(href=project.homepage_url) Homepage
+                                    if project.github_url
+                                        li
+                                            a(href=project.github_url) GitHub
+                        if project.blogEntries
+                            .blog-entries
+                                h3 Blog Entries
+                                ul
+                                    each entry in project.blogEntries
+                                        li
+                                            a(href='/blog/' + entry.url) #{entry.title}
+                .image
+                    if project.image_url
+                        a(href=project.homepage_url)
+                            img(src=project.image_url, width='600', height='300')
