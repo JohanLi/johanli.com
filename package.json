@@ -19,10 +19,18 @@
     "watch": "npm-run-all --parallel watch:*",
     "watch:js": "npm run build:js -- --watch src/js/",
     "watch:css": "npm run build:css && npm run build:css -- --watch src/sass/",
-    "imagemin": "node imagemin.js"
+    "imagemin": "node imagemin.js",
+    "lint": "eslint ./*.js controllers/**/*.js models/**/*.js src/js/**/*.js"
   },
   "author": "Johan Li",
   "license": "ISC",
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "extends": "airbnb-base"
+  },
   "dependencies": {
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
@@ -34,6 +42,9 @@
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "browser-sync": "^2.14.3",
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb-base": "^11.1.1",
+    "eslint-plugin-import": "^2.2.0",
     "imagemin": "^5.2.2",
     "imagemin-gifsicle": "^5.1.0",
     "imagemin-mozjpeg": "^6.0.0",
