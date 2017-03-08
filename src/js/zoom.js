@@ -4,7 +4,10 @@
   }
 
   const zoomList = document.querySelectorAll('.zoom');
-  zoomList.forEach(enableClickAfterLoading);
+
+  for (let i = 0; i < zoomList.length; i++) {
+    enableClickAfterLoading(zoomList[i]);
+  }
 
   function enableClickAfterLoading(zoomElement) {
     const preloadImage = new Image();
