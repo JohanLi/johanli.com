@@ -27,8 +27,9 @@
         line-height: 32px;
       }
 
-      .pull-right {
+      .status-container {
         margin-left: auto;
+        padding-left: 15px;
       }
 
       .status {
@@ -36,6 +37,7 @@
         font-size: 16px;
         padding: 4px 6px;
         display: inline-block;
+        white-space: nowrap;
 
         &.in-progress {
           background-color: #4f529b;

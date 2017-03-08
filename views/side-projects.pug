@@ -7,7 +7,7 @@ block content
                 .description
                     .title
                         h2 #{project.name}
-                        .pull-right
+                        .status-container
                             if project.state === 2
                                 .status.in-progress In Progress
                             else if project.state === 1
