@@ -1,59 +1,48 @@
-(function (window, document, undefined) {
+((window, document) => {
+  if (window.screen.width < 992) {
+    return;
+  }
 
-    'use strict';
+  const zoomList = document.querySelectorAll('.zoom');
+  zoomList.forEach(enableClickAfterLoading);
 
-    var zoomList = document.querySelectorAll('.zoom');
-    var i;
+  function enableClickAfterLoading(zoomElement) {
+    const preloadImage = new Image();
+    preloadImage.src = zoomElement.getAttribute('data-zoom-src');
 
-    for (i = 0; i < zoomList.length; ++i) {
+    preloadImage.onload = () => {
+      zoomElement.addEventListener('click', () => zoom(preloadImage));
+    };
+  }
 
-        (function(zoomElement) {
+  function zoom(preloadImage) {
+    const zoomContainer = document.createElement('div');
+    const overlay = document.createElement('div');
 
-            var preloadImage = new Image();
-            preloadImage.src = zoomList[i].getAttribute('data-zoom-src');
+    zoomContainer.className = 'zoom-container';
+    overlay.className = 'overlay';
 
-            preloadImage.onload = function() {
-                zoomElement.addEventListener('click', zoom.bind(null, preloadImage));
-            };
+    zoomContainer.appendChild(overlay);
+    zoomContainer.appendChild(preloadImage);
+    document.body.appendChild(zoomContainer);
 
-        })(zoomList[i]);
+    // window.getComputedStyle(overlay).opacity;
+    overlay.classList.add('fade');
 
+    document.querySelector('.zoom-container').addEventListener('click', unzoom);
+    window.addEventListener('scroll', unzoom);
+    window.addEventListener('keyup', unzoom);
+  }
+
+  function unzoom(event) {
+    if (event.type === 'keyup' && event.keyCode !== 27) {
+      return;
     }
 
-    var zoom = function(preloadImage)  {
+    const zoomContainer = document.querySelector('.zoom-container');
+    zoomContainer.parentNode.removeChild(zoomContainer);
 
-        var zoomContainer = document.createElement('div');
-        var overlay = document.createElement('div');
-
-        zoomContainer.className = 'zoom-container';
-        overlay.className = 'overlay';
-
-        zoomContainer.appendChild(overlay);
-        zoomContainer.appendChild(preloadImage);
-        document.body.appendChild(zoomContainer);
-
-        window.getComputedStyle(overlay).opacity;
-        overlay.classList.add('fade');
-
-        document.querySelector('.zoom-container').addEventListener('click', unzoom);
-        window.addEventListener('scroll', unzoom);
-        window.addEventListener('keyup', unzoom);
-
-    };
-
-    var unzoom = function(e) {
-
-        var zoomContainer;
-
-        if (e.type === 'keyup' && e.keyCode !== 27)
-            return false;
-
-        zoomContainer = document.querySelector('.zoom-container');
-        zoomContainer.parentNode.removeChild(zoomContainer);
-
-        window.removeEventListener('scroll', unzoom);
-        window.removeEventListener('keyup', unzoom);
-
-    };
-
+    window.removeEventListener('scroll', unzoom);
+    window.removeEventListener('keyup', unzoom);
+  }
 })(window, document);
