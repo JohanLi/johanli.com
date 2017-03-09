@@ -1,0 +1,37 @@
+footer {
+  padding: 20px 30px;
+  background: #eee;
+  display: flex;
+  align-items: center;
+
+  .links {
+    margin-left: auto;
+    display: flex;
+  }
+
+  .details {
+    color: #aaa;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000;
+    margin-left: 60px;
+    transition: opacity 0.35s cubic-bezier(0.05, 1.04, 0.72, 0.98);
+    display: flex;
+    align-items: center;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    img {
+      margin-right: 10px;
+    }
+  }
+}
