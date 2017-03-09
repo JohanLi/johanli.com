@@ -7,7 +7,7 @@
     git: repo=https://github.com/JohanLi/johanli.com.git dest=/var/www/{{ domain }}
 
   - name: deploy images
-    copy: src=../public/img/ dest=/var/www/{{ domain }}/public/img/
+    synchronize: src=../public/img/ dest=/var/www/{{ domain }}/public/img/
 
   - name: start application
     command: "{{ item }} chdir=/var/www/{{ domain }}"
