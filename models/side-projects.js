@@ -22,10 +22,10 @@ const joinBlogEntries = (sideProjects, blogEntries) => {
 };
 
 module.exports = {
-  getAll() {
-    return database
-      .query(`SELECT * FROM side_projects ORDER BY state DESC, id DESC;
-              SELECT side_project_id, url, title FROM blog WHERE side_project_id > 0 ORDER BY published ASC`)
-      .then(([entries]) => joinBlogEntries(entries[0], entries[1]));
+  async getAll() {
+    const [sideProjects] = await database.query('SELECT * FROM side_projects ORDER BY state DESC, id DESC');
+    const [blogEntries] = await database.query('SELECT side_project_id, url, title FROM blog WHERE side_project_id > 0 ORDER BY published ASC');
+
+    return joinBlogEntries(sideProjects, blogEntries);
   },
 };

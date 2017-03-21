@@ -6,16 +6,15 @@ const blog = require('../models/blog');
 const sideProjects = require('../models/side-projects');
 const pokemonGoMap = require('../models/pokemon-go-map');
 
-router.get('/', (request, response) => {
-  blog.getAll()
-    .then((entries) => {
-      response.render('home', {
-        title: 'Johan Li | Web Developer',
-        metaDescription: '',
-        navitem: 'home',
-        blogEntries: entries,
-      });
-    });
+router.get('/', async (request, response) => {
+  const blogEntries = await blog.getAll();
+
+  response.render('home', {
+    title: 'Johan Li | Web Developer',
+    metaDescription: '',
+    navitem: 'home',
+    blogEntries,
+  });
 });
 
 router.get('/blog', async (request, response) => {
@@ -41,15 +40,14 @@ router.get('/blog/:blogUrl', async (request, response) => {
   });
 });
 
-router.get('/side-projects', (request, response) => {
-  sideProjects.getAll()
-    .then((projects) => {
-      response.render('side-projects', {
-        title: 'Side Projects | Johan Li',
-        navitem: 'side-projects',
-        projects,
-      });
-    });
+router.get('/side-projects', async (request, response) => {
+  const projects = await sideProjects.getAll();
+
+  response.render('side-projects', {
+    title: 'Side Projects | Johan Li',
+    navitem: 'side-projects',
+    projects,
+  });
 });
 
 router.get('/pokemon-go/map', (request, response) => {
@@ -59,11 +57,9 @@ router.get('/pokemon-go/map', (request, response) => {
   });
 });
 
-router.get('/pokemon-go/map-objects', (request, response) => {
-  pokemonGoMap.getMapObjects()
-    .then((mapObjects) => {
-      response.json(mapObjects);
-    });
+router.get('/pokemon-go/map-objects', async (request, response) => {
+  const mapObjects = await pokemonGoMap.getMapObjects();
+  return response.json(mapObjects);
 });
 
 module.exports = router;

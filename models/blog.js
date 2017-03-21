@@ -23,7 +23,7 @@ module.exports = {
 
     const pagination = {
       previous: previousEntries[0],
-      next: nextEntries[0]
+      next: nextEntries[0],
     };
 
     return [entries, pagination];
