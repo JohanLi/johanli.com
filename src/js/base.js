@@ -1,12 +1,8 @@
-(function (window, document, undefined) {
+((window, document) => {
+  const hamburgerMenu = document.querySelector('.hamburger-menu');
+  const navbarContainer = document.querySelector('.navbar-container');
 
-    'use strict';
-
-    var hamburgerMenu = document.querySelector('.hamburger-menu');
-    var navbarContainer = document.querySelector('.navbar-container');
-
-    hamburgerMenu.addEventListener('click', function() {
-        navbarContainer.classList.contains('active') ? navbarContainer.classList.remove('active') : navbarContainer.classList.add('active')
-    });
-
+  hamburgerMenu.addEventListener('click', () => {
+    navbarContainer.classList.toggle('active');
+  });
 })(window, document);

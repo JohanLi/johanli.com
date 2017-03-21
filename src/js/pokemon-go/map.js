@@ -1,138 +1,107 @@
-(function(window, document, undefined) {
+/* global google, MarkerClusterer */
 
-    var self = window.PokemonGoMap = {};
-    self.mapElement = document.querySelector('.pokemon-go .map');
+((window, document) => {
+  const mapElement = document.querySelector('.pokemon-go .map');
 
-    if (!self.mapElement) {
-        return;
-    }
+  if (!mapElement) {
+    return;
+  }
 
-    self.checkboxGyms = document.querySelector('.pokemon-go input[type=checkbox].gyms');
-    self.checkboxPokestops = document.querySelector('.pokemon-go input[type=checkbox].pokestops');
+  window.PokemonGoMap = {
+    mapElement,
+    checkboxGyms: document.querySelector('.pokemon-go input[type=checkbox].gyms'),
+    checkboxPokestops: document.querySelector('.pokemon-go input[type=checkbox].pokestops'),
 
-    self.gymMarkers = [];
-    self.pokestopMarkers = [];
-    self.markerClusterer = {};
+    gymMarkers: [],
+    pokestopMarkers: [],
+    markerClusterer: {},
 
-    self.init = function() {
+    init() {
+      this.initMap();
 
-        self.initMap();
-        self.getMapObjects(function() {
-            self.pokestopMarkers.map(function(marker) {
-                marker.setMap(self.map)
-            });
-        });
-    };
+      fetch('/pokemon-go/map-objects')
+        .then(response => response.json())
+        .then((mapObjects) => {
+          this.createPokestopMarkers(mapObjects.pokestops);
+          this.createGymMarkers(mapObjects.gyms);
 
-    self.initMap = function() {
+          this.pokestopMarkers.forEach(marker => marker.setMap(this.map));
 
-        var stockholmCenter = {lat: 59.3253129, lng: 18.07083};
-
-        self.map = new google.maps.Map(self.mapElement, {
-            zoom: 13,
-            center: stockholmCenter,
-            disableDefaultUI: true
-        });
-
-    };
-
-    self.getMapObjects = function(callback) {
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/pokemon-go/map-objects');
-        xhr.send();
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var mapObjects = JSON.parse(xhr.responseText);
-                self.createPokestopMarkers(mapObjects.pokestops);
-                self.createGymMarkers(mapObjects.gyms);
-                callback();
+          this.checkboxPokestops.addEventListener('change', () => {
+            if (this.checkboxPokestops.checked) {
+              this.pokestopMarkers.forEach(marker => marker.setMap(this.map));
+            } else {
+              this.pokestopMarkers.forEach(marker => marker.setMap(null));
             }
-        }
+          });
 
-    };
-
-    self.createGymMarkers = function(gyms) {
-
-        var clusterStyles = [
-            {
-                textColor: '#fff',
-                textSize: 14,
-                url: 'data:image/svg+xml;base64,' + window.btoa('<svg height="40" width="40" xmlns="http://www.w3.org/2000/svg"><circle cx="50%" cy="50%" r="50%" fill="#fff" fill-opacity=".9"/><circle cx="50%" cy="50%" r="42%" fill="#ab0809"/></svg>'),
-                height: 40,
-                width: 40
-            },
-            {
-                textColor: '#fff',
-                textSize: 16,
-                url: 'data:image/svg+xml;base64,' + window.btoa('<svg height="60" width="60" xmlns="http://www.w3.org/2000/svg"><circle cx="50%" cy="50%" r="50%" fill="#fff" fill-opacity=".9"/><circle cx="50%" cy="50%" r="42%" fill="#ab0809"/></svg>'),
-                height: 60,
-                width: 60
+          this.checkboxGyms.addEventListener('change', () => {
+            if (this.checkboxGyms.checked) {
+              this.markerClusterer.addMarkers(this.gymMarkers);
+            } else {
+              this.markerClusterer.clearMarkers();
             }
-        ];
+          });
+        });
+    },
 
-        var clusterOptions = {
-            styles: clusterStyles,
-            minimumClusterSize: 10,
-            averageCenter: true,
-            gridSize: 200
-        };
+    initMap() {
+      const stockholmCenter = { lat: 59.3253129, lng: 18.07083 };
 
-        gyms.forEach(function(mapObject) {
+      this.map = new google.maps.Map(this.mapElement, {
+        zoom: 13,
+        center: stockholmCenter,
+        disableDefaultUI: true,
+      });
+    },
 
-            var marker = new google.maps.Marker({
-                position: {
-                    lat: parseFloat(mapObject.latitude),
-                    lng: parseFloat(mapObject.longitude)
-                },
-                icon: '/img/gym.png'
-            });
-
-            self.gymMarkers.push(marker);
-
+    createPokestopMarkers(pokestops) {
+      pokestops.forEach((mapObject) => {
+        const marker = new google.maps.Marker({
+          position: { lat: parseFloat(mapObject.latitude), lng: parseFloat(mapObject.longitude) },
+          icon: '/img/pokestop.png',
         });
 
-        self.markerClusterer = new MarkerClusterer(self.map, [], clusterOptions);
+        this.pokestopMarkers.push(marker);
+      });
+    },
 
-    };
+    createGymMarkers(gyms) {
+      const clusterStyles = [
+        {
+          textColor: '#fff',
+          textSize: 14,
+          url: `data:image/svg+xml;base64,${btoa('<svg height="40" width="40" xmlns="http://www.w3.org/2000/svg"><circle cx="50%" cy="50%" r="50%" fill="#fff" fill-opacity=".9"/><circle cx="50%" cy="50%" r="42%" fill="#ab0809"/></svg>')}`,
+          height: 40,
+          width: 40,
+        },
+        {
+          textColor: '#fff',
+          textSize: 16,
+          url: `data:image/svg+xml;base64,${btoa('<svg height="60" width="60" xmlns="http://www.w3.org/2000/svg"><circle cx="50%" cy="50%" r="50%" fill="#fff" fill-opacity=".9"/><circle cx="50%" cy="50%" r="42%" fill="#ab0809"/></svg>')}`,
+          height: 60,
+          width: 60,
+        },
+      ];
 
+      const clusterOptions = {
+        styles: clusterStyles,
+        minimumClusterSize: 10,
+        averageCenter: true,
+        gridSize: 200,
+      };
 
-    self.createPokestopMarkers = function(pokestops) {
-
-        pokestops.forEach(function(mapObject) {
-
-            var marker = new google.maps.Marker({
-                position: {
-                    lat: parseFloat(mapObject.latitude),
-                    lng: parseFloat(mapObject.longitude)
-                },
-                icon: '/img/pokestop.png'
-            });
-
-            self.pokestopMarkers.push(marker);
-
+      gyms.forEach((mapObject) => {
+        const marker = new google.maps.Marker({
+          position: { lat: parseFloat(mapObject.latitude), lng: parseFloat(mapObject.longitude) },
+          icon: '/img/gym.png',
         });
-    };
 
-    self.checkboxGyms.addEventListener('change', function() {
-        if (self.checkboxGyms.checked) {
-            self.markerClusterer.addMarkers(self.gymMarkers);
-        } else {
-            self.markerClusterer.clearMarkers();
-        }
-    });
+        this.gymMarkers.push(marker);
+      });
 
-    self.checkboxPokestops.addEventListener('change', function() {
-        if (self.checkboxPokestops.checked) {
-            self.pokestopMarkers.map(function(marker) {
-                marker.setMap(self.map)
-            });
-        } else {
-            self.pokestopMarkers.map(function(marker) {
-                marker.setMap(null)
-            });
-        }
-    });
+      this.markerClusterer = new MarkerClusterer(this.map, [], clusterOptions);
+    },
 
+  };
 })(window, document);

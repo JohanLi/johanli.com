@@ -5,7 +5,7 @@
 
   const zoomList = document.querySelectorAll('.zoom');
 
-  for (let i = 0; i < zoomList.length; i++) {
+  for (let i = 0; i < zoomList.length; i += 1) {
     enableClickAfterLoading(zoomList[i]);
   }
 
