@@ -11,3 +11,19 @@ block content
                 h2 #{entry.title}
                 .
                     !{entry.html}
+        if pagination
+            .pagination
+                if pagination.previous
+                    .previous
+                        a(href='/blog/' + pagination.previous.url)
+                            .label
+                                span.arrow-left
+                                | Previous
+                            .title= pagination.previous.title
+                if pagination.next
+                    .next
+                        a(href='/blog/' + pagination.next.url)
+                            .label
+                                | Next
+                                span.arrow-right
+                            .title= pagination.next.title

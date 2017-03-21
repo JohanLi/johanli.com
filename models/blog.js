@@ -9,15 +9,23 @@ const setPublishedDate = (entries) => {
 };
 
 module.exports = {
-  getAll() {
-    return database
-      .query('SELECT * FROM blog ORDER BY published DESC')
-      .then(([entries]) => setPublishedDate(entries));
+  async getAll() {
+    const [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC');
+    return setPublishedDate(entries);
   },
 
-  getByUrl(url) {
-    return database
-      .query('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [url])
-      .then(([entries]) => setPublishedDate(entries));
+  async getByUrl(url) {
+    let [entries] = await database.query('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [url]);
+    entries = setPublishedDate(entries);
+
+    const [previousEntries] = await database.query('SELECT title, url FROM blog WHERE id < ? ORDER BY id DESC LIMIT 1', [entries[0].id]);
+    const [nextEntries] = await database.query('SELECT title, url FROM blog WHERE id > ? ORDER BY id ASC LIMIT 1', [entries[0].id]);
+
+    const pagination = {
+      previous: previousEntries[0],
+      next: nextEntries[0]
+    };
+
+    return [entries, pagination];
   },
 };

@@ -18,28 +18,27 @@ router.get('/', (request, response) => {
     });
 });
 
-router.get('/blog', (request, response) => {
-  blog.getAll()
-    .then((entries) => {
-      response.render('blog', {
-        title: 'Blog | Johan Li',
-        metaDescription: '',
-        navitem: 'blog',
-        entries,
-      });
-    });
+router.get('/blog', async (request, response) => {
+  const entries = await blog.getAll();
+
+  response.render('blog', {
+    title: 'Blog | Johan Li',
+    metaDescription: '',
+    navitem: 'blog',
+    entries,
+  });
 });
 
-router.get('/blog/:blogUrl', (request, response) => {
-  blog.getByUrl(request.params.blogUrl)
-    .then((entries) => {
-      response.render('blog', {
-        title: `${entries[0].title} | Johan Li`,
-        metaDescription: '',
-        navitem: 'blog',
-        entries,
-      });
-    });
+router.get('/blog/:blogUrl', async (request, response) => {
+  const [entries, pagination] = await blog.getByUrl(request.params.blogUrl);
+
+  response.render('blog', {
+    title: `${entries[0].title} | Johan Li`,
+    metaDescription: '',
+    navitem: 'blog',
+    entries,
+    pagination,
+  });
 });
 
 router.get('/side-projects', (request, response) => {

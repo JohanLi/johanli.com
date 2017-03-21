@@ -13,9 +13,9 @@ imagemin(['src/img/*.{gif,jpg,png,svg,ico}'], 'public/img/', {
     }),
     optipng(),
     imageminSvgo({
-      plugins: [
-        {removeViewBox: false}
-      ]
+      plugins: [{
+        removeViewBox: false,
+      }],
     }),
   ],
 });
