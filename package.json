@@ -20,7 +20,7 @@
     "watch:js": "npm run build:js -- --watch src/js/",
     "watch:css": "npm run build:css && npm run build:css -- --watch src/sass/",
     "imagemin": "node imagemin.js",
-    "lint": "eslint ./*.js controllers/**/*.js models/**/*.js src/js/**/*.js"
+    "lint": "eslint ./app.js controllers/**/*.js models/**/*.js src/js/*.js src/js/pokemon-go/*.js"
   },
   "author": "Johan Li",
   "license": "MIT",
