@@ -1,27 +1,9 @@
-* {
-  box-sizing: border-box;
-}
-
-p {
-  margin: 0 0 1em 0;
-}
-
-.clearfix {
-  &:before, &:after {
-    display: table;
-    content: ' ';
-  }
-
-  &:after {
-    clear: both;
-  }
-}
-
 .navbar-container {
   height: 60px;
   background: #eee;
 
   .navbar {
+    background: #eee;
     position: absolute;
     width: 100%;
     height: 60px;
@@ -118,10 +100,10 @@ p {
 @media (min-width: 641px) {
 
   .navbar-container {
+    display: flex;
 
     .navbar {
       position: static;
-      float: left;
       width: auto;
     }
 
@@ -130,18 +112,16 @@ p {
     }
 
     .items {
-      float: left;
       position: static;
       transform: none;
       transition: none;
       line-height: 60px;
 
       ul {
+        display: flex;
         padding: 0;
 
         li {
-          float: left;
-
           a {
             padding: 0 20px;
             transition: box-shadow 0.3s;
