@@ -6,6 +6,10 @@ const routes = require('./controllers/index');
 
 const app = express();
 
+if (process.env.NODE_ENV === 'development') {
+  app.locals.development = true;
+}
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 

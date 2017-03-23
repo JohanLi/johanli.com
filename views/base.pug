@@ -6,13 +6,17 @@ html(lang='en')
         meta(name='viewport', content='width=device-width, initial-scale=1, minimum-scale=1')
         link(rel='icon', href='/img/favicon.ico')
         title #{title}
-        style
-            include ../public/css/base.css
+        //- Allows CSS injection during development, while inlined in production.
+        //- If CSS gets too large, inline only on first load
+        if development
+            link(rel='stylesheet', type='text/css', href='/css/base.css')
+        else
+            style
+                include ../public/css/base.css
+        script(src='/js/scripts.min.js', defer)
+        block js
         include googleAnalytics
     body
         include header
         block content
         include footer
-        script
-            include ../public/js/scripts.min.js
-        block js
