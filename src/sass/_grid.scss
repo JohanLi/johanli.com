@@ -9,12 +9,11 @@
   @media #{$breakpoint-lg} {
     max-width: 1200px;
     padding: 40px 15px 60px;
-    margin: 0 auto;
+    margin: 0;
   }
 
   @media #{$breakpoint-xl} {
     max-width: 1400px;
     padding: 60px 15px 90px;
-    margin: 0 auto;
   }
 }
