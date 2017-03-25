@@ -1,10 +1,10 @@
 extends base
 
-block content
-    .side-projects.content
+block main
+    main.side-projects
         each project in projects
             .project
-                .description
+                .content
                     .title
                         h2 #{project.name}
                         .status-container
@@ -12,7 +12,7 @@ block content
                                 .status.in-progress In Progress
                             else if project.state === 1
                                 .status.complete Complete
-                    p #{project.description}
+                    .description #{project.description}
                     .links-container
                         if project.homepage_url || project.github_url
                             .links
