@@ -1,8 +1,8 @@
 ((window, document) => {
   const hamburgerMenu = document.querySelector('.hamburger-menu');
-  const navbarContainer = document.querySelector('.navbar-container');
+  const header = document.querySelector('header');
 
   hamburgerMenu.addEventListener('click', () => {
-    navbarContainer.classList.toggle('active');
+    header.classList.toggle('active');
   });
 })(window, document);

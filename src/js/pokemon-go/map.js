@@ -52,6 +52,7 @@
         zoom: 13,
         center: stockholmCenter,
         disableDefaultUI: true,
+        clickableIcons: false,
       });
     },
 

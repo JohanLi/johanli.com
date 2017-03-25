@@ -1,0 +1,51 @@
+.pokemon-go {
+  max-width: 980px;
+  padding: 45px 0;
+
+  h2 {
+    margin: 0 0 20px 0;
+    padding: 0 15px;
+  }
+
+  .map {
+    width: 100%;
+    height: calc(100vh - 200px);
+    margin: 20px 0;
+  }
+
+  .controls {
+    text-align: right;
+    padding: 0 15px;
+  }
+
+  label {
+    padding: 10px;
+    display: inline-flex;
+    align-items: center;
+
+    input[type=checkbox] {
+      margin-right: 10px;
+    }
+  }
+
+  @media #{$breakpoint-lg} {
+    max-width: 980px;
+
+    h2 {
+      padding: 0;
+    }
+
+    .controls {
+      padding: 0;
+    }
+  }
+
+  @media #{$breakpoint-xl} {
+    max-width: 1400px;
+
+    h2 {
+      padding: 0;
+    }
+  }
+}
+
