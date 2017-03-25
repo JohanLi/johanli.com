@@ -20,7 +20,9 @@
     "watch:js": "npm run build:js -- --watch src/js/",
     "watch:css": "npm run build:css && npm run build:css -- --watch src/sass/",
     "imagemin": "node imagemin.js",
-    "lint": "eslint ./app.js controllers/**/*.js models/**/*.js src/js/*.js src/js/pokemon-go/*.js"
+    "lint": "eslint app.js controllers/**/*.js models/**/*.js src/js/*.js src/js/pokemon-go/*.js",
+    "deploy": "cd ansible && ansible-playbook -i hosts deploy.yml",
+    "deploy-database": "cd ansible && ansible-playbook -i hosts deploy-database.yml"
   },
   "author": "Johan Li",
   "license": "MIT",
