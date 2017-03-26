@@ -7,7 +7,7 @@ const sideProjects = require('../models/side-projects');
 const pokemonGoMap = require('../models/pokemon-go-map');
 
 router.get('/', async (request, response) => {
-  const blogEntries = await blog.getAll();
+  const [blogEntries] = await blog.getAll();
 
   response.render('home', {
     title: 'Johan Li | Web Developer',
@@ -18,13 +18,14 @@ router.get('/', async (request, response) => {
 });
 
 router.get('/blog', async (request, response) => {
-  const entries = await blog.getAll();
+  const [entries, archive] = await blog.getAll();
 
   response.render('blog', {
     title: 'Blog | Johan Li',
     metaDescription: '',
     navitem: 'blog',
     entries,
+    archive,
   });
 });
 

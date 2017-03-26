@@ -13,14 +13,14 @@
 
   article {
     padding: 30px 0;
-  }
 
-  .date {
-    color: #ccc;
-    margin: 0 0 10px 0;
+    .published {
+      color: #ccc;
+      margin: 0 0 10px 0;
 
-    > span {
-      margin-right: 5px;
+      > span {
+        margin-right: 5px;
+      }
     }
   }
 
@@ -141,33 +141,58 @@
 
   @media #{$breakpoint-xl} {
 
-    .date {
-      position: absolute;
-      top: 60px;
-      left: -120px;
-      text-align: center;
-      color: #ccc;
-      border-right: 1px solid #f4f4f4;
-      width: 80px;
+    article {
+      .published {
+        position: absolute;
+        top: 60px;
+        left: -120px;
+        text-align: center;
+        color: #ccc;
+        border-right: 1px solid #f4f4f4;
+        width: 80px;
 
-      > span {
-        display: block;
-        margin-right: 0;
-      }
+        > span {
+          display: block;
+          margin-right: 0;
+        }
 
-      .month, .year {
-        text-transform: uppercase;
-        font-size: 18px;
-      }
+        .month, .year {
+          text-transform: uppercase;
+          font-size: 18px;
+        }
 
-      .day {
-        font-size: 30px;
+        .date {
+          font-size: 30px;
+        }
       }
     }
 
     .caption.right {
       margin-right: -120px;
     }
+  }
 
+  .archive {
+    margin: 0 0 30px 0;
+
+    h2 {
+      margin: 30px 0 10px 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    .entry {
+      display: flex;
+      padding: 10px 0;
+
+      .published {
+        margin-left: auto;
+        color: #ccc;
+        text-align: right;
+        text-transform: uppercase;
+      }
+    }
   }
 }

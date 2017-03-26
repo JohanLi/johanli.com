@@ -4,10 +4,10 @@ block main
     main.blog
         each entry in entries
             article
-                .date
-                    span.month #{entry.published.toLocaleString('en-us', {month: "short"})}
-                    span.day #{entry.published.getDate()}
-                    span.year #{entry.published.getFullYear()}
+                .published
+                    span.month= entry.published.month
+                    span.date= entry.published.date
+                    span.year= entry.published.year
                 h2 #{entry.title}
                 .
                     !{entry.html}
@@ -27,3 +27,11 @@ block main
                                 | Next
                                 span.arrow-right
                             .title= pagination.next.title
+        if archive
+            .archive
+                each years in archive
+                    h2= years.year
+                    each entry in years.entries
+                        .entry
+                            a(href='/blog/' + entry.url) #{entry.title}
+                            .published #{entry.published.month} #{entry.published.date} #{entry.published.year}
