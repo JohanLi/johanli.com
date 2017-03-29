@@ -1,5 +1,12 @@
 extends base
 
+block head
+    if pagination
+        if pagination.previous
+            link(rel='previous', href= pagination.previous.url)
+        if pagination.next
+            link(rel='next', href= pagination.next.url)
+
 block main
     main.blog
         each entry in entries
