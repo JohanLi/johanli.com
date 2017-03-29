@@ -32,7 +32,7 @@ router.get('/blog', async (request, response) => {
 });
 
 router.get('/blog/:page([0-9]+)', async (request, response) => {
-  const page = parseInt(request.params.page);
+  const page = parseInt(request.params.page, 10);
   const entries = await blog.getPage(page);
   const pagination = await blog.getPagination(page);
 

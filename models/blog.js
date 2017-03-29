@@ -9,7 +9,7 @@ const setPublished = (entries) => {
 
     entry.published = {
       timestamp: entry.published,
-      month: date.toLocaleString('en-us', {month: "short"}),
+      month: date.toLocaleString('en-us', { month: 'short' }),
       date: date.getDate(),
       year: date.getFullYear(),
     };
@@ -18,8 +18,16 @@ const setPublished = (entries) => {
   return entries;
 };
 
+const getUrl = (path) => {
+  if (path === 1) {
+    return '/blog';
+  }
+
+  return `/blog/${path}`;
+};
+
 const setArchive = (entries) => {
-  let archive = [];
+  const archive = [];
   const seenYears = [];
 
   entries.forEach((entry) => {
@@ -39,7 +47,7 @@ const setArchive = (entries) => {
 };
 
 const getPages = (currentPage, totalPages) => {
-  let pages = [];
+  const pages = [];
   let i = currentPage - previousNextCount;
 
   while (pages.length <= previousNextCount * 2 && i <= totalPages) {
@@ -56,14 +64,6 @@ const getPages = (currentPage, totalPages) => {
   return pages;
 };
 
-const getUrl = (path) => {
-  if (path === 1) {
-    return '/blog';
-  }
-
-  return `/blog/${path}`;
-};
-
 module.exports = {
   async getAll() {
     let [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC');
@@ -76,19 +76,19 @@ module.exports = {
 
   async getPage(page) {
     const offset = (page - 1) * entriesPerPage;
-    let [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC LIMIT ? OFFSET ?', [entriesPerPage, offset]);
+    const [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC LIMIT ? OFFSET ?', [entriesPerPage, offset]);
     return setPublished(entries);
   },
 
   async getByUrl(url) {
-    let [entries] = await database.query('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [url]);
+    const [entries] = await database.query('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [url]);
     return setPublished(entries);
   },
 
   async getPagination(currentPage) {
-    let pagination = {};
+    const pagination = {};
 
-    let [result] = await database.query('SELECT count(*) AS numberOfEntries FROM blog');
+    const [result] = await database.query('SELECT count(*) AS numberOfEntries FROM blog');
     const totalPages = Math.ceil(result[0].numberOfEntries / entriesPerPage);
 
     if (currentPage > 1) {
@@ -114,18 +114,16 @@ module.exports = {
     let [next] = await database.query('SELECT title, url FROM blog WHERE id > ? ORDER BY id ASC LIMIT 1', [id]);
 
     [previous, next] = [previous, next].map((entry) => {
-      entry = entry[0];
-
-      if (entry) {
-        entry.url = getUrl(entry.url);
+      if (entry[0]) {
+        entry[0].url = getUrl(entry[0].url);
       }
 
-      return entry;
+      return entry[0];
     });
 
     return {
       previous,
       next,
     };
-  }
+  },
 };
