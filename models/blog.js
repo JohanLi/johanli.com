@@ -1,5 +1,8 @@
 const database = require('./database');
 
+const entriesPerPage = 3;
+const previousNextCount = 2;
+
 const setPublished = (entries) => {
   entries.forEach((entry) => {
     const date = new Date(entry.published * 1000);
@@ -35,6 +38,32 @@ const setArchive = (entries) => {
   return archive;
 };
 
+const getPages = (currentPage, totalPages) => {
+  let pages = [];
+  let i = currentPage - previousNextCount;
+
+  while (pages.length <= previousNextCount * 2 && i <= totalPages) {
+    if (i > 0) {
+      pages.push({
+        url: getUrl(i),
+        number: i,
+      });
+    }
+
+    i += 1;
+  }
+
+  return pages;
+};
+
+const getUrl = (path) => {
+  if (path === 1) {
+    return '/blog';
+  }
+
+  return `/blog/${path}`;
+};
+
 module.exports = {
   async getAll() {
     let [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC');
@@ -45,18 +74,58 @@ module.exports = {
     return [entries, archive];
   },
 
+  async getPage(page) {
+    const offset = (page - 1) * entriesPerPage;
+    let [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC LIMIT ? OFFSET ?', [entriesPerPage, offset]);
+    return setPublished(entries);
+  },
+
   async getByUrl(url) {
     let [entries] = await database.query('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [url]);
-    entries = setPublished(entries);
-
-    const [previousEntries] = await database.query('SELECT title, url FROM blog WHERE id < ? ORDER BY id DESC LIMIT 1', [entries[0].id]);
-    const [nextEntries] = await database.query('SELECT title, url FROM blog WHERE id > ? ORDER BY id ASC LIMIT 1', [entries[0].id]);
-
-    const pagination = {
-      previous: previousEntries[0],
-      next: nextEntries[0],
-    };
-
-    return [entries, pagination];
+    return setPublished(entries);
   },
+
+  async getPagination(currentPage) {
+    let pagination = {};
+
+    let [result] = await database.query('SELECT count(*) AS numberOfEntries FROM blog');
+    const totalPages = Math.ceil(result[0].numberOfEntries / entriesPerPage);
+
+    if (currentPage > 1) {
+      pagination.previous = {
+        url: getUrl(currentPage - 1),
+      };
+    }
+
+    if (currentPage < totalPages) {
+      pagination.next = {
+        url: getUrl(currentPage + 1),
+      };
+    }
+
+    pagination.pages = getPages(currentPage, totalPages);
+    pagination.currentPage = currentPage;
+
+    return pagination;
+  },
+
+  async getSinglePagination(id) {
+    let [previous] = await database.query('SELECT title, url FROM blog WHERE id < ? ORDER BY id DESC LIMIT 1', [id]);
+    let [next] = await database.query('SELECT title, url FROM blog WHERE id > ? ORDER BY id ASC LIMIT 1', [id]);
+
+    [previous, next] = [previous, next].map((entry) => {
+      entry = entry[0];
+
+      if (entry) {
+        entry.url = getUrl(entry.url);
+      }
+
+      return entry;
+    });
+
+    return {
+      previous,
+      next,
+    };
+  }
 };

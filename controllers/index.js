@@ -7,7 +7,7 @@ const sideProjects = require('../models/side-projects');
 const pokemonGoMap = require('../models/pokemon-go-map');
 
 router.get('/', async (request, response) => {
-  const [blogEntries] = await blog.getAll();
+  const blogEntries = await blog.getPage(1);
 
   response.render('home', {
     title: 'Johan Li | Web Developer',
@@ -18,26 +18,43 @@ router.get('/', async (request, response) => {
 });
 
 router.get('/blog', async (request, response) => {
-  const [entries, archive] = await blog.getAll();
+  const page = 1;
+  const entries = await blog.getPage(page);
+  const pagination = await blog.getPagination(page);
 
   response.render('blog', {
     title: 'Blog | Johan Li',
     metaDescription: '',
     navitem: 'blog',
     entries,
-    archive,
+    pagination,
+  });
+});
+
+router.get('/blog/:page([0-9]+)', async (request, response) => {
+  const page = parseInt(request.params.page);
+  const entries = await blog.getPage(page);
+  const pagination = await blog.getPagination(page);
+
+  response.render('blog', {
+    title: 'Blog | Johan Li',
+    metaDescription: '',
+    navitem: 'blog',
+    entries,
+    pagination,
   });
 });
 
 router.get('/blog/:blogUrl', async (request, response) => {
-  const [entries, pagination] = await blog.getByUrl(request.params.blogUrl);
+  const entries = await blog.getByUrl(request.params.blogUrl);
+  const singlePagination = await blog.getSinglePagination(entries[0].id);
 
   response.render('blog', {
     title: `${entries[0].title} | Johan Li`,
     metaDescription: '',
     navitem: 'blog',
     entries,
-    pagination,
+    singlePagination,
   });
 });
 

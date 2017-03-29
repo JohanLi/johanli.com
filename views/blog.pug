@@ -15,18 +15,34 @@ block main
             .pagination
                 if pagination.previous
                     .previous
-                        a(href='/blog/' + pagination.previous.url)
+                        a(href= pagination.previous.url)
                             .label
                                 span.arrow-left
                                 | Previous
-                            .title= pagination.previous.title
+                each page in pagination.pages
+                    a(href=page.url, class=(page.number === pagination.currentPage ? 'active' : ''))= page.number
                 if pagination.next
                     .next
-                        a(href='/blog/' + pagination.next.url)
+                        a(href= pagination.next.url)
                             .label
                                 | Next
                                 span.arrow-right
-                            .title= pagination.next.title
+        if singlePagination
+            .single-pagination
+                if singlePagination.previous
+                    .previous
+                        a(href= singlePagination.previous.url)
+                            .label
+                                span.arrow-left
+                                | Previous
+                            .title= singlePagination.previous.title
+                if singlePagination.next
+                    .next
+                        a(href= singlePagination.next.url)
+                            .label
+                                | Next
+                                span.arrow-right
+                            .title= singlePagination.next.title
         if archive
             .archive
                 each years in archive
