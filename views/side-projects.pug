@@ -12,6 +12,8 @@ block main
                                 .status.in-progress In Progress
                             else if project.state === 1
                                 .status.complete Complete
+                            else if project.state === 0
+                                .status.inactive Inactive
                     .description #{project.description}
                 .image
                     if project.image_url
