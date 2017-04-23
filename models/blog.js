@@ -65,15 +65,6 @@ const getPages = (currentPage, totalPages) => {
 };
 
 module.exports = {
-  async getAll() {
-    let [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC');
-    entries = setPublished(entries);
-
-    const archive = setArchive(entries);
-
-    return [entries, archive];
-  },
-
   async getPage(page) {
     const offset = (page - 1) * entriesPerPage;
     const [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC LIMIT ? OFFSET ?', [entriesPerPage, offset]);
@@ -125,5 +116,13 @@ module.exports = {
       previous,
       next,
     };
+  },
+
+  async getArchive() {
+    let [entries] = await database.query('SELECT title, url, published FROM blog ORDER BY published DESC');
+    entries = setPublished(entries);
+    const archive = setArchive(entries);
+
+    return archive;
   },
 };

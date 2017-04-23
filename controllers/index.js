@@ -17,10 +17,16 @@ router.get('/', async (request, response) => {
   });
 });
 
-router.get('/blog', async (request, response) => {
-  const page = 1;
+router.get('/blog/:page([0-9]+)?', async (request, response) => {
+  let page = 1;
+
+  if (request.params.page) {
+    page = parseInt(request.params.page, 10);
+  }
+
   const entries = await blog.getPage(page);
   const pagination = await blog.getPagination(page);
+  const archive = await blog.getArchive();
 
   response.render('blog', {
     title: 'Blog | Johan Li',
@@ -28,26 +34,14 @@ router.get('/blog', async (request, response) => {
     navitem: 'blog',
     entries,
     pagination,
-  });
-});
-
-router.get('/blog/:page([0-9]+)', async (request, response) => {
-  const page = parseInt(request.params.page, 10);
-  const entries = await blog.getPage(page);
-  const pagination = await blog.getPagination(page);
-
-  response.render('blog', {
-    title: 'Blog | Johan Li',
-    metaDescription: '',
-    navitem: 'blog',
-    entries,
-    pagination,
+    archive,
   });
 });
 
 router.get('/blog/:blogUrl', async (request, response) => {
   const entries = await blog.getByUrl(request.params.blogUrl);
   const singlePagination = await blog.getSinglePagination(entries[0].id);
+  const archive = await blog.getArchive();
 
   response.render('blog', {
     title: `${entries[0].title} | Johan Li`,
@@ -55,6 +49,7 @@ router.get('/blog/:blogUrl', async (request, response) => {
     navitem: 'blog',
     entries,
     singlePagination,
+    archive,
   });
 });
 
