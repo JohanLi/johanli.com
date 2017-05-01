@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Project from './Project';
 
-const Index = (props) => {
+const SideProjects = (props) => {
   const projects = [];
 
   props.projects.forEach((project) => {
@@ -17,8 +17,8 @@ const Index = (props) => {
   );
 };
 
-Index.propTypes = {
+SideProjects.propTypes = {
   projects: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default Index;
+export default SideProjects;

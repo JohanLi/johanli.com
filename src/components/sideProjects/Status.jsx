@@ -7,8 +7,7 @@ const Status = (props) => {
   if (props.state === 0) {
     status = <div className="status inactive">Inactive</div>;
   } else if (props.state === 1) {
-    status = <div className="status complete">Complete</div>
-    ;
+    status = <div className="status complete">Complete</div>;
   } else if (props.state === 2) {
     status = <div className="status in-progress">In Progress</div>;
   }

@@ -4,9 +4,9 @@ import Store from '../store';
 
 import Header from './Header';
 import Banner from './home/Banner';
-import Home from './home/Index';
-import Blog from './Blog';
-import SideProjects from './sideProjects/Index';
+import Home from './home/Home';
+import Blog from './blog/Blog';
+import SideProjects from './sideProjects/SideProjects';
 import Footer from './Footer';
 
 import '../styles/index.scss';
@@ -16,6 +16,11 @@ class App extends React.Component {
     super(props);
     this.state = {
       latestBlogEntries: Store.get('latestBlogEntries') || [],
+      blogEntries: Store.get('blogEntries') || {
+        entries: [],
+        pagination: [],
+        archive: [],
+      },
       sideProjects: Store.get('sideProjects') || [],
     };
   }
@@ -23,6 +28,7 @@ class App extends React.Component {
   async componentWillMount() {
     this.setState({
       latestBlogEntries: await Store.update('latestBlogEntries'),
+      blogEntries: await Store.update('blogEntries'),
       sideProjects: await Store.update('sideProjects'),
     });
   }
@@ -38,7 +44,10 @@ class App extends React.Component {
             path="/"
             render={() => <Home latestBlogEntries={this.state.latestBlogEntries} />}
           />
-          <Route path="/blog" component={Blog} />
+          <Route
+            path="/blog"
+            render={() => <Blog blogEntries={this.state.blogEntries} />}
+          />
           <Route
             path="/side-projects"
             render={() => <SideProjects projects={this.state.sideProjects} />}

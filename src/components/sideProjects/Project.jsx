@@ -27,7 +27,11 @@ const Project = ({ project }) => (
 );
 
 Project.propTypes = {
-  project: PropTypes.arrayOf(PropTypes.string).isRequired,
+  project: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+    PropTypes.array,
+  ])).isRequired,
 };
 
 export default Project;

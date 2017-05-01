@@ -6,11 +6,13 @@ const store = {
   },
 
   update: async (key) => {
-    let url,
-      response;
+    let url;
+    let response;
 
     if (key === 'latestBlogEntries') {
       url = '/api/blog/latest';
+    } else if (key === 'blogEntries') {
+      url = '/api/blog';
     } else if (key === 'sideProjects') {
       url = '/api/side-projects';
     }
