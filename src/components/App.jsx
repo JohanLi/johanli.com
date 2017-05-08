@@ -37,11 +37,28 @@ class App extends React.Component {
     });
   }
 
-  headerToggle(transition = false) {
+  headerToggle(event) {
+    if (event.key && event.key !== 'Enter') {
+      return;
+    }
+
+    if (event.type === 'click') {
+      event.target.blur();
+    }
+
     this.setState({
       header: {
         active: !this.state.header.active,
-        transition,
+        transition: true,
+      },
+    });
+  }
+
+  headerNavigate() {
+    this.setState({
+      header: {
+        active: false,
+        transition: false,
       },
     });
   }
@@ -51,8 +68,9 @@ class App extends React.Component {
       <Router>
         <div id="app">
           <Header
-            header={this.state.header}
-            toggle={transition => this.headerToggle(transition)}
+            state={this.state.header}
+            toggle={event => this.headerToggle(event)}
+            navigate={() => this.headerNavigate()}
           />
           <Route exact path="/" component={Banner} />
           <Route

@@ -2,25 +2,30 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const Header = ({ header, toggle }) => {
+const Header = ({ state, toggle, navigate }) => {
   let className = '';
 
-  if (header.active) {
+  if (state.active) {
     className += 'active ';
   }
 
-  if (header.transition) {
+  if (state.transition) {
     className += 'transition ';
   }
 
   return (
     <header className={className}>
       <div className="navbar">
-        <div className="hamburger-menu" onClick={() => toggle(true)}>
+        <a
+          className="hamburger-menu"
+          onClick={toggle}
+          onKeyPress={toggle}
+          tabIndex="0"
+        >
           <div className="top" />
           <div className="mid" />
           <div className="bottom" />
-        </div>
+        </a>
         <div className="logo">
           <a className="logo" href="/">Johan Li</a>
         </div>
@@ -31,7 +36,7 @@ const Header = ({ header, toggle }) => {
             <NavLink
               exact to="/"
               activeClassName="active"
-              onClick={() => toggle()}
+              onClick={navigate}
             >
               Home
             </NavLink>
@@ -40,7 +45,7 @@ const Header = ({ header, toggle }) => {
             <NavLink
               to="/blog"
               activeClassName="active"
-              onClick={() => toggle()}
+              onClick={navigate}
             >
               Blog
             </NavLink>
@@ -49,7 +54,7 @@ const Header = ({ header, toggle }) => {
             <NavLink
               to="/side-projects"
               activeClassName="active"
-              onClick={() => toggle()}
+              onClick={navigate}
             >
               Side Projects
             </NavLink>
@@ -61,8 +66,9 @@ const Header = ({ header, toggle }) => {
 };
 
 Header.propTypes = {
-  header: PropTypes.objectOf(PropTypes.bool.isRequired).isRequired,
+  state: PropTypes.objectOf(PropTypes.bool.isRequired).isRequired,
   toggle: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired,
 };
 
 export default Header;

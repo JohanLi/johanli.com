@@ -29,6 +29,10 @@ header {
         border-radius: 2px;
         opacity: 1;
       }
+
+      &:hover, &:active {
+        outline: none;
+      }
     }
 
     .logo {
