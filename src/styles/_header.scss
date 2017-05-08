@@ -28,7 +28,6 @@ header {
         height: 4px;
         border-radius: 2px;
         opacity: 1;
-        transition: transform 0.25s cubic-bezier(0.05, 1.04, 0.72, 0.98);
       }
     }
 
@@ -54,7 +53,6 @@ header {
     left: 0;
     right: 0;
     background: #eee;
-    transition: transform 0.35s cubic-bezier(0.05, 1.04, 0.72, 0.98);
     z-index: 1;
     text-align: center;
     transform: translateY(-100%);
@@ -95,6 +93,18 @@ header {
 
     .items {
       transform: translateY(0);
+    }
+  }
+
+  &.transition {
+    .hamburger-menu {
+      .top, .mid, .bottom {
+        transition: transform 0.25s cubic-bezier(0.05, 1.04, 0.72, 0.98);
+      }
+    }
+
+    .items {
+      transition: transform 0.35s cubic-bezier(0.05, 1.04, 0.72, 0.98);
     }
   }
 

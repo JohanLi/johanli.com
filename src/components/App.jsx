@@ -15,6 +15,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      header: {
+        active: false,
+        transition: true,
+      },
       latestBlogEntries: Store.get('latestBlogEntries') || [],
       blogEntries: Store.get('blogEntries') || {
         entries: [],
@@ -33,11 +37,23 @@ class App extends React.Component {
     });
   }
 
+  headerToggle(transition = false) {
+    this.setState({
+      header: {
+        active: !this.state.header.active,
+        transition,
+      },
+    });
+  }
+
   render() {
     return (
       <Router>
         <div id="app">
-          <Header />
+          <Header
+            header={this.state.header}
+            toggle={transition => this.headerToggle(transition)}
+          />
           <Route exact path="/" component={Banner} />
           <Route
             exact
