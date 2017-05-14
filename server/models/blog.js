@@ -1,4 +1,5 @@
 const database = require('./database');
+const prismjsHighlight = require('../helpers/prismjsHighlight');
 
 const entriesPerPage = 3;
 const previousNextCount = 2;
@@ -67,13 +68,17 @@ const getPages = (currentPage, totalPages) => {
 module.exports = {
   async getPage(page) {
     const offset = (page - 1) * entriesPerPage;
-    const [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC LIMIT ? OFFSET ?', [entriesPerPage, offset]);
-    return setPublished(entries);
+    let [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC LIMIT ? OFFSET ?', [entriesPerPage, offset]);
+
+    entries = setPublished(entries);
+    return prismjsHighlight(entries);
   },
 
   async getByUrl(url) {
-    const [entries] = await database.query('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [url]);
-    return setPublished(entries);
+    let [entries] = await database.query('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [url]);
+
+    entries = setPublished(entries);
+    return prismjsHighlight(entries);
   },
 
   async getPagination(currentPage) {
@@ -121,8 +126,6 @@ module.exports = {
   async getArchive() {
     let [entries] = await database.query('SELECT title, url, published FROM blog ORDER BY published DESC');
     entries = setPublished(entries);
-    const archive = setArchive(entries);
-
-    return archive;
+    return setArchive(entries);
   },
 };
