@@ -1,7 +1,7 @@
-/* global google, MarkerClusterer */
+import './markerclusterer';
 
-((window, document) => {
-  const mapElement = document.querySelector('.pokemon-go .map');
+export default (window, document) => {
+  const mapElement = document.querySelector('#pokemon-go .map');
 
   if (!mapElement) {
     return;
@@ -9,8 +9,8 @@
 
   window.PokemonGoMap = {
     mapElement,
-    checkboxGyms: document.querySelector('.pokemon-go input[type=checkbox].gyms'),
-    checkboxPokestops: document.querySelector('.pokemon-go input[type=checkbox].pokestops'),
+    checkboxGyms: document.getElementById('gyms'),
+    checkboxPokestops: document.getElementById('pokestops'),
 
     gymMarkers: [],
     pokestopMarkers: [],
@@ -19,7 +19,7 @@
     init() {
       this.initMap();
 
-      fetch('/pokemon-go/map-objects')
+      fetch('/api/pokemon-go/map-objects')
         .then(response => response.json())
         .then((mapObjects) => {
           this.createPokestopMarkers(mapObjects.pokestops);
@@ -105,4 +105,4 @@
     },
 
   };
-})(window, document);
+};

@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Route } from 'react-router-dom';
+
 import Project from './Project';
+import PokemonGo from './PokemonGo';
 
 const SideProjects = (props) => {
   const projects = [];
@@ -12,7 +15,16 @@ const SideProjects = (props) => {
 
   return (
     <main id="side-projects">
-      {projects}
+      <Route
+        exact
+        path="/side-projects"
+        render={() => (
+          <div>
+            {projects}
+          </div>
+        )}
+      />
+      <Route exact path="/side-projects/pokemon-go" component={PokemonGo} />
     </main>
   );
 };

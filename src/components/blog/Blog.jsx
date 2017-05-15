@@ -4,27 +4,40 @@ import PropTypes from 'prop-types';
 import Entry from './Entry';
 import Archive from './Archive';
 
-const Blog = (props) => {
-  const entries = [];
-  const archive = [];
+import zoom from '../../js/zoom';
 
-  props.blogEntries.entries.forEach((entry) => {
-    entries.push(<Entry key={entry.id} entry={entry} />);
-  });
+class Blog extends React.Component {
 
-  props.blogEntries.archive.forEach((year) => {
-    archive.push(<Archive key={year.year} year={year} />);
-  });
+  constructor(props) {
+    super(props);
 
-  return (
-    <main id="blog">
-      {entries}
-      <div className="archive">
-        {archive}
-      </div>
-    </main>
-  );
-};
+    this.entries = [];
+    this.archive = [];
+
+    props.blogEntries.entries.forEach((entry) => {
+      this.entries.push(<Entry key={entry.id} entry={entry} />);
+    });
+
+    props.blogEntries.archive.forEach((year) => {
+      this.archive.push(<Archive key={year.year} year={year} />);
+    });
+  }
+
+  componentDidMount() {
+    zoom(window, document);
+  }
+
+  render() {
+    return (
+      <main id="blog">
+        {this.entries}
+        <div className="archive">
+          {this.archive}
+        </div>
+      </main>
+    );
+  }
+}
 
 Blog.propTypes = {
   blogEntries: PropTypes.objectOf(PropTypes.oneOfType([

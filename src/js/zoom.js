@@ -1,4 +1,4 @@
-((window, document) => {
+export default (window, document) => {
   if (window.screen.width < 992) {
     return;
   }
@@ -48,4 +48,4 @@
     window.removeEventListener('scroll', unzoom);
     window.removeEventListener('keyup', unzoom);
   }
-})(window, document);
+};

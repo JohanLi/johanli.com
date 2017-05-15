@@ -5,11 +5,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: [
+    'babel-polyfill',
+    'whatwg-fetch',
     'react-hot-loader/patch',
     './src/index.jsx',
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
     filename: 'bundle-[hash].js',
   },
   module: {

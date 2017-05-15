@@ -33,4 +33,9 @@ router.get('/side-projects', async (req, res) => {
   res.json(projects);
 });
 
+router.get('/pokemon-go/map-objects', async (req, res) => {
+  const mapObjects = await pokemonGoMap.getMapObjects();
+  res.json(mapObjects);
+});
+
 module.exports = router;
