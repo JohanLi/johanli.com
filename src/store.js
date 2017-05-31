@@ -6,19 +6,10 @@ const store = {
   },
 
   update: async (key) => {
-    let url;
     let response;
 
-    if (key === 'latestBlogEntries') {
-      url = '/api/blog/latest';
-    } else if (key === 'blogEntries') {
-      url = '/api/blog';
-    } else if (key === 'sideProjects') {
-      url = '/api/side-projects';
-    }
-
     try {
-      response = await fetch(url, {
+      response = await fetch(key, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',

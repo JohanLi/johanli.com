@@ -5,6 +5,11 @@ const blog = require('./models/blog');
 const sideProjects = require('./models/side-projects');
 const pokemonGoMap = require('./models/pokemon-go-map');
 
+router.get('/blog/latest', async (req, res) => {
+  const blogEntries = await blog.getPage(1);
+  res.json(blogEntries);
+});
+
 router.get('/blog/:page([0-9]+)?', async (req, res) => {
   let page = 1;
 
@@ -19,13 +24,20 @@ router.get('/blog/:page([0-9]+)?', async (req, res) => {
   res.json({
     entries,
     pagination,
-    archive
+    archive,
   });
 });
 
-router.get('/blog/latest', async (req, res) => {
-  const blogEntries = await blog.getPage(1);
-  res.json(blogEntries);
+router.get('/blog/:blogUrl', async (req, res) => {
+  const entries = await blog.getByUrl(req.params.blogUrl);
+  const pagination = await blog.getSinglePagination(entries[0].id);
+  const archive = await blog.getArchive();
+
+  res.json({
+    entries,
+    pagination,
+    archive,
+  });
 });
 
 router.get('/side-projects', async (req, res) => {
