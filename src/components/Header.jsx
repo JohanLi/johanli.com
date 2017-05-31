@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Header = ({ state, toggle, navigate }) => {
@@ -21,20 +21,22 @@ const Header = ({ state, toggle, navigate }) => {
           onClick={toggle}
           onKeyPress={toggle}
           tabIndex="0"
+          role="button"
         >
           <div className="top" />
           <div className="mid" />
           <div className="bottom" />
         </a>
         <div className="logo">
-          <a className="logo" href="/">Johan Li</a>
+          <Link to="/" className="logo">Johan Li</Link>
         </div>
       </div>
       <nav className="items">
         <ul>
           <li>
             <NavLink
-              exact to="/"
+              exact
+              to="/"
               activeClassName="active"
               onClick={navigate}
             >

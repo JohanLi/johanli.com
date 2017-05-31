@@ -75,10 +75,12 @@ class App extends React.Component {
           />
           <Route
             path="/blog/:pageOrUrlKey?"
-            render={({ match }) => <Blog
-              key={match.params.pageOrUrlKey}
-              pageOrUrlKey={match.params.pageOrUrlKey}
-            />}
+            render={({ match }) => (
+              <Blog
+                key={match.params.pageOrUrlKey}
+                pageOrUrlKey={match.params.pageOrUrlKey}
+              />
+            )}
           />
           <Route
             path="/side-projects"
