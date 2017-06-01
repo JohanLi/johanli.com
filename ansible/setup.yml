@@ -64,4 +64,4 @@
   - cron:
       name: "start application on reboot"
       special_time: reboot
-      job: "cd /var/www/{{ domain }} && npm run production:start"
+      job: "cd /var/www/{{ domain }} && npm run prod:start"

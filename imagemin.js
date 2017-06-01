@@ -1,21 +1,31 @@
 const imagemin = require('imagemin');
 const gifsicle = require('imagemin-gifsicle');
-const mozjpeg = require('imagemin-mozjpeg');
-const optipng = require('imagemin-optipng');
-const imageminSvgo = require('imagemin-svgo');
+const jpegtran = require('imagemin-jpegtran');
+const pngquant = require('imagemin-pngquant');
+const svgo = require('imagemin-svgo');
 
-imagemin(['src/img/*.{gif,jpg,png,svg,ico}'], 'public/img/', {
-  plugins: [
-    gifsicle(),
-    mozjpeg({
-      quality: 85,
-      progressive: false,
-    }),
-    optipng(),
-    imageminSvgo({
-      plugins: [{
-        removeViewBox: false,
-      }],
-    }),
-  ],
+const inputs = [
+  {
+    input: ['src/img/*.{gif,jpg,png,svg,ico}'],
+    output: 'public/img',
+  },
+  {
+    input: ['src/img/side-projects/*.png'],
+    output: 'public/img/side-projects',
+  },
+];
+
+inputs.forEach((input) => {
+  imagemin(input.input, input.output, {
+    plugins: [
+      gifsicle(),
+      jpegtran(),
+      pngquant({ quality: '65-80' }),
+      svgo({
+        plugins: [{
+          removeViewBox: false,
+        }],
+      }),
+    ],
+  });
 });
