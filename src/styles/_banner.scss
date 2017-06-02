@@ -1,21 +1,21 @@
 .banner {
-  background: url('../img/stockholm640.jpg') no-repeat;
+  background: url('../../public/img/stockholm640.jpg') no-repeat;
   background-size: contain;
   width: 100%;
   padding-bottom: 68.75%; // width / height of background image, with the last digit rounded up
 
   @media #{$breakpoint-sm} {
-    background-image: url('../img/stockholm1024.jpg');
+    background-image: url('../../public/img/stockholm1024.jpg');
     padding-bottom: 42.97%;
   }
 
   @media #{$breakpoint-lg} {
-    background-image: url('../img/stockholm1400.jpg');
+    background-image: url('../../public/img/stockholm1400.jpg');
     padding-bottom: 31.43%;
   }
 
   @media #{$breakpoint-xl} {
-    background-image: url('../img/stockholm1920.jpg');
+    background-image: url('../../public/img/stockholm1920.jpg');
     padding-bottom: 22.92%;
   }
 }

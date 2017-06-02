@@ -6,12 +6,11 @@
   - name: deploy master branch
     git: repo=https://github.com/JohanLi/johanli.com.git dest=/var/www/{{ domain }}
 
-  - name: deploy images
-    synchronize: src=../public/img/ dest=/var/www/{{ domain }}/public/img/
+  - name: deploy static files
+    synchronize: src=../dist/ dest=/var/www/{{ domain }}/dist/
 
   - name: start application
     command: "{{ item }} chdir=/var/www/{{ domain }}"
     with_items:
     - npm install
-    - npm run build
-    - npm run production:start
+    - npm run prod:start

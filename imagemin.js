@@ -1,17 +1,21 @@
 const imagemin = require('imagemin');
 const gifsicle = require('imagemin-gifsicle');
-const jpegtran = require('imagemin-jpegtran');
+const mozjpeg = require('imagemin-mozjpeg');
 const pngquant = require('imagemin-pngquant');
 const svgo = require('imagemin-svgo');
 
 const inputs = [
   {
-    input: ['src/img/*.{gif,jpg,png,svg,ico}'],
-    output: 'public/img',
+    input: ['dist/assets/*.{gif,jpg,png,svg,ico}'],
+    output: 'dist/assets',
   },
   {
-    input: ['src/img/side-projects/*.png'],
-    output: 'public/img/side-projects',
+    input: ['public/img/*.{gif,jpg,png,svg,ico}'],
+    output: 'dist/img',
+  },
+  {
+    input: ['public/img/side-projects/*.png'],
+    output: 'dist/img/side-projects',
   },
 ];
 
@@ -19,7 +23,10 @@ inputs.forEach((input) => {
   imagemin(input.input, input.output, {
     plugins: [
       gifsicle(),
-      jpegtran(),
+      mozjpeg({
+        quality: 85,
+        progressive: true,
+      }),
       pngquant({ quality: '65-80' }),
       svgo({
         plugins: [{
