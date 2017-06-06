@@ -21,12 +21,10 @@ router.get('/blog/:page([0-9]+)', async (req, res) => {
 
 router.get('/blog/:blogUrl', async (req, res) => {
   const entries = await blog.getByUrl(req.params.blogUrl);
-  const pagination = await blog.getSinglePagination(entries[0].id);
   const archive = await blog.getArchive();
 
   res.json({
     entries,
-    pagination,
     archive,
   });
 });

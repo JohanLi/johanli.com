@@ -105,24 +105,6 @@ module.exports = {
     return pagination;
   },
 
-  async getSinglePagination(id) {
-    let [previous] = await database.query('SELECT title, url FROM blog WHERE id < ? ORDER BY id DESC LIMIT 1', [id]);
-    let [next] = await database.query('SELECT title, url FROM blog WHERE id > ? ORDER BY id ASC LIMIT 1', [id]);
-
-    [previous, next] = [previous, next].map((entry) => {
-      if (entry[0]) {
-        entry[0].url = getUrl(entry[0].url);
-      }
-
-      return entry[0];
-    });
-
-    return {
-      previous,
-      next,
-    };
-  },
-
   async getArchive() {
     let [entries] = await database.query('SELECT title, url, published FROM blog ORDER BY published DESC');
     entries = setPublished(entries);

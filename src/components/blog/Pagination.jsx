@@ -2,12 +2,12 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const Pagination = ({ pagination, singlePagination }) => {
+const Pagination = ({ pagination }) => {
   let previous = '';
   let next = '';
   const pages = [];
 
-  if (pagination) {
+  if (Object.keys(pagination).length) {
     if (pagination.previous) {
       previous = (
         <div className="previous">
@@ -53,48 +53,18 @@ const Pagination = ({ pagination, singlePagination }) => {
     );
   }
 
-  if (singlePagination) {
-    if (singlePagination.previous) {
-      previous = (
-        <div className="previous">
-          <Link to={singlePagination.previous.url}>
-            <div className="label">
-              <span className="arrow-left" />
-              Previous
-            </div>
-            <div className="title">
-              {singlePagination.previous.title}
-            </div>
-          </Link>
-        </div>
-      );
-    }
-
-    if (singlePagination.next) {
-      next = (
-        <div className="next">
-          <Link to={singlePagination.next.url}>
-            <div className="label">
-              Next
-              <span className="arrow-right" />
-            </div>
-            <div className="title">
-              {singlePagination.next.title}
-            </div>
-          </Link>
-        </div>
-      );
-    }
-
-    return (
-      <div className="single-pagination">
-        {previous}
-        {next}
+  return (
+    <div className="pagination">
+      <div className="read-more">
+        <Link to="/blog">
+          <div className="label">
+            View More Entries
+            <span className="arrow-right" />
+          </div>
+        </Link>
       </div>
-    );
-  }
-
-  return (null);
+    </div>
+  );
 };
 
 Pagination.propTypes = {
@@ -102,16 +72,11 @@ Pagination.propTypes = {
     previous: PropTypes.object,
     next: PropTypes.object,
     pages: PropTypes.array,
-  }),
-  singlePagination: PropTypes.shape({
-    previous: PropTypes.object,
-    next: PropTypes.object,
-  }),
+  }).isRequired,
 };
 
 Pagination.defaultProps = {
   pagination: {},
-  singlePagination: {},
 };
 
 export default Pagination;

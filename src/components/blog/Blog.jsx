@@ -14,7 +14,7 @@ class Blog extends React.Component {
     super(props);
 
     this.state = {
-      blogEntries: Store.get(`/api/blog/${this.props.pageOrUrlKey}`) || {
+      entries: Store.get(`/api/blog/${this.props.pageOrUrlKey}`) || {
         entries: [],
         pagination: {},
         archive: [],
@@ -24,7 +24,7 @@ class Blog extends React.Component {
 
   async componentWillMount() {
     this.setState({
-      blogEntries: await Store.update(`/api/blog/${this.props.pageOrUrlKey}`),
+      entries: await Store.update(`/api/blog/${this.props.pageOrUrlKey}`),
     });
   }
 
@@ -35,26 +35,19 @@ class Blog extends React.Component {
   render() {
     const entries = [];
     const archive = [];
-    let pagination = '';
 
-    this.state.blogEntries.entries.forEach((entry) => {
+    this.state.entries.entries.forEach((entry) => {
       entries.push(<Entry key={entry.id} entry={entry} />);
     });
 
-    this.state.blogEntries.archive.forEach((year) => {
+    this.state.entries.archive.forEach((year) => {
       archive.push(<Archive key={year.year} year={year} />);
     });
-
-    if (!isNaN(this.props.pageOrUrlKey)) {
-      pagination = <Pagination pagination={this.state.blogEntries.pagination} />;
-    } else {
-      pagination = <Pagination singlePagination={this.state.blogEntries.pagination} />;
-    }
 
     return (
       <main id="blog">
         {entries}
-        {pagination}
+        <Pagination pagination={this.state.entries.pagination} />
         <div className="archive">
           {archive}
         </div>
