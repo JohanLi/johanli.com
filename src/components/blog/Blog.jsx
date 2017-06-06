@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Store from '../../store';
+import store from '../../store';
 
 import Entry from './Entry';
 import Pagination from './Pagination';
@@ -14,17 +14,13 @@ class Blog extends React.Component {
     super(props);
 
     this.state = {
-      entries: Store.get(`/api/blog/${this.props.pageOrUrlKey}`) || {
-        entries: [],
-        pagination: {},
-        archive: [],
-      },
+      entries: store.getBlog(this.props.pageOrUrlKey),
     };
   }
 
   async componentWillMount() {
     this.setState({
-      entries: await Store.update(`/api/blog/${this.props.pageOrUrlKey}`),
+      entries: await store.updateBlog(this.props.pageOrUrlKey),
     });
   }
 

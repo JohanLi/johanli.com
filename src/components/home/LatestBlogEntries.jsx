@@ -1,23 +1,24 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Latest = ({ entry }) => (
-  <a className="entry" href={`/blog/${entry.url}`}>
+  <Link className="entry" to={`/blog/${entry.url}`}>
     <div className="title">
       {entry.title}
     </div>
     <div className="excerpt">
       {entry.excerpt}
     </div>
-  </a>
+  </Link>
 );
 
 Latest.propTypes = {
-  entry: PropTypes.objectOf(PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-    PropTypes.object,
-  ])).isRequired,
+  entry: PropTypes.shape({
+    url: PropTypes.string,
+    title: PropTypes.string,
+    excerpt: PropTypes.string,
+  }).isRequired,
 };
 
 export default Latest;

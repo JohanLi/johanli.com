@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Archive = ({ year }) => {
@@ -7,9 +8,9 @@ const Archive = ({ year }) => {
   year.entries.forEach((entry) => {
     entries.push(
       <div className="entry" key={entry.url}>
-        <a href={`/blog/${entry.url}`}>
+        <Link to={`/blog/${entry.url}`}>
           {entry.title}
-        </a>
+        </Link>
         <div className="published">
           {entry.published.month} {entry.published.date} {entry.published.year}
         </div>
@@ -26,10 +27,10 @@ const Archive = ({ year }) => {
 };
 
 Archive.propTypes = {
-  year: PropTypes.objectOf(PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.array,
-  ])).isRequired,
+  year: PropTypes.shape({
+    entries: PropTypes.array,
+    year: PropTypes.number,
+  }).isRequired,
 };
 
 export default Archive;

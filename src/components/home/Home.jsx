@@ -5,11 +5,11 @@ import LatestBlogEntries from './LatestBlogEntries';
 
 import personalPortrait from '../../../public/img/johan.jpg';
 
-const Home = (props) => {
-  const latestBlogEntries = [];
+const Home = ({ latestBlogEntries }) => {
+  const entries = [];
 
-  props.latestBlogEntries.forEach((entry) => {
-    latestBlogEntries.push(<LatestBlogEntries key={entry.id} entry={entry} />);
+  latestBlogEntries.forEach((entry) => {
+    entries.push(<LatestBlogEntries key={entry.id} entry={entry} />);
   });
 
   return (
@@ -29,7 +29,7 @@ const Home = (props) => {
       </div>
       <div className="latest-blog">
         <h2>Latest Blog Entries</h2>
-        {latestBlogEntries}
+        {entries}
       </div>
     </main>
   );

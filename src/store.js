@@ -5,25 +5,49 @@ const store = {
     localStorage.setItem(key, JSON.stringify(value));
   },
 
-  update: async (key) => {
-    let response;
+  request: async (url) => {
+    const response = await fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'GET',
+    });
 
-    try {
-      response = await fetch(key, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        method: 'GET',
+    return response.json();
+  },
+
+  getBlog: pageOrUrlKey => store.get(`blog/${pageOrUrlKey}`) || {
+    entries: [],
+    pagination: {},
+    archive: [],
+  },
+
+  updateBlog: async (pageOrUrlKey) => {
+    const entries = await store.request(`/api/blog/${pageOrUrlKey}`);
+    store.set(`blog/${pageOrUrlKey}`, entries);
+
+    if (store.blogPageRequested(pageOrUrlKey)) {
+      entries.entries.forEach((entry) => {
+        store.set(`blog/${entry.url}`, {
+          entries: [entry],
+          archive: entries.archive,
+        });
       });
-
-      response = await response.json();
-      store.set(key, response);
-    } catch (error) {
-      response = [];
     }
 
-    return response;
+    return entries;
+  },
+
+  blogPageRequested: pageOrUrlKey => !isNaN(pageOrUrlKey),
+
+  getSideProjects: () => store.get('sideProjects') || [],
+
+  updateSideProjects: async () => {
+    const sideProjects = await store.request('/api/side-projects');
+    store.set('sideProjects', sideProjects);
+
+    return sideProjects;
   },
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Store from '../store';
+import store from '../store';
 
 import Header from './Header';
 import Banner from './home/Banner';
@@ -20,15 +20,15 @@ class App extends React.Component {
         active: false,
         transition: true,
       },
-      blogEntries: Store.get('/api/blog/1') || {},
-      sideProjects: Store.get('/api/side-projects') || [],
+      blogEntries: store.getBlog(1),
+      sideProjects: store.getSideProjects(),
     };
   }
 
   async componentWillMount() {
     this.setState({
-      blogEntries: await Store.update('/api/blog/1'),
-      sideProjects: await Store.update('/api/side-projects'),
+      blogEntries: await store.updateBlog(1),
+      sideProjects: await store.updateSideProjects(),
     });
   }
 

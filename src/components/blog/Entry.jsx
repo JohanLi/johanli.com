@@ -16,11 +16,11 @@ const Entry = ({ entry }) => (
 );
 
 Entry.propTypes = {
-  entry: PropTypes.objectOf(PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-    PropTypes.object,
-  ])).isRequired,
+  entry: PropTypes.shape({
+    published: PropTypes.object,
+    title: PropTypes.string,
+    html: PropTypes.string,
+  }).isRequired,
 };
 
 export default Entry;
