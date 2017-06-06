@@ -20,14 +20,14 @@ class App extends React.Component {
         active: false,
         transition: true,
       },
-      latestBlogEntries: Store.get('/api/blog/latest') || [],
+      blogEntries: Store.get('/api/blog/1') || {},
       sideProjects: Store.get('/api/side-projects') || [],
     };
   }
 
   async componentWillMount() {
     this.setState({
-      latestBlogEntries: await Store.update('/api/blog/latest'),
+      blogEntries: await Store.update('/api/blog/1'),
       sideProjects: await Store.update('/api/side-projects'),
     });
   }
@@ -59,6 +59,12 @@ class App extends React.Component {
   }
 
   render() {
+    let latestBlogEntries = [];
+
+    if (this.state.blogEntries.entries) {
+      latestBlogEntries = this.state.blogEntries.entries;
+    }
+
     return (
       <Router>
         <div id="app">
@@ -71,7 +77,7 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            render={() => <Home latestBlogEntries={this.state.latestBlogEntries} />}
+            render={() => <Home latestBlogEntries={latestBlogEntries} />}
           />
           <Route
             path="/blog/:pageOrUrlKey?"

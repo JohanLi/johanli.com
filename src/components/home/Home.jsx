@@ -39,4 +39,8 @@ Home.propTypes = {
   latestBlogEntries: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
+Home.defaultProps = {
+  latestBlogEntries: [],
+};
+
 export default Home;

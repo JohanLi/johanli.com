@@ -5,17 +5,8 @@ const blog = require('./models/blog');
 const sideProjects = require('./models/side-projects');
 const pokemonGoMap = require('./models/pokemon-go-map');
 
-router.get('/blog/latest', async (req, res) => {
-  const blogEntries = await blog.getPage(1);
-  res.json(blogEntries);
-});
-
-router.get('/blog/:page([0-9]+)?', async (req, res) => {
-  let page = 1;
-
-  if (req.params.page) {
-    page = parseInt(req.params.page, 10);
-  }
+router.get('/blog/:page([0-9]+)', async (req, res) => {
+  const page = parseInt(req.params.page, 10);
 
   const entries = await blog.getPage(page);
   const pagination = await blog.getPagination(page);
