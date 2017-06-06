@@ -41,6 +41,15 @@ const store = {
 
   blogPageRequested: pageOrUrlKey => !isNaN(pageOrUrlKey),
 
+  getBlogArchive: () => store.get('blogArchive') || [],
+
+  updateBlogArchive: async () => {
+    const blogArchive = await store.request('/api/blog/archive');
+    store.set('blogArchive', blogArchive);
+
+    return blogArchive;
+  },
+
   getSideProjects: () => store.get('sideProjects') || [],
 
   updateSideProjects: async () => {

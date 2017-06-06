@@ -15,12 +15,14 @@ class Blog extends React.Component {
 
     this.state = {
       entries: store.getBlog(this.props.pageOrUrlKey),
+      archive: store.getBlogArchive(),
     };
   }
 
   async componentWillMount() {
     this.setState({
       entries: await store.updateBlog(this.props.pageOrUrlKey),
+      archive: await store.updateBlogArchive(),
     });
   }
 
@@ -36,7 +38,7 @@ class Blog extends React.Component {
       entries.push(<Entry key={entry.id} entry={entry} />);
     });
 
-    this.state.entries.archive.forEach((year) => {
+    this.state.archive.forEach((year) => {
       archive.push(<Archive key={year.year} year={year} />);
     });
 

@@ -10,23 +10,21 @@ router.get('/blog/:page([0-9]+)', async (req, res) => {
 
   const entries = await blog.getPage(page);
   const pagination = await blog.getPagination(page);
-  const archive = await blog.getArchive();
 
   res.json({
     entries,
     pagination,
-    archive,
   });
+});
+
+router.get('/blog/archive', async (req, res) => {
+  const archive = await blog.getArchive();
+  res.json(archive);
 });
 
 router.get('/blog/:blogUrl', async (req, res) => {
   const entries = await blog.getByUrl(req.params.blogUrl);
-  const archive = await blog.getArchive();
-
-  res.json({
-    entries,
-    archive,
-  });
+  res.json({ entries });
 });
 
 router.get('/side-projects', async (req, res) => {
