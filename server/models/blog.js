@@ -69,16 +69,16 @@ module.exports = {
   async getPage(page) {
     const offset = (page - 1) * entriesPerPage;
     let [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC LIMIT ? OFFSET ?', [entriesPerPage, offset]);
+    let pagination = await this.getPagination(page);
 
     if (!entries.length) {
       throw 'Page not found!';
     }
 
     entries = setPublished(entries);
-    return {
-      entries: prismjsHighlight(entries),
-      pagination: this.getPagination(page),
-    };
+    entries = prismjsHighlight(entries);
+
+    return { entries, pagination };
   },
 
   async getByUrlKey(urlKey) {
