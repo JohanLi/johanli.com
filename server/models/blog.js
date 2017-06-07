@@ -70,12 +70,23 @@ module.exports = {
     const offset = (page - 1) * entriesPerPage;
     let [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC LIMIT ? OFFSET ?', [entriesPerPage, offset]);
 
+    if (!entries.length) {
+      throw 'Page not found!';
+    }
+
     entries = setPublished(entries);
-    return prismjsHighlight(entries);
+    return {
+      entries: prismjsHighlight(entries),
+      pagination: this.getPagination(page),
+    };
   },
 
-  async getByUrl(url) {
-    let [entries] = await database.query('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [url]);
+  async getByUrlKey(urlKey) {
+    let [entries] = await database.query('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [urlKey]);
+
+    if (!entries.length) {
+      throw 'URL not found!';
+    }
 
     entries = setPublished(entries);
     return prismjsHighlight(entries);
