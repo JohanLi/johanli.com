@@ -1,6 +1,6 @@
 import React from 'react';
 
-import map from '../../js/map';
+//import map from '../../js/map';
 
 class PokemonGo extends React.Component {
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import store from '../../store';
 
 import Entry from './Entry';
 import Pagination from './Pagination';
@@ -14,16 +13,9 @@ class Blog extends React.Component {
     super(props);
 
     this.state = {
-      entries: store.getBlog(this.props.pageOrUrlKey),
-      archive: store.getBlogArchive(),
+      entries: props.entries,
+      archive: props.archive,
     };
-  }
-
-  async componentWillMount() {
-    this.setState({
-      entries: await store.updateBlog(this.props.pageOrUrlKey),
-      archive: await store.updateBlogArchive(),
-    });
   }
 
   async componentDidMount() {

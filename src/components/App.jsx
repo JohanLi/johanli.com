@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import store from '../store';
 
 import Header from './Header';
 import Banner from './home/Banner';
@@ -15,21 +14,15 @@ import '../styles/index.scss';
 class App extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       header: {
         active: false,
         transition: true,
       },
-      blogEntries: store.getBlog(1),
-      sideProjects: store.getSideProjects(),
+      blog: props.blog,
+      sideProjects: props.sideProjects,
     };
-  }
-
-  async componentWillMount() {
-    this.setState({
-      blogEntries: await store.updateBlog(1),
-      sideProjects: await store.updateSideProjects(),
-    });
   }
 
   headerToggle(event) {
@@ -59,43 +52,39 @@ class App extends React.Component {
   }
 
   render() {
-    let latestBlogEntries = [];
-
-    if (this.state.blogEntries.entries) {
-      latestBlogEntries = this.state.blogEntries.entries;
-    }
+    const latestBlogEntries = this.state.blog.entries.entries.slice(0, 3);
 
     return (
-      <Router>
-        <div id="app">
-          <Header
-            state={this.state.header}
-            toggle={event => this.headerToggle(event)}
-            navigate={() => this.headerNavigate()}
-          />
-          <Route exact path="/" component={Banner} />
-          <Route
-            exact
-            path="/"
-            render={() => <Home latestBlogEntries={latestBlogEntries} />}
-          />
-          <Route
-            path="/blog/:pageOrUrlKey?"
-            render={({ match }) => (
-              <Blog
-                key={match.params.pageOrUrlKey}
-                pageOrUrlKey={match.params.pageOrUrlKey}
-              />
-            )}
-          />
-          <Route
-            path="/side-projects"
-            render={() => <SideProjects projects={this.state.sideProjects} />}
-          />
-          <Footer />
-          <ScrollToTop />
-        </div>
-      </Router>
+      <div id="app">
+        <Header
+          state={this.state.header}
+          toggle={event => this.headerToggle(event)}
+          navigate={() => this.headerNavigate()}
+        />
+        <Route exact path="/" component={Banner} />
+        <Route
+          exact
+          path="/"
+          render={() => <Home latestBlogEntries={latestBlogEntries} />}
+        />
+        <Route
+          path="/blog/:pageOrUrlKey?"
+          render={({ match }) => (
+            <Blog
+              key={match.params.pageOrUrlKey}
+              pageOrUrlKey={match.params.pageOrUrlKey}
+              entries={this.state.blog.entries}
+              archive={this.state.blog.archive}
+            />
+          )}
+        />
+        <Route
+          path="/side-projects"
+          render={() => <SideProjects projects={this.state.sideProjects} />}
+        />
+        <Footer />
+        <ScrollToTop />
+      </div>
     );
   }
 }

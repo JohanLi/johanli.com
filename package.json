@@ -17,6 +17,7 @@
     "build:clear": "rm -rf dist",
     "build:webpack": "webpack -p --env=prod",
     "build:imagemin": "node imagemin.js",
+    "server-side-rendering": "webpack -p --env=prod && node dist/server.js",
     "setup": "cd ansible && ansible-playbook -i hosts setup.yml",
     "setup:database": "cd ansible && ansible-playbook -i hosts database.yml",
     "deploy": "cd ansible && ansible-playbook -i hosts deploy.yml",
@@ -72,6 +73,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
+    "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.11.1",
     "html-webpack-plugin": "^2.28.0",
     "imagemin": "^5.3.1",
@@ -87,6 +89,7 @@
     "style-loader": "^0.18.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.4.1",
-    "webpack-dev-server": "^2.4.2"
+    "webpack-dev-server": "^2.4.2",
+    "webpack-node-externals": "^1.6.0"
   }
 }
