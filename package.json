@@ -11,7 +11,7 @@
     "start": "npm-run-all --parallel dev:*",
     "dev:webpack": "webpack-dev-server",
     "dev:nodemon": "nodemon server/apiOnly.js",
-    "lint": "eslint src/components src/index.jsx src/store.js --ext .js,.jsx",
+    "lint": "eslint client/components server --ext .js,.jsx",
     "build": "npm-run-all build:*",
     "build:clear": "rm -rf build",
     "build:webpack": "webpack -p --config webpack.prod.js",
@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "dotenv": "^4.0.0",
+    "express": "^4.15.3",
     "forever": "^0.15.3",
     "mysql2": "^1.1.2",
     "prismjs": "^1.6.0",

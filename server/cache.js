@@ -1,5 +1,5 @@
 const redis = require('redis');
-const {promisify} = require('util');
+const { promisify } = require('util');
 
 const client = redis.createClient();
 client.set = promisify(client.set);
@@ -8,7 +8,7 @@ client.flushdb = promisify(client.flushdb);
 
 module.exports = {
   async get(key) {
-    return await client.get(key);
+    return client.get(key);
   },
 
   async set(key, value) {
@@ -22,13 +22,9 @@ module.exports = {
       return JSON.parse(reply);
     }
 
-    try {
-      let value = await callback();
-      await this.set(key, JSON.stringify(value));
-      return value;
-    } catch (e) {
-
-    }
+    const value = await callback();
+    await this.set(key, JSON.stringify(value));
+    return value;
   },
 
   async flush() {

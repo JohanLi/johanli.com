@@ -7,6 +7,8 @@ const prismjsRegexp= /<prismjs language="(javascript|php)">\r?\n([\s\S]*?)\r?\n<
 /* TODO handle extra indentation */
 module.exports = (entries) => {
   entries.forEach((entry) => {
+    let match;
+
     while (match = prismjsRegexp.exec(entry.html)) {
       const code = Prism.highlight(match[2], Prism.languages[match[1]]);
 
@@ -17,6 +19,5 @@ module.exports = (entries) => {
     `;
     }
   });
-  
   return entries;
 };
