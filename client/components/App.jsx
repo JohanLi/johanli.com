@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import store from '../store';
 
 import Header from './Header';
 import Banner from './home/Banner';
@@ -23,6 +25,16 @@ class App extends React.Component {
       blog: props.blog,
       sideProjects: props.sideProjects,
     };
+  }
+
+  async componentDidMount() {
+    this.setState({
+      blog: {
+        entries: await store.updateBlog(1),
+        archive: await store.updateBlogArchive(),
+      },
+      sideProjects: await store.updateSideProjects(),
+    });
   }
 
   headerToggle(event) {
@@ -73,8 +85,7 @@ class App extends React.Component {
             <Blog
               key={match.params.pageOrUrlKey}
               pageOrUrlKey={match.params.pageOrUrlKey}
-              entries={this.state.blog.entries}
-              archive={this.state.blog.archive}
+              blog={this.state.blog}
             />
           )}
         />
@@ -88,5 +99,24 @@ class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  blog: PropTypes.shape({
+    entries: PropTypes.object,
+    archive: PropTypes.array,
+  }).isRequired,
+  sideProjects: PropTypes.array.isRequired,
+};
+
+App.defaultProps = {
+  blog: {
+    entries: {
+      entries: [],
+      pagination: {},
+    },
+    archive: [],
+  },
+  sideProjects: [],
+};
 
 export default App;

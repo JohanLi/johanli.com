@@ -10,12 +10,13 @@ module.exports = {
   entry: [
     'babel-polyfill',
     'whatwg-fetch',
-    './server/index',
+    'react-hot-loader/patch',
+    './client/index',
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: 'server.js',
+    filename: 'client.js',
   },
   module: {
     rules: [
@@ -46,9 +47,13 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      favicon: './public/img/favicon.ico',
+      template: './public/index.html',
+    }),
     new ExtractTextPlugin("styles.css"),
+    new webpack.HotModuleReplacementPlugin(),
   ],
-  devtool: 'cheap-eval-source-map',
   devServer: {
     historyApiFallback: true,
     contentBase: './public',
@@ -61,6 +66,4 @@ module.exports = {
       },
     },
   },
-  target: 'node',
-  externals: [nodeExternals()],
 };

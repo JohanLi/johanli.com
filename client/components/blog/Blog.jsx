@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import store from '../../store';
 
 import Entry from './Entry';
 import Pagination from './Pagination';
@@ -8,17 +9,22 @@ import Archive from './Archive';
 import zoom from '../../js/zoom';
 
 class Blog extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      entries: props.entries,
-      archive: props.archive,
+      blog: props.blog,
     };
   }
 
   async componentDidMount() {
+    this.setState({
+      blog: {
+        entries: await store.updateBlog(this.props.pageOrUrlKey),
+        archive: await store.updateBlogArchive(),
+      },
+    });
+
     zoom(window, document);
   }
 
@@ -26,18 +32,18 @@ class Blog extends React.Component {
     const entries = [];
     const archive = [];
 
-    this.state.entries.entries.forEach((entry) => {
+    this.state.blog.entries.entries.forEach((entry) => {
       entries.push(<Entry key={entry.id} entry={entry} />);
     });
 
-    this.state.archive.forEach((year) => {
+    this.state.blog.archive.forEach((year) => {
       archive.push(<Archive key={year.year} year={year} />);
     });
 
     return (
       <main id="blog">
         {entries}
-        <Pagination pagination={this.state.entries.pagination} />
+        <Pagination pagination={this.state.blog.entries.pagination} />
         <div className="archive">
           {archive}
         </div>
@@ -48,10 +54,21 @@ class Blog extends React.Component {
 
 Blog.propTypes = {
   pageOrUrlKey: PropTypes.string.isRequired,
+  blog: PropTypes.shape({
+    entries: PropTypes.object,
+    archive: PropTypes.array,
+  }).isRequired,
 };
 
 Blog.defaultProps = {
   pageOrUrlKey: '1',
+  blog: {
+    entries: {
+      entries: [],
+      pagination: {},
+    },
+    archive: [],
+  },
 };
 
 export default Blog;

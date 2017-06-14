@@ -66,17 +66,12 @@ const getPages = (currentPage, totalPages) => {
 };
 
 module.exports = {
-  async getAllPages() {
-    let [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC');
-
-    entries = setPublished(entries);
-    entries = prismjsHighlight(entries);
-
-    return { entries, pagination: {} };
-  },
-
   async getPage(page) {
-    const offset = (page - 1) * entriesPerPage;
+    if (isNaN(page)) {
+      return await this.getByUrlKey(page);
+    }
+
+    const offset = (parseInt(page, 10) - 1) * entriesPerPage;
     let [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC LIMIT ? OFFSET ?', [entriesPerPage, offset]);
     let pagination = await this.getPagination(page);
 
@@ -98,7 +93,9 @@ module.exports = {
     }
 
     entries = setPublished(entries);
-    return prismjsHighlight(entries);
+    entries = prismjsHighlight(entries);
+
+    return { entries };
   },
 
   async getPagination(currentPage) {
