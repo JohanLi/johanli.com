@@ -33,7 +33,7 @@ module.exports = [
           test: /\.(png|gif|jpg)/,
           loader: 'url-loader',
           options: {
-            name: 'assets/[name]-[hash].[ext]',
+            name: 'public/img/[name]-[hash].[ext]',
             limit: 10000,
           },
         },
@@ -49,7 +49,7 @@ module.exports = [
     plugins: [
       new ExtractTextPlugin("styles.css"),
     ],
-    devtool: 'cheap-eval-source-map',
+    devtool: 'cheap-module-source-map',
     target: 'node',
     node: {
       __dirname: false, // server bundle uses __dirname to load index.html
@@ -82,7 +82,7 @@ module.exports = [
           test: /\.(png|gif|jpg)/,
           loader: 'url-loader',
           options: {
-            name: 'assets/[name]-[hash].[ext]',
+            name: 'img/[name]-[hash].[ext]',
             limit: 10000,
           },
         },

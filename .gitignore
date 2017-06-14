@@ -3,7 +3,7 @@ node_modules/
 npm-debug.log
 .env
 
-dist/
+build/
 public/
 
 ansible/templates/

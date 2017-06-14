@@ -33,7 +33,7 @@ module.exports = {
         test: /\.(png|gif|jpg)/,
         loader: 'url-loader',
         options: {
-          name: 'assets/[name]-[hash].[ext]',
+          name: 'public/[name].[ext]',
           limit: 10000,
         },
       },
@@ -54,6 +54,7 @@ module.exports = {
     new ExtractTextPlugin("styles.css"),
     new webpack.HotModuleReplacementPlugin(),
   ],
+  devtool: 'cheap-module-eval-source-map',
   devServer: {
     historyApiFallback: true,
     contentBase: './public',
