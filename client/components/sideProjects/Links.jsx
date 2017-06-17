@@ -6,16 +6,23 @@ const Links = ({ project }) => {
   let blogEntries;
 
   if (project.homepage_url || project.github_url) {
+    let homepageLink;
+    let githubLink;
+
+    if (project.homepage_url) {
+      homepageLink = <li><a href={project.homepage_url}>Homepage</a></li>;
+    }
+
+    if (project.github_url) {
+      githubLink = <li><a href={project.github_url}>GitHub</a></li>;
+    }
+
     links = (
       <div>
         <h3>Links</h3>
         <ul>
-          <li>
-            <a href={project.homepage_url}>Homepage</a>
-          </li>
-          <li>
-            <a href={project.github_url}>GitHub</a>
-          </li>
+          {homepageLink}
+          {githubLink}
         </ul>
       </div>
     );
