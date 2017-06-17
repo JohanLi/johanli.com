@@ -1,4 +1,4 @@
-import './markerclusterer';
+import { MarkerClusterer } from './markerclusterer';
 
 export default (window, document) => {
   const mapElement = document.querySelector('#pokemon-go .map');
