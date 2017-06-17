@@ -22,17 +22,20 @@ class App extends React.Component {
         active: false,
         transition: true,
       },
-      blog: props.blog,
+      latestBlogEntries: props.latestBlogEntries,
+      blogPage: props.blogPage,
       sideProjects: props.sideProjects,
     };
   }
 
   async componentDidMount() {
+    if (this.state.latestBlogEntries.length
+      && this.state.sideProjects.length) {
+      return;
+    }
+
     this.setState({
-      blog: {
-        entries: await store.updateBlog(1),
-        archive: await store.updateBlogArchive(),
-      },
+      latestBlogEntries: await store.updateLatestBlogEntries(),
       sideProjects: await store.updateSideProjects(),
     });
   }
@@ -64,8 +67,6 @@ class App extends React.Component {
   }
 
   render() {
-    const latestBlogEntries = this.state.blog.entries.entries.slice(0, 3);
-
     return (
       <div id="app">
         <Header
@@ -77,7 +78,7 @@ class App extends React.Component {
         <Route
           exact
           path="/"
-          render={() => <Home latestBlogEntries={latestBlogEntries} />}
+          render={() => <Home latestBlogEntries={this.state.latestBlogEntries} />}
         />
         <Route
           path="/blog/:pageOrUrlKey?"
@@ -85,7 +86,7 @@ class App extends React.Component {
             <Blog
               key={match.params.pageOrUrlKey}
               pageOrUrlKey={match.params.pageOrUrlKey}
-              blog={this.state.blog}
+              blogPage={this.state.blogPage}
             />
           )}
         />
@@ -101,15 +102,17 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  blog: PropTypes.shape({
+  latestBlogEntries: PropTypes.arrayOf(PropTypes.object).isRequired,
+  blogPage: PropTypes.shape({
     entries: PropTypes.object,
     archive: PropTypes.array,
   }).isRequired,
-  sideProjects: PropTypes.array.isRequired,
+  sideProjects: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 App.defaultProps = {
-  blog: {
+  latestBlogEntries: [],
+  blogPage: {
     entries: {
       entries: [],
       pagination: {},

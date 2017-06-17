@@ -6,6 +6,12 @@ const pokemonGoMap = require('./models/pokemon-go-map');
 
 const router = express.Router();
 
+router.get('/blog/latest', async (req, res) => {
+  const entries = await cache.remember('/blog/latest', () => blog.getLatest());
+
+  res.json(entries);
+});
+
 router.get('/blog/archive', async (req, res) => {
   const archive = await cache.remember('/blog/archive', () => blog.getArchive());
 

@@ -9,7 +9,7 @@ const Home = ({ latestBlogEntries }) => {
   const entries = [];
 
   latestBlogEntries.forEach((entry) => {
-    entries.push(<LatestBlogEntries key={entry.id} entry={entry} />);
+    entries.push(<LatestBlogEntries key={entry.url} entry={entry} />);
   });
 
   return (

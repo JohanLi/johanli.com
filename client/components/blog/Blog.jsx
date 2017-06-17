@@ -13,14 +13,14 @@ class Blog extends React.Component {
     super(props);
 
     this.state = {
-      blog: props.blog,
+      blogPage: this.props.blogPage,
     };
   }
 
   async componentDidMount() {
     this.setState({
-      blog: {
-        entries: await store.updateBlog(this.props.pageOrUrlKey),
+      blogPage: {
+        entries: await store.updateBlogPage(this.props.pageOrUrlKey),
         archive: await store.updateBlogArchive(),
       },
     });
@@ -32,18 +32,18 @@ class Blog extends React.Component {
     const entries = [];
     const archive = [];
 
-    this.state.blog.entries.entries.forEach((entry) => {
+    this.state.blogPage.entries.entries.forEach((entry) => {
       entries.push(<Entry key={entry.id} entry={entry} />);
     });
 
-    this.state.blog.archive.forEach((year) => {
+    this.state.blogPage.archive.forEach((year) => {
       archive.push(<Archive key={year.year} year={year} />);
     });
 
     return (
       <main id="blog">
         {entries}
-        <Pagination pagination={this.state.blog.entries.pagination} />
+        <Pagination pagination={this.state.blogPage.entries.pagination} />
         <div className="archive">
           {archive}
         </div>
@@ -54,7 +54,7 @@ class Blog extends React.Component {
 
 Blog.propTypes = {
   pageOrUrlKey: PropTypes.string.isRequired,
-  blog: PropTypes.shape({
+  blogPage: PropTypes.shape({
     entries: PropTypes.object,
     archive: PropTypes.array,
   }).isRequired,
@@ -62,7 +62,7 @@ Blog.propTypes = {
 
 Blog.defaultProps = {
   pageOrUrlKey: '1',
-  blog: {
+  blogPage: {
     entries: {
       entries: [],
       pagination: {},

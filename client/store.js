@@ -17,13 +17,21 @@ const store = {
     return response.json();
   },
 
-  getBlog: pageOrUrlKey => store.get(`blog/${pageOrUrlKey}`) || {
-    entries: [],
-    pagination: {},
-    archive: [],
+  getLatestBlogEntries: () => store.get(`blog/latest`) || [],
+
+  updateLatestBlogEntries: async () => {
+    const entries = await store.request('/api/blog/latest');
+    store.set(`blog/latest`, entries);
+
+    return entries;
   },
 
-  updateBlog: async (pageOrUrlKey) => {
+  getBlogPage: pageOrUrlKey => store.get(`blog/${pageOrUrlKey}`) || {
+    entries: [],
+    pagination: {},
+  },
+
+  updateBlogPage: async (pageOrUrlKey) => {
     const entries = await store.request(`/api/blog/${pageOrUrlKey}`);
     store.set(`blog/${pageOrUrlKey}`, entries);
 

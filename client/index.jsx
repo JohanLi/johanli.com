@@ -8,7 +8,7 @@ const render = (Component) => {
   ReactDOM.render(
     <AppContainer>
       <BrowserRouter>
-        <Component />
+        <Component {...window.APP_INITIAL_STATE} />
       </BrowserRouter>
     </AppContainer>,
     document.getElementById('root'),

@@ -66,14 +66,27 @@ const getPages = (currentPage, totalPages) => {
 };
 
 module.exports = {
-  async getPage(page) {
+  async getLatest() {
+    const [entries] = await database.query('SELECT url, title, excerpt FROM blog ORDER BY published DESC LIMIT 3');
+    return entries;
+  },
+
+  async getArchive() {
+    let [entries] = await database.query('SELECT url, title, published FROM blog ORDER BY published DESC');
+    entries = setPublished(entries);
+    return setArchive(entries);
+  },
+
+  async getPage(page = 1) {
     if (isNaN(page)) {
       return this.getByUrlKey(page);
     }
 
-    const offset = (parseInt(page, 10) - 1) * entriesPerPage;
+    const pageInteger = parseInt(page, 10);
+
+    const offset = (pageInteger - 1) * entriesPerPage;
     let [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC LIMIT ? OFFSET ?', [entriesPerPage, offset]);
-    const pagination = await this.getPagination(page);
+    const pagination = await this.getPagination(pageInteger);
 
     if (!entries.length) {
       throw new Error('Page not found!');
@@ -120,11 +133,5 @@ module.exports = {
     pagination.currentPage = currentPage;
 
     return pagination;
-  },
-
-  async getArchive() {
-    let [entries] = await database.query('SELECT title, url, published FROM blog ORDER BY published DESC');
-    entries = setPublished(entries);
-    return setArchive(entries);
   },
 };
