@@ -12,17 +12,18 @@ class Blog extends React.Component {
   constructor(props) {
     super(props);
 
+    const client = typeof window !== 'undefined';
+
     this.state = {
-      blogPage: this.props.blogPage,
+      page: (client && store.getBlogPage(this.props.pageOrUrlKey)) || props.page,
+      archive: (client && store.getBlogArchive()) || props.archive,
     };
   }
 
   async componentDidMount() {
     this.setState({
-      blogPage: {
-        entries: await store.updateBlogPage(this.props.pageOrUrlKey),
-        archive: await store.updateBlogArchive(),
-      },
+      page: await store.updateBlogPage(this.props.pageOrUrlKey),
+      archive: await store.updateBlogArchive(),
     });
 
     zoom(window, document);
@@ -32,18 +33,18 @@ class Blog extends React.Component {
     const entries = [];
     const archive = [];
 
-    this.state.blogPage.entries.entries.forEach((entry) => {
+    this.state.page.entries.forEach((entry) => {
       entries.push(<Entry key={entry.id} entry={entry} />);
     });
 
-    this.state.blogPage.archive.forEach((year) => {
+    this.state.archive.forEach((year) => {
       archive.push(<Archive key={year.year} year={year} />);
     });
 
     return (
       <main id="blog">
         {entries}
-        <Pagination pagination={this.state.blogPage.entries.pagination} />
+        <Pagination pagination={this.state.page.pagination} />
         <div className="archive">
           {archive}
         </div>
@@ -54,21 +55,20 @@ class Blog extends React.Component {
 
 Blog.propTypes = {
   pageOrUrlKey: PropTypes.string.isRequired,
-  blogPage: PropTypes.shape({
-    entries: PropTypes.object,
-    archive: PropTypes.array,
+  page: PropTypes.shape({
+    entries: PropTypes.array,
+    pagination: PropTypes.object,
   }).isRequired,
+  archive: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 Blog.defaultProps = {
   pageOrUrlKey: '1',
-  blogPage: {
-    entries: {
-      entries: [],
-      pagination: {},
-    },
-    archive: [],
+  page: {
+    entries: [],
+    pagination: {},
   },
+  archive: [],
 };
 
 export default Blog;

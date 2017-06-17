@@ -24,18 +24,21 @@ class App extends React.Component {
       },
       latestBlogEntries: props.latestBlogEntries,
       blogPage: props.blogPage,
+      blogArchive: props.blogArchive,
       sideProjects: props.sideProjects,
     };
   }
 
   async componentDidMount() {
     if (this.state.latestBlogEntries.length
+      && this.state.blogArchive.length
       && this.state.sideProjects.length) {
       return;
     }
 
     this.setState({
       latestBlogEntries: await store.updateLatestBlogEntries(),
+      blogArchive: await store.updateBlogArchive(),
       sideProjects: await store.updateSideProjects(),
     });
   }
@@ -86,7 +89,8 @@ class App extends React.Component {
             <Blog
               key={match.params.pageOrUrlKey}
               pageOrUrlKey={match.params.pageOrUrlKey}
-              blogPage={this.state.blogPage}
+              page={this.state.blogPage}
+              archive={this.state.blogArchive}
             />
           )}
         />
@@ -104,21 +108,20 @@ class App extends React.Component {
 App.propTypes = {
   latestBlogEntries: PropTypes.arrayOf(PropTypes.object).isRequired,
   blogPage: PropTypes.shape({
-    entries: PropTypes.object,
-    archive: PropTypes.array,
+    entries: PropTypes.array,
+    pagination: PropTypes.object,
   }).isRequired,
+  blogArchive: PropTypes.arrayOf(PropTypes.object).isRequired,
   sideProjects: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 App.defaultProps = {
   latestBlogEntries: [],
   blogPage: {
-    entries: {
-      entries: [],
-      pagination: {},
-    },
-    archive: [],
+    entries: [],
+    pagination: {},
   },
+  blogArchive: [],
   sideProjects: [],
 };
 

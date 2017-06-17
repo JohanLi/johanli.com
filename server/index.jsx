@@ -30,13 +30,11 @@ app.get('*', async (req, res) => {
   let blogPage;
 
   if (match) {
-    blogPage = {
-      entries: await blog.getPage(match.params.pageOrUrlKey),
-      archive: await blog.getArchive(),
-    };
+    blogPage = await blog.getPage(match.params.pageOrUrlKey);
   }
 
   const latestBlogEntries = await blog.getLatest();
+  const blogArchive = await blog.getArchive();
   const projects = await sideProjects.getAll();
 
   let templateHtml = await readFileAsync(
@@ -47,6 +45,7 @@ app.get('*', async (req, res) => {
   const appInitialState = {
     latestBlogEntries,
     blogPage,
+    blogArchive,
     sideProjects: projects,
   };
 
