@@ -19,7 +19,8 @@ const app = express();
 
 app.use('/api', api);
 
-app.use('/', express.static(path.resolve(__dirname, 'public')));
+// served by nginx in production
+app.use(express.static(path.resolve(__dirname, 'public')));
 
 app.get('*', async (req, res) => {
   const context = {};

@@ -6,7 +6,7 @@ const svgo = require('imagemin-svgo');
 
 const inputs = [
   {
-    input: ['./build/public/img/*.{gif,jpg,png,svg,ico}'],
+    input: ['./build/img/*.{gif,jpg,png,svg,ico}'],
     output: './build/public/img',
   },
   {

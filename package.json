@@ -16,6 +16,7 @@
     "build:clear": "rm -rf build",
     "build:webpack": "webpack -p --config webpack.prod.js",
     "build:imagemin": "node cli/imagemin.js",
+    "build:move-files": "cd build && rm -rf img public/index.html && mv styles* client* favicon.ico public",
     "prod:start": "forever restart build/server.js || forever start build/server.js",
     "prod:stop": "forever stop build/server.js",
     "setup": "cd ansible && ansible-playbook -i hosts setup.yml",

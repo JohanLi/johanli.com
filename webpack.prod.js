@@ -33,7 +33,7 @@ module.exports = [
           test: /\.(png|gif|jpg)/,
           loader: 'url-loader',
           options: {
-            name: 'public/img/[name]-[hash].[ext]',
+            name: 'img/[name]-[hash].[ext]',
             limit: 10000,
           },
         },
@@ -47,9 +47,8 @@ module.exports = [
       extensions: ['.js', '.jsx'],
     },
     plugins: [
-      new ExtractTextPlugin("styles.css"),
+      new ExtractTextPlugin("styles-[contenthash].css"),
     ],
-    devtool: 'cheap-module-source-map',
     target: 'node',
     node: {
       __dirname: false, // server bundle uses __dirname to load index.html
@@ -63,7 +62,7 @@ module.exports = [
       './client/index',
     ],
     output: {
-      path: path.resolve(__dirname, 'build/public'),
+      path: path.resolve(__dirname, 'build'),
       publicPath: '/',
       filename: 'client-[hash].js',
     },
@@ -96,12 +95,13 @@ module.exports = [
       extensions: ['.js', '.jsx'],
     },
     plugins: [
-      new ExtractTextPlugin("styles.css"),
+      new ExtractTextPlugin("styles-[contenthash].css"),
       new HtmlWebpackPlugin({
         favicon: './public/img/favicon.ico',
         template: './public/index.html',
-        filename: '../index.html',
+        filename: './index.html',
       }),
     ],
+    devtool: 'cheap-module-source-map',
   },
 ];
