@@ -1,0 +1,7 @@
+---
+- hosts: redis
+
+  tasks:
+
+  - name: flush redis
+    command: redis-cli flushall

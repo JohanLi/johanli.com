@@ -1,0 +1,46 @@
+---
+- hosts: redis
+
+  tasks:
+
+  - name: install make and gcc
+    apt: name={{ item }} state=latest update_cache=yes
+    with_items:
+    - make
+    - gcc
+
+  - name: download redis
+    command: "{{ item }}"
+    with_items:
+    - wget http://download.redis.io/redis-stable.tar.gz
+    - tar xvzf redis-stable.tar.gz
+
+  - name: install redis
+    command: make
+    args:
+      chdir: redis-stable/
+
+  - name: enable redis-server and redis-cli
+    command: "{{ item }}"
+    with_items:
+    - cp redis-stable/src/redis-server /usr/local/bin/
+    - cp redis-stable/src/redis-cli /usr/local/bin/
+
+  - name: create folders for init script, configuration and data
+    file: path={{ item }} state=directory
+    with_items:
+    - /etc/redis
+    - /var/redis
+    - /var/redis/6379
+
+  - name: add init script
+    template: src=templates/redis/redis_init_script dest=/etc/init.d/redis_6379 mode=0755
+
+  - name: add configuration
+    template: src=templates/redis/redis.conf dest=/etc/redis/6379.conf
+
+  - name: add init script to all default runlevels
+    command: update-rc.d redis_6379 defaults
+
+  - name: start redis
+    command: /etc/init.d/redis_6379 start

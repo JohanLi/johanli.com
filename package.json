@@ -20,7 +20,6 @@
     "prod:start": "forever restart build/server.js || forever start build/server.js",
     "prod:stop": "forever stop build/server.js",
     "setup": "cd ansible && ansible-playbook -i hosts setup.yml",
-    "setup:database": "cd ansible && ansible-playbook -i hosts database.yml",
     "deploy": "cd ansible && ansible-playbook -i hosts deploy.yml",
     "deploy:database": "cd ansible && ansible-playbook -i hosts deploy-database.yml"
   },

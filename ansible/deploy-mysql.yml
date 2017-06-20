@@ -1,0 +1,35 @@
+---
+- hosts: mysql
+
+  tasks:
+
+  - name: dump local database
+    connection: local
+    shell: mysqldump -h 127.0.0.1 -u root {{ database_name }} | gzip > dump.sql.gz
+
+  - name: move dump file to destination
+    copy:
+      src: dump.sql.gz
+      dest: /tmp
+
+  - name: remove database
+    mysql_db:
+      name: "{{ database_name }}"
+      state: absent
+
+  - name: import database
+    mysql_db:
+      name: "{{ database_name }}"
+      state: import
+      target: /tmp/dump.sql.gz
+
+  - name: remove local dump
+    connection: local
+    file:
+      path: dump.sql.gz
+      state: absent
+
+  - name: remove remote dump
+    file:
+      path: /tmp/dump.sql.gz
+      state: absent
