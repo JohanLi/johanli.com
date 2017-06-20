@@ -7,7 +7,7 @@
     git: repo=https://github.com/JohanLi/johanli.com.git dest=/var/www/{{ domain }}
 
   - name: deploy static files
-    synchronize: src=../build/ dest=/var/www/{{ domain }}/build/
+    synchronize: src=../../build/ dest=/var/www/{{ domain }}/build/
 
   - name: start application
     command: "{{ item }} chdir=/var/www/{{ domain }}"

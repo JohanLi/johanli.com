@@ -19,9 +19,9 @@
     "build:move-files": "cd build && rm -rf img public/index.html && mv styles* client* favicon.ico public",
     "prod:start": "forever restart build/server.js || forever start build/server.js",
     "prod:stop": "forever stop build/server.js",
-    "setup": "cd ansible && ansible-playbook -i hosts setup.yml",
-    "deploy": "cd ansible && ansible-playbook -i hosts deploy.yml",
-    "deploy:database": "cd ansible && ansible-playbook -i hosts deploy-database.yml"
+    "setup": "ansible-playbook -i ansible/hosts ansible/tasks/setup.yml",
+    "deploy": "ansible-playbook -i ansible/hosts ansible/tasks/deploy.yml",
+    "deploy:database": "ansible-playbook -i ansible/hosts ansible/tasks/deploy-database.yml"
   },
   "author": "Johan Li",
   "license": "MIT",

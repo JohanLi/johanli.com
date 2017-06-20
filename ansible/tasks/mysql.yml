@@ -28,7 +28,7 @@
       - localhost
 
   - name: add .my.cnf with new credentials
-    template: src=templates/.my.cnf dest=~/.my.cnf owner=root group=root mode=0600
+    template: src=../templates/.my.cnf dest=~/.my.cnf owner=root group=root mode=0600
 
   - name: add user for remote access
     mysql_user: name=root

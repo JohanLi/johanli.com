@@ -4,8 +4,10 @@ npm-debug.log
 .env
 
 build/
-public/
+public/img
 
-ansible/templates/
-ansible/*.retry
 ansible/hosts
+ansible/tasks/*.retry
+ansible/templates/.*
+ansible/templates/server.*
+ansible/templates/ssl-bundle.crt

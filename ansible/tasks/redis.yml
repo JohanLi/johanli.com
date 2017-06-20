@@ -34,10 +34,10 @@
     - /var/redis/6379
 
   - name: add init script
-    template: src=templates/redis/redis_init_script dest=/etc/init.d/redis_6379 mode=0755
+    template: src=../templates/redis/redis_init_script dest=/etc/init.d/redis_6379 mode=0755
 
   - name: add configuration
-    template: src=templates/redis/redis.conf dest=/etc/redis/6379.conf
+    template: src=../templates/redis/redis.conf dest=/etc/redis/6379.conf
 
   - name: add init script to all default runlevels
     command: update-rc.d redis_6379 defaults
