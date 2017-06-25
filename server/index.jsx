@@ -1,6 +1,7 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router-dom';
+import DocumentTitle from 'react-document-title';
 import App from '../client/components/App';
 
 require('dotenv').config();
@@ -57,6 +58,11 @@ app.get('*', async (req, res) => {
     >
       <App {...appInitialState} />
     </StaticRouter>,
+  );
+
+  templateHtml = templateHtml.replace(
+    '<title></title>',
+    `<title>${DocumentTitle.rewind()}</title>`,
   );
 
   templateHtml = templateHtml.replace(

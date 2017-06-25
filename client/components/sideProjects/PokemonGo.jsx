@@ -1,4 +1,5 @@
 import React from 'react';
+import DocumentTitle from 'react-document-title';
 import map from '../../js/map';
 
 class PokemonGo extends React.Component {
@@ -15,20 +16,22 @@ class PokemonGo extends React.Component {
 
   render() {
     return (
-      <div id="pokemon-go">
-        <h2>Pokestops and Gyms in Stockholm</h2>
-        <div className="map" />
-        <div className="controls">
-          <label htmlFor="pokestops">
-            <input id="pokestops" type="checkbox" defaultChecked />
-            Pokestops
-          </label>
-          <label htmlFor="gyms">
-            <input id="gyms" type="checkbox" />
-            Gyms
-          </label>
+      <DocumentTitle title="Pokestops and Gyms in Stockholm - Johan Li">
+        <div id="pokemon-go">
+          <h2>Pokestops and Gyms in Stockholm</h2>
+          <div className="map" />
+          <div className="controls">
+            <label htmlFor="pokestops">
+              <input id="pokestops" type="checkbox" defaultChecked />
+              Pokestops
+            </label>
+            <label htmlFor="gyms">
+              <input id="gyms" type="checkbox" />
+              Gyms
+            </label>
+          </div>
         </div>
-      </div>
+      </DocumentTitle>
     );
   }
 }

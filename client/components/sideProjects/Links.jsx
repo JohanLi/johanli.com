@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Link } from 'react-router-dom';
+
+const isInternal = url => url[0] === '/';
+
 const Links = ({ project }) => {
   let links;
   let blogEntries;
@@ -10,7 +14,11 @@ const Links = ({ project }) => {
     let githubLink;
 
     if (project.homepage_url) {
-      homepageLink = <li><a href={project.homepage_url}>Homepage</a></li>;
+      if (isInternal(project.homepage_url)) {
+        homepageLink = <li><Link to={project.homepage_url}>Homepage</Link></li>;
+      } else {
+        homepageLink = <li><a href={project.homepage_url}>Homepage</a></li>;
+      }
     }
 
     if (project.github_url) {

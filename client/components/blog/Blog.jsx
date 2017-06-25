@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import DocumentTitle from 'react-document-title';
 import store from '../../store';
 
 import Entry from './Entry';
@@ -30,6 +31,12 @@ class Blog extends React.Component {
   }
 
   render() {
+    let title = 'Blog - Johan Li';
+
+    if (isNaN(this.props.pageOrUrlKey) && this.state.page.entries.length) {
+      title = `${this.state.page.entries[0].title} - Johan Li`;
+    }
+
     const entries = [];
     const archive = [];
 
@@ -42,13 +49,15 @@ class Blog extends React.Component {
     });
 
     return (
-      <main id="blog">
-        {entries}
-        <Pagination pagination={this.state.page.pagination} />
-        <div className="archive">
-          {archive}
-        </div>
-      </main>
+      <DocumentTitle title={title}>
+        <main id="blog">
+          {entries}
+          <Pagination pagination={this.state.page.pagination} />
+          <div className="archive">
+            {archive}
+          </div>
+        </main>
+      </DocumentTitle>
     );
   }
 }
