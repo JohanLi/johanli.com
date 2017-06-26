@@ -9,11 +9,12 @@ import githubIcon from '../../public/img/github.svg';
 const Footer = () => {
   const email = `${emailIcon}<div>johan@johanli.com</div>`;
   const github = `${githubIcon}<div>JohanLi</div>`;
+  const date = new Date();
 
   return (
     <footer>
       <div className="details">
-        © 2016 - 2017 Johan Li
+        © 2016 - {date.getFullYear()} Johan Li
       </div>
       <div className="links">
         <a
