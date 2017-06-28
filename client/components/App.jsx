@@ -4,7 +4,6 @@ import { Route } from 'react-router-dom';
 import store from '../store';
 
 import Header from './Header';
-import Banner from './home/Banner';
 import Home from './home/Home';
 import Blog from './blog/Blog';
 import SideProjects from './sideProjects/SideProjects';
@@ -77,7 +76,6 @@ class App extends React.Component {
           toggle={event => this.headerToggle(event)}
           navigate={() => this.headerNavigate()}
         />
-        <Route exact path="/" component={Banner} />
         <Route
           exact
           path="/"
