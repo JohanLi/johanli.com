@@ -2,9 +2,6 @@ const webpack = require('webpack');
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-
-const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: [
@@ -27,7 +24,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']),
+        loader: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|gif|jpg)/,
@@ -51,7 +48,6 @@ module.exports = {
       favicon: './public/img/favicon.ico',
       template: './public/index.html',
     }),
-    new ExtractTextPlugin("styles.css"),
     new webpack.HotModuleReplacementPlugin(),
   ],
   devtool: 'cheap-module-eval-source-map',
@@ -59,6 +55,7 @@ module.exports = {
     historyApiFallback: true,
     contentBase: './public',
     open: true,
+    openPage: '', // https://github.com/webpack/webpack-dev-server/issues/960
     hot: true,
     proxy: {
       '/api': {

@@ -9,7 +9,7 @@
   "main": "app.js",
   "scripts": {
     "start": "npm-run-all --parallel dev:*",
-    "dev:webpack": "webpack-dev-server --open",
+    "dev:webpack": "webpack-dev-server",
     "dev:nodemon": "nodemon server/apiOnly.js",
     "lint": "eslint client/components server --ext .js,.jsx",
     "test": "mocha test/setup.js test/*-test.js",
@@ -28,7 +28,12 @@
   "license": "MIT",
   "babel": {
     "presets": [
-      "es2015",
+      [
+        "es2015",
+        {
+          "modules": false
+        }
+      ],
       "react",
       "stage-0"
     ],
@@ -91,7 +96,7 @@
     "sass-loader": "^6.0.3",
     "style-loader": "^0.18.1",
     "url-loader": "^0.5.8",
-    "webpack": "^2.4.1",
+    "webpack": "^3.0.0",
     "webpack-dev-server": "^2.4.2",
     "webpack-node-externals": "^1.6.0"
   }

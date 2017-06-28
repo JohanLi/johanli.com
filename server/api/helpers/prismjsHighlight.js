@@ -2,7 +2,7 @@ const Prism = require('prismjs');
 require('prismjs/components/prism-php.js');
 require('prismjs/components/prism-php-extras.js');
 
-const prismjsRegexp= /<prismjs language="(javascript|php)">\r?\n([\s\S]*?)\r?\n<\/prismjs>/g;
+const prismjsRegexp = /<prismjs language="(javascript|php)">\r?\n([\s\S]*?)\r?\n<\/prismjs>/g;
 
 /* TODO handle extra indentation */
 module.exports = (entries) => {
