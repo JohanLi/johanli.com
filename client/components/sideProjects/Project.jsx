@@ -17,11 +17,11 @@ const Project = ({ project }) => (
         {project.description}
       </div>
     </div>
-    <div className="image">
-      <a href={project.homepage_url}>
-        <img src={project.image_url} width="600" height="600" alt={project.name} />
-      </a>
-    </div>
+    <a className="image-container" href={project.homepage_url}>
+      <div style={{ paddingBottom: '50%' }}>
+        <img src={project.image_url} alt={project.name} />
+      </div>
+    </a>
     <Links key={project.id} project={project} />
   </div>
 );

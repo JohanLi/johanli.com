@@ -19,7 +19,11 @@ const Home = ({ latestBlogEntries }) => {
         <div className="banner" />
         <main>
           <div className="about-me clearfix">
-            <img src={personalPortrait} width="260" height="260" alt="Johan Li" />
+            <div className="image-container">
+              <div style={{ paddingBottom: '100%' }}>
+                <img src={personalPortrait} alt="Johan Li" />
+              </div>
+            </div>
             <p>
               Hi, I’m Johan Li. I work at <a href="https://en.wikipedia.org/wiki/Paradox_Interactive">Paradox Interactive</a> as
               a web developer, building our e-commerce platform and online services.

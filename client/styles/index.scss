@@ -9,6 +9,7 @@ body {
   margin: 0;
   padding: 0;
   color: #000;
+  overflow-y: scroll;
 }
 
 .clearfix {
@@ -37,6 +38,7 @@ body {
 @import 'home';
 @import 'blog';
 @import 'side-projects';
+@import 'image-container';
 @import 'prism';
 @import 'image-zoom';
 @import 'pokemon-go';

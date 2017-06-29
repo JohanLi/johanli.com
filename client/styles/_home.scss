@@ -30,7 +30,7 @@
   .about-me {
     padding: 25px 0 15px 0;
 
-    img {
+    .image-container {
       min-width: 100px;
       max-width: 200px;
       width: 33%;
@@ -50,7 +50,7 @@
     }
 
     @media #{$breakpoint-sm} {
-      img {
+      .image-container {
         margin: 0 0 30px 30px;
       }
     }
@@ -60,7 +60,7 @@
       width: 50%;
       float: right;
 
-      img {
+      .image-container {
         margin: 0 0 40px 40px;
       }
     }
@@ -68,7 +68,7 @@
     @media #{$breakpoint-xl} {
       width: 60%;
 
-      img {
+      .image-container {
         margin: 0 0 60px 60px;
         max-width: 400px;
       }
