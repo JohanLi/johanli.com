@@ -1,5 +1,6 @@
 const database = require('./database');
 const prismjsHighlight = require('../helpers/prismjsHighlight');
+const imageContainer = require('../helpers/imageContainer');
 
 const entriesPerPage = 3;
 const previousNextCount = 2;
@@ -94,6 +95,7 @@ module.exports = {
 
     entries = setPublished(entries);
     entries = prismjsHighlight(entries);
+    entries = imageContainer(entries);
 
     return { entries, pagination };
   },
@@ -107,6 +109,7 @@ module.exports = {
 
     entries = setPublished(entries);
     entries = prismjsHighlight(entries);
+    entries = imageContainer(entries);
 
     return { entries };
   },
