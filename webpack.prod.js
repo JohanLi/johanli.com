@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const nodeExternals = require('webpack-node-externals');
@@ -100,6 +101,10 @@ module.exports = [
         favicon: './public/img/favicon.ico',
         template: './public/index.html',
         filename: './index.html',
+        inject: 'head',
+      }),
+      new ScriptExtHtmlWebpackPlugin({
+        defaultAttribute: 'defer',
       }),
     ],
     devtool: 'cheap-module-source-map',

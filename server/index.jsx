@@ -10,8 +10,10 @@ const path = require('path');
 const { promisify } = require('util');
 const blog = require('./api/models/blog');
 const sideProjects = require('./api/models/side-projects');
+const inlineCss = require('./render/inlineCss');
 
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const api = require('./api');
 
 const readFileAsync = promisify(fs.readFile);
@@ -19,6 +21,7 @@ const readFileAsync = promisify(fs.readFile);
 const app = express();
 
 app.use('/api', api);
+app.use(cookieParser());
 
 // served by nginx in production
 app.use(express.static(path.resolve(__dirname, 'public')));
@@ -74,6 +77,8 @@ app.get('*', async (req, res) => {
     '<script></script>',
     `<script>window.APP_INITIAL_STATE = ${JSON.stringify(appInitialState)}</script>`,
   );
+
+  templateHtml = await inlineCss(templateHtml, req, res);
 
   res.send(templateHtml);
 });

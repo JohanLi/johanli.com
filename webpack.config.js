@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -47,6 +48,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       favicon: './public/img/favicon.ico',
       template: './public/index.html',
+      inject: 'head',
+    }),
+    new ScriptExtHtmlWebpackPlugin({
+      defaultAttribute: 'defer',
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
