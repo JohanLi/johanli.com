@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const { promisify } = require('util');
+
 const readFileAsync = promisify(fs.readFile);
 
 const linkRegexp = /<link href="\/styles-([\s\S]*?).css" rel="stylesheet">/;
@@ -20,7 +21,7 @@ module.exports = async (html, req, res) => {
     secure: true,
   });
 
-  let css = await readFileAsync(
+  const css = await readFileAsync(
     path.resolve(__dirname, `public/styles-${match[1]}.css`),
     'utf8',
   );
