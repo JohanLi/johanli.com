@@ -38,7 +38,7 @@ describe('PrismjsHighlight', () => {
     assert.include(modifiedEntries[0].html, '</code></pre>');
   });
 
-  it('Parses three code blocks', () => {
+  it('Parses multiple code blocks', () => {
     assert.include(modifiedEntries[1].html, '<pre class="language-javascript"><code class="language-javascript">');
     assert.include(modifiedEntries[1].html, '<pre class="language-php"><code class="language-php">');
 
@@ -48,5 +48,10 @@ describe('PrismjsHighlight', () => {
 
   it('Doesn’t parse things it shouldn’t', () => {
     assert.equal(modifiedEntries[2].html.length, entries[2].html.length);
+  });
+
+  it('Doesn’t crash when passing in an empty array', () => {
+    const emptyEntries = [];
+    assert.equal(emptyEntries, prismjsHighlight(emptyEntries));
   });
 });

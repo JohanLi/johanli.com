@@ -3,17 +3,11 @@
 const sizeOf = require('image-size');
 const path = require('path');
 
-let pathToImages;
-
-if (process.env.NODE_ENV === 'production') {
-  pathToImages = path.join(__dirname, 'public');
-} else {
-  pathToImages = path.join(__dirname, '../../../public');
-}
+const filePaths = require('./filepaths');
 
 const imgRegexp = /<img src="([\s\S]*?)"([\s\S]*?)>/g;
 
-module.exports = (entries) => {
+module.exports = (entries, pathToImages = filePaths.img) => {
   entries.forEach((entry) => {
     let match;
 
