@@ -46,6 +46,9 @@
   - name: copy ssl bundle
     copy: src=../templates/ssl-bundle.crt dest=/etc/ssl/{{ domain }}/ssl-bundle.crt
 
+  - name: copy ssl ca bundle
+    copy: src=../templates/ssl-bundle.crt dest=/etc/ssl/{{ domain }}/ssl-ca-bundle.crt
+
   - name: copy private key
     copy: src=../templates/server.key dest=/etc/ssl/{{ domain }}/server.key
 

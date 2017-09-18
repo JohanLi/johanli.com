@@ -11,3 +11,4 @@ ansible/tasks/*.retry
 ansible/templates/.*
 ansible/templates/server.*
 ansible/templates/ssl-bundle.crt
+ansible/templates/ssl-ca-bundle.crt
