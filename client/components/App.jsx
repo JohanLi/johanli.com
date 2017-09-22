@@ -17,10 +17,6 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      header: {
-        active: false,
-        transition: true,
-      },
       latestBlogEntries: props.latestBlogEntries,
       blogPage: props.blogPage,
       blogArchive: props.blogArchive,
@@ -42,40 +38,10 @@ class App extends React.Component {
     });
   }
 
-  headerToggle(event) {
-    if (event.key && event.key !== 'Enter') {
-      return;
-    }
-
-    if (event.type === 'click') {
-      event.target.blur();
-    }
-
-    this.setState({
-      header: {
-        active: !this.state.header.active,
-        transition: true,
-      },
-    });
-  }
-
-  headerNavigate() {
-    this.setState({
-      header: {
-        active: false,
-        transition: false,
-      },
-    });
-  }
-
   render() {
     return (
       <div id="app">
-        <Header
-          state={this.state.header}
-          toggle={event => this.headerToggle(event)}
-          navigate={() => this.headerNavigate()}
-        />
+        <Header />
         <Route
           exact
           path="/"

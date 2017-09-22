@@ -1,76 +1,101 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-const Header = ({ state, toggle, navigate }) => {
-  let className = '';
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
 
-  if (state.active) {
-    className += 'active ';
+    this.state = {
+      active: false,
+      transition: true,
+    };
   }
 
-  if (state.transition) {
-    className += 'transition ';
+  toggle(event) {
+    if (event.key && event.key !== 'Enter') {
+      return;
+    }
+
+    if (event.type === 'click') {
+      event.target.blur();
+    }
+
+    this.setState({
+      active: !this.state.active,
+      transition: true,
+    });
   }
 
-  return (
-    <header className={className}>
-      <div className="navbar">
-        <a
-          className="hamburger-menu"
-          onClick={toggle}
-          onKeyPress={toggle}
-          tabIndex="0"
-          role="button"
-        >
-          <div className="top" />
-          <div className="mid" />
-          <div className="bottom" />
-        </a>
-        <div className="logo">
-          <Link to="/" className="logo">Johan Li</Link>
+  navigate() {
+    this.setState({
+      active: false,
+      transition: false,
+    });
+  }
+
+  render() {
+    const headerClass = classNames({
+      active: this.state.active,
+      transition: this.state.transition,
+    });
+
+    return (
+      <header className={headerClass}>
+        <div className="navbar">
+          <a
+            className="hamburger-menu"
+            onClick={(event) => this.toggle(event)}
+            onKeyPress={(event) => this.toggle(event)}
+            tabIndex="0"
+            role="button"
+          >
+            <div className="top" />
+            <div className="mid" />
+            <div className="bottom" />
+          </a>
+          <div className="logo">
+            <Link to="/" className="logo">Johan Li</Link>
+          </div>
         </div>
-      </div>
-      <nav className="items">
-        <ul>
-          <li>
-            <NavLink
-              exact
-              to="/"
-              activeClassName="active"
-              onClick={navigate}
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/blog"
-              activeClassName="active"
-              onClick={navigate}
-            >
-              Blog
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/side-projects"
-              activeClassName="active"
-              onClick={navigate}
-            >
-              Side Projects
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
-    </header>
-  );
-};
+        <nav className="items">
+          <ul>
+            <li>
+              <NavLink
+                exact
+                to="/"
+                activeClassName="active"
+                onClick={() => this.navigate()}
+              >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/blog"
+                activeClassName="active"
+                onClick={() => this.navigate()}
+              >
+                Blog
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/side-projects"
+                activeClassName="active"
+                onClick={() => this.navigate()}
+              >
+                Side Projects
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+      </header>
+    );
+  }
+}
 
-Header.propTypes = {
-  state: PropTypes.objectOf(PropTypes.bool.isRequired).isRequired,
-  toggle: PropTypes.func.isRequired,
-  navigate: PropTypes.func.isRequired,
-};
+Header.propTypes = {};
 
 export default Header;
