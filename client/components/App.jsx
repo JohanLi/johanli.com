@@ -17,23 +17,19 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      latestBlogEntries: props.latestBlogEntries,
-      blogPage: props.blogPage,
-      blogArchive: props.blogArchive,
-      sideProjects: props.sideProjects,
+      blog: store.getBlogPage(this.props.pageOrUrlKey) || props.blog,
+      sideProjects: store.getSideProjects() || props.sideProjects,
     };
   }
 
   async componentDidMount() {
-    if (this.state.latestBlogEntries.length
-      && this.state.blogArchive.length
+    if (this.state.blog.pages[1]
       && this.state.sideProjects.length) {
       return;
     }
 
     this.setState({
-      latestBlogEntries: await store.updateLatestBlogEntries(),
-      blogArchive: await store.updateBlogArchive(),
+      blog: await store.updateBlogPage(1),
       sideProjects: await store.updateSideProjects(),
     });
   }
@@ -45,16 +41,15 @@ class App extends React.Component {
         <Route
           exact
           path="/"
-          render={() => <Home latestBlogEntries={this.state.latestBlogEntries} />}
+          render={() => <Home blog={this.state.blog} />}
         />
         <Route
           path="/blog/:pageOrUrlKey?"
           render={({ match }) => (
             <Blog
               key={match.params.pageOrUrlKey}
+              blog={this.state.blog}
               pageOrUrlKey={match.params.pageOrUrlKey}
-              page={this.state.blogPage}
-              archive={this.state.blogArchive}
             />
           )}
         />
@@ -70,22 +65,20 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  latestBlogEntries: PropTypes.arrayOf(PropTypes.object).isRequired,
-  blogPage: PropTypes.shape({
-    entries: PropTypes.array,
-    pagination: PropTypes.object,
+  blog: PropTypes.shape({
+    entries: PropTypes.object,
+    pages: PropTypes.object,
+    archive: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
-  blogArchive: PropTypes.arrayOf(PropTypes.object).isRequired,
   sideProjects: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 App.defaultProps = {
-  latestBlogEntries: [],
-  blogPage: {
-    entries: [],
-    pagination: {},
+  blog: {
+    entries: {},
+    pages: {},
+    archive: [],
   },
-  blogArchive: [],
   sideProjects: [],
 };
 

@@ -6,12 +6,12 @@ import LatestBlogEntries from './LatestBlogEntries';
 
 import personalPortrait from '../../../public/img/johan.jpg';
 
-const Home = ({ latestBlogEntries }) => {
-  const entries = [];
+const Home = ({ blog }) => {
+  let latestBlogEntries = blog.pages[1] || [];
 
-  latestBlogEntries.forEach((entry) => {
-    entries.push(<LatestBlogEntries key={entry.url} entry={entry} />);
-  });
+  const entries = latestBlogEntries.map(
+    entryUrl => (<LatestBlogEntries key={entryUrl} entry={blog.entries[entryUrl]} />)
+  );
 
   return (
     <DocumentTitle title="Johan Li - Web Developer">
@@ -46,11 +46,10 @@ const Home = ({ latestBlogEntries }) => {
 };
 
 Home.propTypes = {
-  latestBlogEntries: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
-
-Home.defaultProps = {
-  latestBlogEntries: [],
+  blog: PropTypes.shape({
+    entries: PropTypes.object,
+    pages: PropTypes.object,
+  }).isRequired,
 };
 
 export default Home;

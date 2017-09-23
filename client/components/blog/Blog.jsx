@@ -13,17 +13,15 @@ class Blog extends React.Component {
   constructor(props) {
     super(props);
 
-    const client = typeof window !== 'undefined';
-
     this.state = {
-      page: (client && store.getBlogPage(this.props.pageOrUrlKey)) || props.page,
-      archive: (client && store.getBlogArchive()) || props.archive,
+      blog: store.getBlogPage(this.props.pageOrUrlKey) || props.blog,
+      archive: store.getBlogArchive() || props.archive,
     };
   }
 
   async componentDidMount() {
     this.setState({
-      page: await store.updateBlogPage(this.props.pageOrUrlKey),
+      blog: await store.updateBlogPage(this.props.pageOrUrlKey),
       archive: await store.updateBlogArchive(),
     });
 
@@ -33,26 +31,30 @@ class Blog extends React.Component {
   render() {
     let title = 'Blog - Johan Li';
 
-    if (isNaN(this.props.pageOrUrlKey) && this.state.page.entries.length) {
-      title = `${this.state.page.entries[0].title} - Johan Li`;
+    let entries;
+
+    const blogPageRequested = !isNaN(this.props.pageOrUrlKey);
+
+    if (blogPageRequested) {
+      let pageEntries = this.state.blog.pages[this.props.pageOrUrlKey] || [];
+
+      entries = pageEntries.map(
+        entryUrl => (<Entry key={entryUrl} entry={this.state.blog.entries[entryUrl]} />)
+      );
+    } else if (this.state.blog.entries[this.props.pageOrUrlKey]) {
+      title = `${this.state.blog.entries[this.props.pageOrUrlKey].title} - Johan Li`;
+      entries = <Entry key={this.state.blog.entries[this.props.pageOrUrlKey].url} entry={this.state.blog.entries[this.props.pageOrUrlKey]} />;
     }
 
-    const entries = [];
-    const archive = [];
-
-    this.state.page.entries.forEach((entry) => {
-      entries.push(<Entry key={entry.id} entry={entry} />);
-    });
-
-    this.state.archive.forEach((year) => {
-      archive.push(<Archive key={year.year} year={year} />);
-    });
+    const archive = this.state.archive.map(
+      year => <Archive key={year.year} year={year} />
+    );
 
     return (
       <DocumentTitle title={title}>
         <main id="blog">
           {entries}
-          <Pagination pagination={this.state.page.pagination} />
+          <Pagination pagination={this.state.blog.pagination} />
           <div className="archive">
             {archive}
           </div>
@@ -63,21 +65,16 @@ class Blog extends React.Component {
 }
 
 Blog.propTypes = {
-  pageOrUrlKey: PropTypes.string.isRequired,
-  page: PropTypes.shape({
-    entries: PropTypes.array,
-    pagination: PropTypes.object,
+  blog: PropTypes.shape({
+    entries: PropTypes.object,
+    pages: PropTypes.object,
   }).isRequired,
-  archive: PropTypes.arrayOf(PropTypes.object).isRequired,
+  pageOrUrlKey: PropTypes.string,
+
 };
 
 Blog.defaultProps = {
   pageOrUrlKey: '1',
-  page: {
-    entries: [],
-    pagination: {},
-  },
-  archive: [],
 };
 
 export default Blog;

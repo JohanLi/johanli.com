@@ -1,5 +1,11 @@
 const store = {
-  get: key => JSON.parse(localStorage.getItem(key)),
+  get: (key) => {
+    if (store.isServer()) {
+      return;
+    }
+
+    return JSON.parse(localStorage.getItem(key));
+  },
 
   set: (key, value) => {
     localStorage.setItem(key, JSON.stringify(value));
@@ -17,34 +23,32 @@ const store = {
     return response.json();
   },
 
-  getLatestBlogEntries: () => store.get(`blog/latest`) || [],
-
-  updateLatestBlogEntries: async () => {
-    const entries = await store.request('/api/blog/latest');
-    store.set(`blog/latest`, entries);
-
-    return entries;
+  isServer: () => {
+    return typeof window === 'undefined';
   },
 
-  getBlogPage: pageOrUrlKey => store.get(`blog/${pageOrUrlKey}`) || {
-    entries: [],
+  getBlogPage: pageOrUrlKey => store.get(`blog`) || {
+    entries: {},
+    pages: {},
     pagination: {},
   },
 
   updateBlogPage: async (pageOrUrlKey) => {
-    const entries = await store.request(`/api/blog/${pageOrUrlKey}`);
-    store.set(`blog/${pageOrUrlKey}`, entries);
+    const { entries, pagination } = await store.request(`/api/blog/${pageOrUrlKey}`);
+    const blog = store.getBlogPage(pageOrUrlKey);
+
+    entries.forEach((entry) => {
+      blog.entries[entry.url] = entry;
+    });
 
     if (store.blogPageRequested(pageOrUrlKey)) {
-      entries.entries.forEach((entry) => {
-        store.set(`blog/${entry.url}`, {
-          entries: [entry],
-          archive: entries.archive,
-        });
-      });
+      blog.pages[pageOrUrlKey] = entries.map(entry => entry.url);
     }
 
-    return entries;
+    blog.pagination = pagination;
+    store.set(`blog`, blog);
+
+    return blog;
   },
 
   blogPageRequested: pageOrUrlKey => !isNaN(pageOrUrlKey),
