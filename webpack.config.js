@@ -60,7 +60,6 @@ module.exports = {
     historyApiFallback: true,
     contentBase: './public',
     open: true,
-    openPage: '', // https://github.com/webpack/webpack-dev-server/issues/960
     hot: true,
     proxy: {
       '/api': {
