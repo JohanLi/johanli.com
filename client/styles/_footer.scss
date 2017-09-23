@@ -39,23 +39,25 @@ footer {
           fill: #333;
         }
       }
-
-      > div {
-        display: none;
-      }
     }
+  }
+
+  .icon-text {
+    display: none;
   }
 
   @media #{$breakpoint-lg} {
     padding: 0 30px;
 
-    .links a {
-      margin-left: 60px;
-
-      > div {
-        display: block;
-        margin-left: 15px;
+    .links {
+      a {
+        margin-left: 60px;
       }
+    }
+
+    .icon-text {
+      display: block;
+      margin-left: 15px;
     }
   }
 }

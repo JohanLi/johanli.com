@@ -58,9 +58,9 @@ class Header extends React.Component {
             <Link to="/" className="logo">Johan Li</Link>
           </div>
         </div>
-        <nav className="items">
-          <ul>
-            <li>
+        <nav className="link-menu">
+          <ul className="links">
+            <li className="link">
               <NavLink
                 exact
                 to="/"
@@ -70,7 +70,7 @@ class Header extends React.Component {
                 Home
               </NavLink>
             </li>
-            <li>
+            <li className="link">
               <NavLink
                 to="/blog"
                 activeClassName="active"
@@ -79,7 +79,7 @@ class Header extends React.Component {
                 Blog
               </NavLink>
             </li>
-            <li>
+            <li className="link">
               <NavLink
                 to="/side-projects"
                 activeClassName="active"
