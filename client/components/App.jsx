@@ -17,19 +17,14 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      blog: store.getBlogPage(this.props.pageOrUrlKey) || props.blog,
+      blog: store.getBlog() || props.blog,
       sideProjects: store.getSideProjects() || props.sideProjects,
     };
   }
 
   async componentDidMount() {
-    if (this.state.blog.pages[1]
-      && this.state.sideProjects.length) {
-      return;
-    }
-
     this.setState({
-      blog: await store.updateBlogPage(1),
+      blog: await store.updateBlog(1),
       sideProjects: await store.updateSideProjects(),
     });
   }
@@ -49,6 +44,7 @@ class App extends React.Component {
             <Blog
               key={match.params.pageOrUrlKey}
               blog={this.state.blog}
+              archive={this.props.archive}
               pageOrUrlKey={match.params.pageOrUrlKey}
             />
           )}
@@ -68,17 +64,19 @@ App.propTypes = {
   blog: PropTypes.shape({
     entries: PropTypes.object,
     pages: PropTypes.object,
-    archive: PropTypes.arrayOf(PropTypes.object),
-  }).isRequired,
-  sideProjects: PropTypes.arrayOf(PropTypes.object).isRequired,
+    pagination: PropTypes.object,
+  }),
+  archive: PropTypes.arrayOf(PropTypes.object),
+  sideProjects: PropTypes.arrayOf(PropTypes.object),
 };
 
 App.defaultProps = {
   blog: {
     entries: {},
     pages: {},
-    archive: [],
+    pagination: {},
   },
+  archive: [],
   sideProjects: [],
 };
 

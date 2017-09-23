@@ -1,15 +1,16 @@
+require('dotenv').config();
+
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 import App from '../client/components/App';
 
-require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
-const blog = require('./api/models/blog');
-const sideProjects = require('./api/models/side-projects');
+const blogModel = require('./api/models/blog');
+const sideProjectsModel = require('./api/models/side-projects');
 const inlineCss = require('./render/inlineCss');
 
 const express = require('express');
@@ -26,21 +27,40 @@ app.use(cookieParser());
 // served by nginx in production
 app.use(express.static(path.resolve(__dirname, 'public')));
 
-app.get('*', async (req, res) => {
-  const context = {};
+const getBlog = async (req) => {
   const match = matchPath(req.url, {
     path: '/blog/:pageOrUrlKey?',
   });
-
-  let blogPage;
+  let pageOrUrlKey = 1;
 
   if (match) {
-    blogPage = await blog.getPage(match.params.pageOrUrlKey);
+    pageOrUrlKey = match.params.pageOrUrlKey;
   }
 
-  const latestBlogEntries = await blog.getLatest();
-  const blogArchive = await blog.getArchive();
-  const projects = await sideProjects.getAll();
+  let blog = {
+    entries: {},
+    pages: {},
+    pagination: {},
+  };
+
+  const { entries, pagination } = await blogModel.getPage(pageOrUrlKey);
+  const blogPageRequested = !isNaN(pageOrUrlKey);
+
+  entries.forEach((entry) => {
+    blog.entries[entry.url] = entry;
+  });
+
+  if (blogPageRequested) {
+    blog.pages[pageOrUrlKey] = entries.map(entry => entry.url);
+  }
+
+  blog.pagination = pagination;
+
+  return blog;
+};
+
+app.get('*', async (req, res) => {
+  const context = {};
 
   let templateHtml = await readFileAsync(
     path.resolve(__dirname, 'index.html'),
@@ -48,10 +68,9 @@ app.get('*', async (req, res) => {
   );
 
   const appInitialState = {
-    latestBlogEntries,
-    blogPage,
-    blogArchive,
-    sideProjects: projects,
+    blog: getBlog(req),
+    archive: await blogModel.getArchive(),
+    sideProjects: await sideProjectsModel.getAll(),
   };
 
   const appHtml = renderToString(

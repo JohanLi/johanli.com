@@ -14,14 +14,14 @@ class Blog extends React.Component {
     super(props);
 
     this.state = {
-      blog: store.getBlogPage(this.props.pageOrUrlKey) || props.blog,
+      blog: store.getBlog() || props.blog,
       archive: store.getBlogArchive() || props.archive,
     };
   }
 
   async componentDidMount() {
     this.setState({
-      blog: await store.updateBlogPage(this.props.pageOrUrlKey),
+      blog: await store.updateBlog(this.props.pageOrUrlKey),
       archive: await store.updateBlogArchive(),
     });
 
@@ -69,6 +69,7 @@ Blog.propTypes = {
     entries: PropTypes.object,
     pages: PropTypes.object,
   }).isRequired,
+  archive: PropTypes.arrayOf(PropTypes.object),
   pageOrUrlKey: PropTypes.string,
 
 };

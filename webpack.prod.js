@@ -107,6 +107,5 @@ module.exports = [
         defaultAttribute: 'defer',
       }),
     ],
-    devtool: 'cheap-module-source-map',
   },
 ];

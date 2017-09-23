@@ -27,15 +27,15 @@ const store = {
     return typeof window === 'undefined';
   },
 
-  getBlogPage: pageOrUrlKey => store.get(`blog`) || {
+  getBlog: () => store.get(`blog`) || {
     entries: {},
     pages: {},
     pagination: {},
   },
 
-  updateBlogPage: async (pageOrUrlKey) => {
+  updateBlog: async (pageOrUrlKey) => {
     const { entries, pagination } = await store.request(`/api/blog/${pageOrUrlKey}`);
-    const blog = store.getBlogPage(pageOrUrlKey);
+    const blog = store.getBlog();
 
     entries.forEach((entry) => {
       blog.entries[entry.url] = entry;
