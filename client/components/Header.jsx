@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 class Header extends React.Component {
@@ -46,8 +45,8 @@ class Header extends React.Component {
         <div className="navbar">
           <a
             className="hamburger-menu"
-            onClick={(event) => this.toggle(event)}
-            onKeyPress={(event) => this.toggle(event)}
+            onClick={event => this.toggle(event)}
+            onKeyPress={event => this.toggle(event)}
             tabIndex="0"
             role="button"
           >

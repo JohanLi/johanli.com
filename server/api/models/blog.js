@@ -67,11 +67,6 @@ const getPages = (currentPage, totalPages) => {
 };
 
 module.exports = {
-  async getLatest() {
-    const [entries] = await database.query('SELECT url, title, excerpt FROM blog ORDER BY published DESC LIMIT 3');
-    return entries;
-  },
-
   async getArchive() {
     let [entries] = await database.query('SELECT url, title, published FROM blog ORDER BY published DESC');
     entries = setPublished(entries);

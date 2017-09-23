@@ -7,10 +7,10 @@ import LatestBlogEntries from './LatestBlogEntries';
 import personalPortrait from '../../../public/img/johan.jpg';
 
 const Home = ({ blog }) => {
-  let latestBlogEntries = blog.pages[1] || [];
+  const latestBlogEntries = blog.pages[1] || [];
 
   const entries = latestBlogEntries.map(
-    entryUrl => (<LatestBlogEntries key={entryUrl} entry={blog.entries[entryUrl]} />)
+    entryUrl => (<LatestBlogEntries key={entryUrl} entry={blog.entries[entryUrl]} />),
   );
 
   return (

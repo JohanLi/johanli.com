@@ -36,18 +36,23 @@ class Blog extends React.Component {
     const blogPageRequested = !isNaN(this.props.pageOrUrlKey);
 
     if (blogPageRequested) {
-      let pageEntries = this.state.blog.pages[this.props.pageOrUrlKey] || [];
+      const pageEntries = this.state.blog.pages[this.props.pageOrUrlKey] || [];
 
       entries = pageEntries.map(
-        entryUrl => (<Entry key={entryUrl} entry={this.state.blog.entries[entryUrl]} />)
+        entryUrl => (<Entry key={entryUrl} entry={this.state.blog.entries[entryUrl]} />),
       );
     } else if (this.state.blog.entries[this.props.pageOrUrlKey]) {
       title = `${this.state.blog.entries[this.props.pageOrUrlKey].title} - Johan Li`;
-      entries = <Entry key={this.state.blog.entries[this.props.pageOrUrlKey].url} entry={this.state.blog.entries[this.props.pageOrUrlKey]} />;
+      entries = (
+        <Entry
+          key={this.state.blog.entries[this.props.pageOrUrlKey].url}
+          entry={this.state.blog.entries[this.props.pageOrUrlKey]}
+        />
+      );
     }
 
     const archive = this.state.archive.map(
-      year => <Archive key={year.year} year={year} />
+      year => <Archive key={year.year} year={year} />,
     );
 
     return (
@@ -69,7 +74,7 @@ Blog.propTypes = {
     entries: PropTypes.object,
     pages: PropTypes.object,
   }).isRequired,
-  archive: PropTypes.arrayOf(PropTypes.object),
+  archive: PropTypes.arrayOf(PropTypes.object).isRequired,
   pageOrUrlKey: PropTypes.string,
 
 };

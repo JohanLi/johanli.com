@@ -1,11 +1,10 @@
-require('dotenv').config();
-
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 import App from '../client/components/App';
 
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
@@ -37,7 +36,7 @@ const getBlog = async (req) => {
     pageOrUrlKey = match.params.pageOrUrlKey;
   }
 
-  let blog = {
+  const blog = {
     entries: {},
     pages: {},
     pagination: {},
