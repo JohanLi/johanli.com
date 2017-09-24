@@ -3,7 +3,7 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const nodeExternals = require('webpack-node-externals');
 
@@ -48,7 +48,7 @@ module.exports = [
       extensions: ['.js', '.jsx'],
     },
     plugins: [
-      new ExtractTextPlugin("styles-[contenthash].css"),
+      new ExtractTextPlugin('styles-[contenthash].css'),
     ],
     target: 'node',
     node: {
@@ -88,10 +88,7 @@ module.exports = [
         },
         {
           test: /\.(svg)/,
-          loader: 'react-svg-loader',
-          options: {
-            es5: true,
-          },
+          loader: 'raw-loader',
         },
       ],
     },
@@ -99,7 +96,7 @@ module.exports = [
       extensions: ['.js', '.jsx'],
     },
     plugins: [
-      new ExtractTextPlugin("styles-[contenthash].css"),
+      new ExtractTextPlugin('styles-[contenthash].css'),
       new HtmlWebpackPlugin({
         favicon: './public/img/favicon.ico',
         template: './public/index.html',
