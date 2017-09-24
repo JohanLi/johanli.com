@@ -1,4 +1,4 @@
-const database = require('./database');
+import database from './database';
 
 const joinBlogEntries = (sideProjects, blogEntries) => {
   const groupedBlogEntries = {};
@@ -14,14 +14,13 @@ const joinBlogEntries = (sideProjects, blogEntries) => {
     });
   });
 
-  sideProjects.forEach((project) => {
-    project.blogEntries = groupedBlogEntries[project.id];
-  });
-
-  return sideProjects;
+  return sideProjects.map(project => ({
+    ...project,
+    blogEntries: groupedBlogEntries[project.id],
+  }));
 };
 
-module.exports = {
+export default {
   async getAll() {
     const [sideProjects] = await database.query('SELECT * FROM side_projects ORDER BY state DESC, id DESC');
     const [blogEntries] = await database.query('SELECT side_project_id, url, title FROM blog WHERE side_project_id > 0 ORDER BY published ASC');

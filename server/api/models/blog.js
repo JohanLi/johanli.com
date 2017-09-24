@@ -1,6 +1,6 @@
-const database = require('./database');
-const prismjsHighlight = require('../helpers/prismjsHighlight');
-const imageContainer = require('../helpers/imageContainer');
+import database from './database';
+import prismjsHighlight from '../helpers/prismjsHighlight';
+import imageContainer from '../helpers/imageContainer';
 
 const entriesPerPage = 3;
 const previousNextCount = 2;
@@ -66,7 +66,7 @@ const getPages = (currentPage, totalPages) => {
   return pages;
 };
 
-module.exports = {
+const blog = {
   async getArchive() {
     let [entries] = await database.query('SELECT url, title, published FROM blog ORDER BY published DESC');
     entries = setPublished(entries);
@@ -133,3 +133,5 @@ module.exports = {
     return pagination;
   },
 };
+
+export default blog;

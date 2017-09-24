@@ -10,7 +10,7 @@
   "scripts": {
     "start": "npm-run-all --parallel dev:*",
     "dev:webpack": "webpack-dev-server",
-    "dev:nodemon": "nodemon server/apiOnly.js",
+    "dev:nodemon": "nodemon server/apiOnly.js --exec babel-node --presets=es2015,stage-2",
     "lint": "eslint client/components server test --ext .js,.jsx",
     "test": "mocha test/setup.js test/*.test.{js,jsx}",
     "build": "npm-run-all build:*",
@@ -71,6 +71,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-polyfill": "^6.26.0",

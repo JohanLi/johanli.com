@@ -1,8 +1,8 @@
-const express = require('express');
-const cache = require('../cache');
-const blog = require('./models/blog');
-const sideProjects = require('./models/side-projects');
-const pokemonGoMap = require('./models/pokemon-go-map');
+import express from 'express';
+import cache from '../cache';
+import blog from './models/blog';
+import sideProjects from './models/side-projects';
+import pokemonGoMap from './models/pokemon-go-map';
 
 const router = express.Router();
 
@@ -30,4 +30,4 @@ router.get('/pokemon-go/map-objects', async (req, res) => {
   res.json(mapObjects);
 });
 
-module.exports = router;
+export default router;

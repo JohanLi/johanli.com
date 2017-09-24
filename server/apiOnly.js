@@ -1,7 +1,7 @@
-require('dotenv').config();
+import express from 'express';
 
-const express = require('express');
-const api = require('./api');
+import './config';
+import api from './api';
 
 const app = express();
 

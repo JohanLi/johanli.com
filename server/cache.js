@@ -1,12 +1,12 @@
-const redis = require('redis');
-const { promisify } = require('util');
+import redis from 'redis';
+import { promisify } from 'util';
 
 const client = redis.createClient();
 client.set = promisify(client.set);
 client.get = promisify(client.get);
 client.flushdb = promisify(client.flushdb);
 
-module.exports = {
+const cache = {
   async get(key) {
     return client.get(key);
   },
@@ -31,3 +31,5 @@ module.exports = {
     await client.flushdb();
   },
 };
+
+export default cache;

@@ -1,11 +1,12 @@
-const Prism = require('prismjs');
-require('prismjs/components/prism-php.js');
-require('prismjs/components/prism-php-extras.js');
+import Prism from 'prismjs';
+
+import 'prismjs/components/prism-php';
+import 'prismjs/components/prism-php-extras';
 
 const prismjsRegexp = /<prismjs language="(javascript|php)">\r?\n([\s\S]*?)\r?\n<\/prismjs>/g;
 
 /* TODO handle extra indentation */
-module.exports = (entries) => {
+const prismjsHighlight = (entries) => {
   entries.forEach((entry) => {
     let match;
 
@@ -19,3 +20,5 @@ module.exports = (entries) => {
   });
   return entries;
 };
+
+export default prismjsHighlight;

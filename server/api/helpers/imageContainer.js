@@ -1,13 +1,13 @@
 /* prevents reflow of responsive images */
 
-const sizeOf = require('image-size');
-const path = require('path');
+import sizeOf from 'image-size';
+import path from 'path';
 
-const filePaths = require('./filepaths');
+import filePaths from './filepaths';
 
 const imgRegexp = /<img src="([\s\S]*?)"([\s\S]*?)>/g;
 
-module.exports = (entries, pathToImages = filePaths.img) => {
+const imageContainer = (entries, pathToImages = filePaths.img) => {
   entries.forEach((entry) => {
     let match;
 
@@ -31,3 +31,5 @@ module.exports = (entries, pathToImages = filePaths.img) => {
   });
   return entries;
 };
+
+export default imageContainer;

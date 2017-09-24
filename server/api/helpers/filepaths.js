@@ -1,4 +1,4 @@
-const path = require('path');
+import path from 'path';
 
 const filepaths = {
   img: (process.env.NODE_ENV === 'production')
@@ -6,4 +6,4 @@ const filepaths = {
     : path.join(__dirname, '../../../public'),
 };
 
-module.exports = filepaths;
+export default filepaths;

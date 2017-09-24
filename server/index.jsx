@@ -2,19 +2,18 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import fs from 'fs';
+import path from 'path';
+import { promisify } from 'util';
+
+import './config';
 import App from '../client/components/App';
-
-require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
-const { promisify } = require('util');
-const blogModel = require('./api/models/blog');
-const sideProjectsModel = require('./api/models/side-projects');
-const inlineCss = require('./render/inlineCss');
-
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const api = require('./api');
+import blogModel from './api/models/blog';
+import sideProjectsModel from './api/models/side-projects';
+import inlineCss from './render/inlineCss';
+import api from './api';
 
 const readFileAsync = promisify(fs.readFile);
 

@@ -1,12 +1,12 @@
-const path = require('path');
-const fs = require('fs');
-const { promisify } = require('util');
+import path from 'path';
+import fs from 'fs';
+import { promisify } from 'util';
 
 const readFileAsync = promisify(fs.readFile);
 
 const linkRegexp = /<link href="\/styles-([\s\S]*?).css" rel="stylesheet">/;
 
-module.exports = async (html, req, res) => {
+export default async (html, req, res) => {
   const match = html.match(linkRegexp);
 
   if (req.cookies['css-loaded'] === match[1]) {
