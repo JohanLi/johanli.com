@@ -8,3 +8,5 @@ const app = express();
 app.use('/api', api);
 
 app.listen(8081);
+
+export default app;

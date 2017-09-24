@@ -67,13 +67,7 @@ const getPages = (currentPage, totalPages) => {
 };
 
 const blog = {
-  async getArchive() {
-    let [entries] = await database.query('SELECT url, title, published FROM blog ORDER BY published DESC');
-    entries = setPublished(entries);
-    return setArchive(entries);
-  },
-
-  async getPage(page = 1) {
+  async getPage(page) {
     if (isNaN(page)) {
       return this.getByUrlKey(page);
     }
@@ -131,6 +125,12 @@ const blog = {
     pagination.currentPage = currentPage;
 
     return pagination;
+  },
+
+  async getArchive() {
+    let [entries] = await database.query('SELECT url, title, published FROM blog ORDER BY published DESC');
+    entries = setPublished(entries);
+    return setArchive(entries);
   },
 };
 

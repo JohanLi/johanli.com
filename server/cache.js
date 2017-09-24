@@ -12,7 +12,9 @@ const cache = {
   },
 
   async set(key, value) {
-    await client.set(key, value);
+    if (process.env.NODE_ENV === 'production') {
+      await client.set(key, value);
+    }
   },
 
   async remember(key, callback) {

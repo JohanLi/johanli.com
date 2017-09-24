@@ -8,9 +8,9 @@ describe('Footer', () => {
   const wrapper = shallow(<Footer />);
 
   it('Contains up-to-date copyright', () => {
-    const date = new Date();
+    const currentYear = new Date().getFullYear();
 
-    assert.include(wrapper.find('.details').text(), `2016 - ${date.getFullYear()}`);
+    assert.include(wrapper.find('.details').text(), `2016 - ${currentYear}`);
   });
 
   it('Contains two links', () => {
