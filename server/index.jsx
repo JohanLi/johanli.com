@@ -26,20 +26,21 @@ app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, 'public')));
 
 const getBlog = async (req) => {
-  const match = matchPath(req.url, {
-    path: '/blog/:pageOrUrlKey?',
-  });
-  let pageOrUrlKey = 1;
-
-  if (match) {
-    pageOrUrlKey = match.params.pageOrUrlKey;
-  }
-
   const blog = {
     entries: {},
     pages: {},
     pagination: {},
   };
+
+  const match = matchPath(req.url, {
+    path: '/blog/:pageOrUrlKey?',
+  });
+
+  if (!match) {
+    return blog;
+  }
+
+  const pageOrUrlKey = match.params.pageOrUrlKey || 1;
 
   const { entries, pagination } = await blogModel.getPage(pageOrUrlKey);
   const blogPageRequested = !isNaN(pageOrUrlKey);
@@ -66,7 +67,7 @@ app.get('*', async (req, res) => {
   );
 
   const appInitialState = {
-    blog: getBlog(req),
+    blog: await getBlog(req),
     archive: await blogModel.getArchive(),
     sideProjects: await sideProjectsModel.getAll(),
   };
