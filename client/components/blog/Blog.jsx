@@ -6,6 +6,7 @@ import store from '../../store';
 import Entry from './Entry';
 import Pagination from './Pagination';
 import Archive from './Archive';
+import Loading from '../Loading';
 
 import zoom from '../../js/zoom';
 
@@ -55,14 +56,26 @@ class Blog extends React.Component {
       year => <Archive key={year.year} year={year} />,
     );
 
+    let content = [];
+
+    if (!entries || entries.length === 0) {
+      content = [
+        <Loading />,
+      ];
+    } else {
+      content = [
+        entries,
+        <Pagination pagination={this.state.blog.pagination} />,
+        <div className="archive">
+          {archive}
+        </div>,
+      ];
+    }
+
     return (
       <DocumentTitle title={title}>
         <main id="blog">
-          {entries}
-          <Pagination pagination={this.state.blog.pagination} />
-          <div className="archive">
-            {archive}
-          </div>
+          {content}
         </main>
       </DocumentTitle>
     );
