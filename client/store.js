@@ -1,7 +1,7 @@
 const store = {
   get: (key) => {
     if (store.isServer()) {
-      return;
+      return null;
     }
 
     return JSON.parse(localStorage.getItem(key));
@@ -23,11 +23,9 @@ const store = {
     return response.json();
   },
 
-  isServer: () => {
-    return typeof window === 'undefined';
-  },
+  isServer: () => typeof window === 'undefined',
 
-  getBlog: () => store.get(`blog`) || {
+  getBlog: () => store.get('blog') || {
     entries: {},
     pages: {},
     pagination: {},
@@ -46,7 +44,7 @@ const store = {
     }
 
     blog.pagination = pagination;
-    store.set(`blog`, blog);
+    store.set('blog', blog);
 
     return blog;
   },

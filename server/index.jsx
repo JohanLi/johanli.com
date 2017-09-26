@@ -32,15 +32,15 @@ const getBlog = async (req) => {
     pagination: {},
   };
 
+  let pageOrUrlKey = 1;
+
   const match = matchPath(req.url, {
-    path: '/blog/:pageOrUrlKey?',
+    path: '/blog/:pageOrUrlKey',
   });
 
-  if (!match) {
-    return blog;
+  if (match) {
+    pageOrUrlKey = match.params.pageOrUrlKey;
   }
-
-  const pageOrUrlKey = match.params.pageOrUrlKey || 1;
 
   const { entries, pagination } = await blogModel.getPage(pageOrUrlKey);
   const blogPageRequested = !isNaN(pageOrUrlKey);
