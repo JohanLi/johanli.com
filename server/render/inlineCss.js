@@ -10,7 +10,7 @@ export default async (html, req, res) => {
   const match = html.match(linkRegexp);
 
   if (req.cookies['css-loaded'] === match[1]) {
-    return html;
+    return html.replace('<html lang="en">', '<html lang="en" class="font-loaded">');
   }
 
   const month = 1000 * 60 * 60 * 24 * 30;
@@ -28,7 +28,19 @@ export default async (html, req, res) => {
 
   return html.replace(
     match[0],
-    `<link href="/styles-${match[1]}.css" rel="stylesheet" media="none">
-    <style>${css}</style>`,
+    `
+      <link href="/styles-${match[1]}.css" rel="stylesheet" media="none">
+      <style>${css}</style>
+      <script>
+        if ('fonts' in document) {
+          document.fonts.load('16px Roboto')
+            .then(() => {
+              document.documentElement.classList.add('font-loaded');
+            });
+        } else {
+          document.documentElement.classList.add('font-loaded');
+        }
+      </script>
+    `,
   );
 };
