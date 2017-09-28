@@ -12,8 +12,24 @@ router.get('/blog/archive', async (req, res) => {
   res.json(archive);
 });
 
+router.get('/blog/total-pages', async (req, res) => {
+  const entriesPerPage = 3;
+  const totalPages = await cache.remember('/blog/total-pages', () => blog.getTotalPages(entriesPerPage));
+
+  res.json(totalPages);
+});
+
 router.get('/blog/:pageOrUrlKey', async (req, res) => {
-  const entries = await cache.remember(`/blog/${req.params.pageOrUrlKey}`, () => blog.getPage(req.params.pageOrUrlKey));
+  const entriesPerPage = 3;
+  let entries;
+
+  if (isNaN(req.params.pageOrUrlKey)) {
+    const page = req.params.pageOrUrlKey;
+    entries = await cache.remember(`/blog/${page}`, () => blog.getPage(page, entriesPerPage));
+  } else {
+    const urlKey = req.params.pageOrUrlKey;
+    entries = await cache.remember(`/blog/${urlKey}`, () => blog.getByUrlKey(urlKey));
+  }
 
   res.json(entries);
 });

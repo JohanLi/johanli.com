@@ -2,31 +2,19 @@ import database from './database';
 import prismjsHighlight from '../helpers/prismjsHighlight';
 import imageContainer from '../helpers/imageContainer';
 
-const entriesPerPage = 3;
-const previousNextCount = 2;
+const setPublished = entries => entries.map((entry) => {
+  const date = new Date(entry.published * 1000);
 
-const setPublished = (entries) => {
-  entries.forEach((entry) => {
-    const date = new Date(entry.published * 1000);
-
-    entry.published = {
+  return {
+    ...entry,
+    published: {
       timestamp: entry.published,
       month: date.toLocaleString('en-us', { month: 'short' }),
       date: date.getDate(),
       year: date.getFullYear(),
-    };
-  });
-
-  return entries;
-};
-
-const getUrl = (path) => {
-  if (path === 1) {
-    return '/blog';
-  }
-
-  return `/blog/${path}`;
-};
+    },
+  };
+});
 
 const setArchive = (entries) => {
   const archive = [];
@@ -48,35 +36,12 @@ const setArchive = (entries) => {
   return archive;
 };
 
-const getPages = (currentPage, totalPages) => {
-  const pages = [];
-  let i = currentPage - previousNextCount;
-
-  while (pages.length <= previousNextCount * 2 && i <= totalPages) {
-    if (i > 0) {
-      pages.push({
-        url: getUrl(i),
-        number: i,
-      });
-    }
-
-    i += 1;
-  }
-
-  return pages;
-};
-
 const blog = {
-  async getPage(page) {
-    if (isNaN(page)) {
-      return this.getByUrlKey(page);
-    }
-
+  async getPage(page, entriesPerPage) {
     const pageInteger = parseInt(page, 10);
 
     const offset = (pageInteger - 1) * entriesPerPage;
     let [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC LIMIT ? OFFSET ?', [entriesPerPage, offset]);
-    const pagination = await this.getPagination(pageInteger);
 
     if (!entries.length) {
       throw new Error('Page not found!');
@@ -86,7 +51,7 @@ const blog = {
     entries = prismjsHighlight(entries);
     entries = imageContainer(entries);
 
-    return { entries, pagination };
+    return { entries };
   },
 
   async getByUrlKey(urlKey) {
@@ -103,34 +68,19 @@ const blog = {
     return { entries };
   },
 
-  async getPagination(currentPage) {
-    const pagination = {};
-
-    const [result] = await database.query('SELECT count(*) AS numberOfEntries FROM blog');
-    const totalPages = Math.ceil(result[0].numberOfEntries / entriesPerPage);
-
-    if (currentPage > 1) {
-      pagination.previous = {
-        url: getUrl(currentPage - 1),
-      };
-    }
-
-    if (currentPage < totalPages) {
-      pagination.next = {
-        url: getUrl(currentPage + 1),
-      };
-    }
-
-    pagination.pages = getPages(currentPage, totalPages);
-    pagination.currentPage = currentPage;
-
-    return pagination;
-  },
-
   async getArchive() {
     let [entries] = await database.query('SELECT url, title, published FROM blog ORDER BY published DESC');
     entries = setPublished(entries);
     return setArchive(entries);
+  },
+
+  async getTotalPages(entriesPerPage) {
+    const [result] = await database.query('SELECT count(*) AS numberOfEntries FROM blog');
+    const totalPages = Math.ceil(result[0].numberOfEntries / entriesPerPage);
+
+    return {
+      totalPages,
+    };
   },
 };
 
