@@ -25,10 +25,12 @@ const Pagination = ({ pageOrUrlKey, totalPages }) => {
   let next = '';
   const pages = [];
 
-  if (pageOrUrlKey > 1) {
+  if (currentPage > 1) {
+    const url = currentPage === 2 ? '/blog' : `/blog/${currentPage - 1}`;
+
     previous = (
       <div className="previous">
-        <Link to={`/blog/${currentPage - 1}`}>
+        <Link to={url}>
           <div className="label">
             <span className="arrow-left" />
             Previous
@@ -38,7 +40,7 @@ const Pagination = ({ pageOrUrlKey, totalPages }) => {
     );
   }
 
-  if (pageOrUrlKey < totalPages) {
+  if (currentPage < totalPages) {
     next = (
       <div className="next">
         <Link to={`/blog/${currentPage + 1}`}>
@@ -51,12 +53,14 @@ const Pagination = ({ pageOrUrlKey, totalPages }) => {
     );
   }
 
-  const pagesFrom = Math.max(pageOrUrlKey - range, 1);
-  const pagesTo = Math.min(pageOrUrlKey + range, totalPages);
+  const pagesFrom = Math.max(currentPage - range, 1);
+  const pagesTo = Math.min(currentPage + range, totalPages);
 
   for (let i = pagesFrom; i <= pagesTo; i += 1) {
+    const url = i === 1 ? '/blog' : `/blog/${i}`;
+
     pages.push(
-      <NavLink key={i} exact to={`/blog/${i}`}>
+      <NavLink key={i} exact to={url}>
         {i}
       </NavLink>,
     );
