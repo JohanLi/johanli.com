@@ -2,23 +2,27 @@
   width: 100%;
 
   .banner {
-    background: url('../../public/img/stockholm640.jpg') no-repeat;
+    background: url('../../public/img/stockholm640.jpg') no-repeat,
+      linear-gradient(to bottom, #c5bfba 12.5%, #c6c0b4 37.5%, #6e5e46 62.5%, #625d5a 87.5%);
     background-size: contain;
     width: 100%;
     padding-bottom: 68.75%; // width / height of background image, with the last digit rounded up
 
     @media #{$breakpoint-sm} {
-      background-image: url('../../public/img/stockholm1024.jpg');
+      background-image: url('../../public/img/stockholm1024.jpg'),
+        linear-gradient(to bottom, #c2bdb8 12.5%, #c4bfb3 37.5%, #6e5f47 62.5%, #595550 87.5%);
       padding-bottom: 42.97%;
     }
 
     @media #{$breakpoint-lg} {
-      background-image: url('../../public/img/stockholm1400.jpg');
+      background-image: url('../../public/img/stockholm1400.jpg'),
+        linear-gradient(to bottom, #c1bcb5 12.5%, #b5af9e 37.5%, #615036 62.5%, #504e4c 87.5%);
       padding-bottom: 31.43%;
     }
 
     @media #{$breakpoint-xl} {
-      background-image: url('../../public/img/stockholm1920.jpg');
+      background-image: url('../../public/img/stockholm1920.jpg'),
+        linear-gradient(to bottom, #c3bdae 12.5%, #665a41 37.5%, #6d5941 62.5%, #4e4d4e 87.5%);
       padding-bottom: 22.92%;
     }
   }
