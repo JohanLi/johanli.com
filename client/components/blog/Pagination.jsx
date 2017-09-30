@@ -2,81 +2,78 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const Pagination = ({ pagination }) => {
-  let previous = '';
-  let next = '';
-  const pages = [];
+const range = 2;
 
-  if (Object.keys(pagination).length) {
-    if (pagination.previous) {
-      previous = (
-        <div className="previous">
-          <Link to={pagination.previous.url}>
+const Pagination = ({ pageOrUrlKey, totalPages }) => {
+  if (isNaN(pageOrUrlKey)) {
+    return (
+      <div className="pagination">
+        <div className="read-more">
+          <Link to="/blog">
             <div className="label">
-              <span className="arrow-left" />
-              Previous
-            </div>
-          </Link>
-        </div>
-      );
-    }
-
-    if (pagination.next) {
-      next = (
-        <div className="next">
-          <Link to={pagination.next.url}>
-            <div className="label">
-              Next
+              View More Entries
               <span className="arrow-right" />
             </div>
           </Link>
         </div>
-      );
-    }
-
-    if (pagination.pages) {
-      pagination.pages.forEach((page) => {
-        pages.push(
-          <NavLink key={page.url} exact to={page.url}>
-            {page.number}
-          </NavLink>,
-        );
-      });
-    }
-
-    return (
-      <div className="pagination">
-        {previous}
-        {pages}
-        {next}
       </div>
+    );
+  }
+
+  const currentPage = parseInt(pageOrUrlKey, 10);
+  let previous = '';
+  let next = '';
+  const pages = [];
+
+  if (pageOrUrlKey > 1) {
+    previous = (
+      <div className="previous">
+        <Link to={`/blog/${currentPage - 1}`}>
+          <div className="label">
+            <span className="arrow-left" />
+            Previous
+          </div>
+        </Link>
+      </div>
+    );
+  }
+
+  if (pageOrUrlKey < totalPages) {
+    next = (
+      <div className="next">
+        <Link to={`/blog/${currentPage + 1}`}>
+          <div className="label">
+            Next
+            <span className="arrow-right" />
+          </div>
+        </Link>
+      </div>
+    );
+  }
+
+  const pagesFrom = Math.max(pageOrUrlKey - range, 1);
+  const pagesTo = Math.min(pageOrUrlKey + range, totalPages);
+
+  for (let i = pagesFrom; i <= pagesTo; i += 1) {
+    pages.push(
+      <NavLink key={i} exact to={`/blog/${i}`}>
+        {i}
+      </NavLink>,
     );
   }
 
   return (
     <div className="pagination">
-      <div className="read-more">
-        <Link to="/blog">
-          <div className="label">
-            View More Entries
-            <span className="arrow-right" />
-          </div>
-        </Link>
-      </div>
+      {previous}
+      {pages}
+      {next}
     </div>
   );
 };
 
 Pagination.propTypes = {
-  pagination: PropTypes.shape({
-    previous: PropTypes.object,
-    next: PropTypes.object,
-    pages: PropTypes.array,
-  }).isRequired,
-};
-
-Pagination.defaultProps = {
-  pagination: {},
+  pageOrUrlKey: PropTypes.string.isRequired,
+  totalPages: PropTypes.number.isRequired,
 };
 
 export default Pagination;

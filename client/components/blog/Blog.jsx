@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 
 import Entry from './Entry';
+import Pagination from './Pagination';
 import Archive from './Archive';
 import Loading from '../Loading';
 
@@ -56,6 +57,10 @@ class Blog extends React.Component {
       <DocumentTitle title={title}>
         <main id="blog">
           {entries}
+          <Pagination
+            pageOrUrlKey={this.props.pageOrUrlKey}
+            totalPages={this.props.blog.totalPages}
+          />
           <div className="archive">
             {archive}
           </div>,
