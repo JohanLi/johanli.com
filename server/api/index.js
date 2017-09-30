@@ -1,37 +1,23 @@
 import express from 'express';
 import cache from '../cache';
-import blog from './models/blog';
+import blogModel from './models/blog';
 import sideProjects from './models/side-projects';
 import pokemonGoMap from './models/pokemon-go-map';
 
 const router = express.Router();
 
-router.get('/blog/archive', async (req, res) => {
-  const archive = await cache.remember('/blog/archive', () => blog.getArchive());
-
-  res.json(archive);
-});
-
-router.get('/blog/total-pages', async (req, res) => {
-  const entriesPerPage = 3;
-  const totalPages = await cache.remember('/blog/total-pages', () => blog.getTotalPages(entriesPerPage));
-
-  res.json(totalPages);
-});
-
 router.get('/blog/:pageOrUrlKey', async (req, res) => {
-  const entriesPerPage = 3;
-  let entries;
+  let blog;
 
   if (isNaN(req.params.pageOrUrlKey)) {
-    const page = req.params.pageOrUrlKey;
-    entries = await cache.remember(`/blog/${page}`, () => blog.getPage(page, entriesPerPage));
-  } else {
     const urlKey = req.params.pageOrUrlKey;
-    entries = await cache.remember(`/blog/${urlKey}`, () => blog.getByUrlKey(urlKey));
+    blog = await cache.remember(`/blog/${urlKey}`, () => blogModel.getByUrlKey(urlKey));
+  } else {
+    const page = req.params.pageOrUrlKey;
+    blog = await cache.remember(`/blog/${page}`, () => blogModel.getPage(page));
   }
 
-  res.json(entries);
+  res.json(blog);
 });
 
 router.get('/side-projects', async (req, res) => {

@@ -14,6 +14,11 @@ export default (window, document) => {
     preloadImage.src = zoomElement.getAttribute('data-zoom-src');
 
     preloadImage.onload = () => {
+      if (zoomElement.classList.contains('event-listener-attached')) {
+        return;
+      }
+
+      zoomElement.classList.add('event-listener-attached');
       zoomElement.addEventListener('click', () => zoom(preloadImage));
     };
   }

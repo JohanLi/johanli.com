@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { StaticRouter, matchPath } from 'react-router-dom';
+import { StaticRouter } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 import express from 'express';
 import cookieParser from 'cookie-parser';
@@ -10,8 +10,9 @@ import { promisify } from 'util';
 
 import './config';
 import App from '../client/components/App';
-import blogModel from './api/models/blog';
+
 import sideProjectsModel from './api/models/side-projects';
+import blog from './render/blog';
 import inlineCss from './render/inlineCss';
 import api from './api';
 
@@ -25,39 +26,6 @@ app.use(cookieParser());
 // served by nginx in production
 app.use(express.static(path.resolve(__dirname, 'public')));
 
-const getBlog = async (req) => {
-  const blog = {
-    entries: {},
-    pages: {},
-    pagination: {},
-  };
-
-  let pageOrUrlKey = 1;
-
-  const match = matchPath(req.url, {
-    path: '/blog/:pageOrUrlKey',
-  });
-
-  if (match) {
-    pageOrUrlKey = match.params.pageOrUrlKey;
-  }
-
-  const { entries, pagination } = await blogModel.getPage(pageOrUrlKey);
-  const blogPageRequested = !isNaN(pageOrUrlKey);
-
-  entries.forEach((entry) => {
-    blog.entries[entry.url] = entry;
-  });
-
-  if (blogPageRequested) {
-    blog.pages[pageOrUrlKey] = entries.map(entry => entry.url);
-  }
-
-  blog.pagination = pagination;
-
-  return blog;
-};
-
 app.get('*', async (req, res) => {
   const context = {};
 
@@ -67,8 +35,7 @@ app.get('*', async (req, res) => {
   );
 
   const appInitialState = {
-    blog: await getBlog(req),
-    archive: await blogModel.getArchive(),
+    blog: await blog(req),
     sideProjects: await sideProjectsModel.getAll(),
   };
 

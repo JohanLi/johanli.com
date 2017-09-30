@@ -2,6 +2,8 @@ import database from './database';
 import prismjsHighlight from '../helpers/prismjsHighlight';
 import imageContainer from '../helpers/imageContainer';
 
+const entriesPerPage = 3;
+
 const setPublished = entries => entries.map((entry) => {
   const date = new Date(entry.published * 1000);
 
@@ -37,7 +39,7 @@ const setArchive = (entries) => {
 };
 
 const blog = {
-  async getPage(page, entriesPerPage) {
+  async getPage(page) {
     const pageInteger = parseInt(page, 10);
 
     const offset = (pageInteger - 1) * entriesPerPage;
@@ -51,7 +53,11 @@ const blog = {
     entries = prismjsHighlight(entries);
     entries = imageContainer(entries);
 
-    return { entries };
+    return {
+      entries,
+      archive: await blog.getArchive(),
+      totalPages: await blog.getTotalPages(),
+    };
   },
 
   async getByUrlKey(urlKey) {
@@ -65,22 +71,24 @@ const blog = {
     entries = prismjsHighlight(entries);
     entries = imageContainer(entries);
 
-    return { entries };
+    return {
+      entries,
+      archive: await blog.getArchive(),
+      totalPages: await blog.getTotalPages(),
+    };
   },
 
   async getArchive() {
     let [entries] = await database.query('SELECT url, title, published FROM blog ORDER BY published DESC');
     entries = setPublished(entries);
+
     return setArchive(entries);
   },
 
-  async getTotalPages(entriesPerPage) {
+  async getTotalPages() {
     const [result] = await database.query('SELECT count(*) AS numberOfEntries FROM blog');
-    const totalPages = Math.ceil(result[0].numberOfEntries / entriesPerPage);
 
-    return {
-      totalPages,
-    };
+    return Math.ceil(result[0].numberOfEntries / entriesPerPage);
   },
 };
 

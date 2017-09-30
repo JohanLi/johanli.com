@@ -6,8 +6,12 @@ import LatestBlogEntries from './LatestBlogEntries';
 
 import personalPortrait from '../../../public/img/johan.jpg';
 
-const Home = ({ blog }) => {
+const Home = ({ blog, update }) => {
   const latestBlogEntries = blog.pages[1] || [];
+
+  if (latestBlogEntries.length === 0) {
+    update(1);
+  }
 
   const entries = latestBlogEntries.map(
     entryUrl => (<LatestBlogEntries key={entryUrl} entry={blog.entries[entryUrl]} />),
@@ -50,6 +54,7 @@ Home.propTypes = {
     entries: PropTypes.object,
     pages: PropTypes.object,
   }).isRequired,
+  update: PropTypes.func.isRequired,
 };
 
 export default Home;

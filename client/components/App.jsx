@@ -22,9 +22,14 @@ class App extends React.Component {
     };
   }
 
-  async componentDidMount() {
+  async updateBlog(pageOrUrlKey) {
     this.setState({
-      blog: await store.updateBlog(1),
+      blog: await store.updateBlog(pageOrUrlKey),
+    });
+  }
+
+  async updateSideProjects() {
+    this.setState({
       sideProjects: await store.updateSideProjects(),
     });
   }
@@ -36,22 +41,32 @@ class App extends React.Component {
         <Route
           exact
           path="/"
-          render={() => <Home blog={this.state.blog} />}
+          render={() => (
+            <Home
+              blog={this.state.blog}
+              update={pageOrUrlKey => this.updateBlog(pageOrUrlKey)}
+            />
+          )}
         />
         <Route
           path="/blog/:pageOrUrlKey?"
           render={({ match }) => (
             <Blog
               key={match.params.pageOrUrlKey}
-              blog={this.state.blog}
-              archive={this.props.archive}
               pageOrUrlKey={match.params.pageOrUrlKey}
+              blog={this.state.blog}
+              update={pageOrUrlKey => this.updateBlog(pageOrUrlKey)}
             />
           )}
         />
         <Route
           path="/side-projects"
-          render={() => <SideProjects projects={this.state.sideProjects} />}
+          render={() => (
+            <SideProjects
+              projects={this.state.sideProjects}
+              update={() => this.updateSideProjects()}
+            />
+          )}
         />
         <Footer />
         <ScrollToTop />
@@ -64,9 +79,9 @@ App.propTypes = {
   blog: PropTypes.shape({
     entries: PropTypes.object,
     pages: PropTypes.object,
-    pagination: PropTypes.object,
+    archive: PropTypes.array,
+    totalPages: PropTypes.number,
   }),
-  archive: PropTypes.arrayOf(PropTypes.object),
   sideProjects: PropTypes.arrayOf(PropTypes.object),
 };
 
@@ -74,9 +89,9 @@ App.defaultProps = {
   blog: {
     entries: {},
     pages: {},
-    pagination: {},
+    archive: [],
+    totalPages: 0,
   },
-  archive: [],
   sideProjects: [],
 };
 

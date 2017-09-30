@@ -25,42 +25,46 @@ const store = {
 
   isServer: () => typeof window === 'undefined',
 
-  getBlog: () => store.get('blog') || {
-    entries: {},
-    pages: {},
-    pagination: {},
-  },
+  getBlog: () => store.get('blog'),
 
   updateBlog: async (pageOrUrlKey) => {
-    const { entries, pagination } = await store.request(`/api/blog/${pageOrUrlKey}`);
-    const blog = store.getBlog();
+    const { entries, archive, totalPages } = await store.request(`/api/blog/${pageOrUrlKey}`);
+    const updatedBlog = {
+      entries: {},
+      pages: {},
+      archive,
+      totalPages,
+    };
 
     entries.forEach((entry) => {
-      blog.entries[entry.url] = entry;
+      updatedBlog.entries[entry.url] = entry;
     });
 
     if (store.blogPageRequested(pageOrUrlKey)) {
-      blog.pages[pageOrUrlKey] = entries.map(entry => entry.url);
+      updatedBlog.pages[pageOrUrlKey] = entries.map(entry => entry.url);
     }
 
-    blog.pagination = pagination;
-    store.set('blog', blog);
+    const blog = store.getBlog();
 
-    return blog;
+    if (!blog) {
+      store.set('blog', updatedBlog);
+      return updatedBlog;
+    }
+
+    const mergedBlog = {
+      entries: Object.assign(blog.entries, updatedBlog.entries),
+      pages: Object.assign(blog.pages, updatedBlog.pages),
+      archive: updatedBlog.archive,
+      totalPages: updatedBlog.totalPages,
+    };
+
+    store.set('blog', mergedBlog);
+    return mergedBlog;
   },
 
   blogPageRequested: pageOrUrlKey => !isNaN(pageOrUrlKey),
 
-  getBlogArchive: () => store.get('blogArchive') || [],
-
-  updateBlogArchive: async () => {
-    const blogArchive = await store.request('/api/blog/archive');
-    store.set('blogArchive', blogArchive);
-
-    return blogArchive;
-  },
-
-  getSideProjects: () => store.get('sideProjects') || [],
+  getSideProjects: () => store.get('sideProjects'),
 
   updateSideProjects: async () => {
     const sideProjects = await store.request('/api/side-projects');

@@ -6,33 +6,39 @@ import DocumentTitle from 'react-document-title';
 import Project from './Project';
 import PokemonGo from './PokemonGo';
 
-const SideProjects = (props) => {
-  const projects = [];
 
-  props.projects.forEach((project) => {
-    projects.push(<Project key={project.id} project={project} />);
-  });
+class SideProjects extends React.Component {
+  componentDidMount() {
+    this.props.update();
+  }
 
-  return (
-    <DocumentTitle title="Side Projects - Johan Li">
-      <main id="side-projects">
-        <Route
-          exact
-          path="/side-projects"
-          render={() => (
-            <div>
-              {projects}
-            </div>
-          )}
-        />
-        <Route exact path="/side-projects/pokemon-go" component={PokemonGo} />
-      </main>
-    </DocumentTitle>
-  );
-};
+  render() {
+    const projects = this.props.projects.map(
+      project => <Project key={project.id} project={project} />,
+    );
+
+    return (
+      <DocumentTitle title="Side Projects - Johan Li">
+        <main id="side-projects">
+          <Route
+            exact
+            path="/side-projects"
+            render={() => (
+              <div>
+                {projects}
+              </div>
+            )}
+          />
+          <Route exact path="/side-projects/pokemon-go" component={PokemonGo} />
+        </main>
+      </DocumentTitle>
+    );
+  }
+}
 
 SideProjects.propTypes = {
   projects: PropTypes.arrayOf(PropTypes.object).isRequired,
+  update: PropTypes.func.isRequired,
 };
 
 export default SideProjects;

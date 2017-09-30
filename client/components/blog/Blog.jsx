@@ -1,81 +1,64 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
-import store from '../../store';
 
 import Entry from './Entry';
-import Pagination from './Pagination';
 import Archive from './Archive';
 import Loading from '../Loading';
 
 import zoom from '../../js/zoom';
 
 class Blog extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      blog: store.getBlog() || props.blog,
-      archive: store.getBlogArchive() || props.archive,
-    };
+  componentDidMount() {
+    this.props.update(this.props.pageOrUrlKey);
+    zoom(window, document);
   }
 
-  async componentDidMount() {
-    this.setState({
-      blog: await store.updateBlog(this.props.pageOrUrlKey),
-      archive: await store.updateBlogArchive(),
-    });
-
+  componentDidUpdate() {
     zoom(window, document);
   }
 
   render() {
-    let title = 'Blog - Johan Li';
-
-    let entries;
-
     const blogPageRequested = !isNaN(this.props.pageOrUrlKey);
+    let title;
+    let entries = [];
 
     if (blogPageRequested) {
-      const pageEntries = this.state.blog.pages[this.props.pageOrUrlKey] || [];
-
-      entries = pageEntries.map(
-        entryUrl => (<Entry key={entryUrl} entry={this.state.blog.entries[entryUrl]} />),
+      title = 'Blog - Johan Li';
+      entries = this.props.blog.pages[this.props.pageOrUrlKey] || [];
+      entries = entries.map(
+        entryUrl => (<Entry key={entryUrl} entry={this.props.blog.entries[entryUrl]} />),
       );
-    } else if (this.state.blog.entries[this.props.pageOrUrlKey]) {
-      title = `${this.state.blog.entries[this.props.pageOrUrlKey].title} - Johan Li`;
-      entries = (
-        <Entry
-          key={this.state.blog.entries[this.props.pageOrUrlKey].url}
-          entry={this.state.blog.entries[this.props.pageOrUrlKey]}
-        />
+    } else {
+      const entry = this.props.blog.entries[this.props.pageOrUrlKey];
+
+      if (entry) {
+        title = `${entry.title} - Johan Li`;
+        entries = [
+          <Entry key={entry.url} entry={entry} />,
+        ];
+      }
+    }
+
+    if (entries.length === 0) {
+      return (
+        <main id="blog">
+          <Loading />
+        </main>
       );
     }
 
-    const archive = this.state.archive.map(
+    const archive = this.props.blog.archive.map(
       year => <Archive key={year.year} year={year} />,
     );
-
-    let content = [];
-
-    if (!entries || entries.length === 0) {
-      content = [
-        <Loading />,
-      ];
-    } else {
-      content = [
-        entries,
-        <Pagination pagination={this.state.blog.pagination} />,
-        <div className="archive">
-          {archive}
-        </div>,
-      ];
-    }
 
     return (
       <DocumentTitle title={title}>
         <main id="blog">
-          {content}
+          {entries}
+          <div className="archive">
+            {archive}
+          </div>,
         </main>
       </DocumentTitle>
     );
@@ -86,10 +69,11 @@ Blog.propTypes = {
   blog: PropTypes.shape({
     entries: PropTypes.object,
     pages: PropTypes.object,
+    archive: PropTypes.array,
+    totalPages: PropTypes.number,
   }).isRequired,
-  archive: PropTypes.arrayOf(PropTypes.object).isRequired,
+  update: PropTypes.func.isRequired,
   pageOrUrlKey: PropTypes.string,
-
 };
 
 Blog.defaultProps = {
