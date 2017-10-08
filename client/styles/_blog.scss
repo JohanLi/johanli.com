@@ -61,6 +61,18 @@
     }
   }
 
+  blockquote {
+    font-style: italic;
+    margin: 40px 20px;
+    padding: 0;
+    color: #999;
+
+    .quote-from {
+      margin-top: 10px;
+      text-align: right;
+    }
+  }
+
   @media #{$breakpoint-lg} {
 
     & {
