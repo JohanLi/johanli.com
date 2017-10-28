@@ -7,7 +7,7 @@ import Footer from '../client/components/Footer';
 describe('Footer', () => {
   const wrapper = shallow(<Footer />);
 
-  it('Contains up-to-date copyright', () => {
+  it('Shows up-to-date copyright', () => {
     const currentYear = new Date().getFullYear();
 
     assert.include(wrapper.find('.details').text(), `2016 - ${currentYear}`);

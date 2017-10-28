@@ -60,7 +60,7 @@ const Pagination = ({ pageOrUrlKey, totalPages }) => {
     const url = i === 1 ? '/blog' : `/blog/${i}`;
 
     pages.push(
-      <NavLink key={i} exact to={url}>
+      <NavLink key={i} exact to={url} className="page-link">
         {i}
       </NavLink>,
     );

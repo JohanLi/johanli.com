@@ -33,6 +33,11 @@ const sideProjects = {
   blogEntries: '',
 };
 
+const mapObjects = {
+  gyms: '',
+  pokestops: '',
+};
+
 
 describe('Api', () => {
   it('Responds to GET /api/blog/:pageOrUrlKey for page', (done) => {
@@ -81,13 +86,7 @@ describe('Api', () => {
       .end((err, res) => {
         assert.equal(err, null);
         assert.equal(res.statusCode, 200);
-        assert.hasAllKeys(
-          res.body,
-          [
-            'gyms',
-            'pokestops',
-          ],
-        );
+        assert.hasAllKeys(res.body, Object.keys(mapObjects));
         done();
       });
   });
