@@ -22,6 +22,14 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
+        query: {
+          babelrc: false,
+          presets: [
+            ['es2015', { modules: false }],
+            'react',
+            'stage-0',
+          ],
+        },
       },
       {
         test: /\.scss$/,
@@ -53,6 +61,7 @@ module.exports = {
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'defer',
     }),
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
   devtool: 'eval-source-map',
