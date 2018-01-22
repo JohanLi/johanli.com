@@ -62,7 +62,7 @@ const store = {
     return mergedBlog;
   },
 
-  blogPageRequested: pageOrUrlKey => !isNaN(pageOrUrlKey),
+  blogPageRequested: pageOrUrlKey => !Number.isNaN(pageOrUrlKey),
 
   getSideProjects: () => store.get('sideProjects'),
 

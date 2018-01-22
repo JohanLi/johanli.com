@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/blog/:pageOrUrlKey', async (req, res) => {
   let blog;
 
-  if (isNaN(req.params.pageOrUrlKey)) {
+  if (Number.isNaN(req.params.pageOrUrlKey)) {
     const urlKey = req.params.pageOrUrlKey;
     blog = await cache.remember(`/blog/${urlKey}`, () => blogModel.getByUrlKey(urlKey));
   } else {

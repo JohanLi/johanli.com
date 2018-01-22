@@ -3,7 +3,6 @@ import DocumentTitle from 'react-document-title';
 import map from '../../js/map';
 
 class PokemonGo extends React.Component {
-
   componentDidMount() {
     map(window, document);
 
