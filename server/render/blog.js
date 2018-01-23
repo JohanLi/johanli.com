@@ -24,7 +24,7 @@ export default async (req) => {
     return blog;
   }
 
-  const blogPageRequested = !Number.isNaN(match.params.pageOrUrlKey);
+  const blogPageRequested = /^[0-9]+$/.test(req.params.pageOrUrlKey);
 
   let requestedBlog = {
     entries: [],

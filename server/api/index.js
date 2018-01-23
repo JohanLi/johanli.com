@@ -9,12 +9,12 @@ const router = express.Router();
 router.get('/blog/:pageOrUrlKey', async (req, res) => {
   let blog;
 
-  if (Number.isNaN(req.params.pageOrUrlKey)) {
-    const urlKey = req.params.pageOrUrlKey;
-    blog = await cache.remember(`/blog/${urlKey}`, () => blogModel.getByUrlKey(urlKey));
-  } else {
+  if (/^[0-9]+$/.test(req.params.pageOrUrlKey)) {
     const page = req.params.pageOrUrlKey;
     blog = await cache.remember(`/blog/${page}`, () => blogModel.getPage(page));
+  } else {
+    const urlKey = req.params.pageOrUrlKey;
+    blog = await cache.remember(`/blog/${urlKey}`, () => blogModel.getByUrlKey(urlKey));
   }
 
   res.json(blog);

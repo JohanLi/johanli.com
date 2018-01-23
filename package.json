@@ -10,7 +10,7 @@
   "scripts": {
     "start": "npm-run-all --parallel dev:*",
     "dev:webpack": "webpack-dev-server",
-    "dev:nodemon": "nodemon server/apiOnly.js --exec babel-node",
+    "dev:nodemon": "nodemon server/apiOnly.js --exec babel-node --watch server",
     "lint": "eslint client/components server test --ext .js,.jsx",
     "test": "mocha --require babel-polyfill --compilers js:babel-register test/setup.js test/*.test.{js,jsx}",
     "build": "npm-run-all build:*",

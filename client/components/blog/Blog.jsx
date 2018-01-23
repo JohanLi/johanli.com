@@ -20,7 +20,7 @@ class Blog extends React.Component {
   }
 
   render() {
-    const blogPageRequested = !Number.isNaN(this.props.pageOrUrlKey);
+    const blogPageRequested = /^[0-9]+$/.test(this.props.pageOrUrlKey);
     let title;
     let entries = [];
 

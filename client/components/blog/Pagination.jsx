@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const range = 2;
 
 const Pagination = ({ pageOrUrlKey, totalPages }) => {
-  if (Number.isNaN(pageOrUrlKey)) {
+  if (!/^[0-9]+$/.test(pageOrUrlKey)) {
     return (
       <div className="pagination">
         <div className="read-more">
