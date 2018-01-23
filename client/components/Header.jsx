@@ -12,15 +12,7 @@ class Header extends React.Component {
     };
   }
 
-  toggle(event) {
-    if (event.key && event.key !== 'Enter') {
-      return;
-    }
-
-    if (event.type === 'click') {
-      event.target.blur();
-    }
-
+  toggle() {
     this.setState({
       active: !this.state.active,
       transition: true,
@@ -43,17 +35,14 @@ class Header extends React.Component {
     return (
       <header className={headerClass}>
         <div className="navbar">
-          <a
+          <button
             className="hamburger-menu"
-            onClick={event => this.toggle(event)}
-            onKeyPress={event => this.toggle(event)}
-            tabIndex="0"
-            role="button"
+            onClick={event => this.toggle()}
           >
             <div className="top" />
             <div className="mid" />
             <div className="bottom" />
-          </a>
+          </button>
           <div className="logo">
             <Link to="/" className="logo">Johan Li</Link>
           </div>
