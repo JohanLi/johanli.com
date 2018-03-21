@@ -1,0 +1,43 @@
+@import '../variables';
+
+.links {
+  margin-top: 30px;
+
+  > div:last-child ul {
+    margin-bottom: 0;
+  }
+
+  a {
+    color: #41b7d8;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      border-bottom-color: #41b7d8;
+    }
+  }
+}
+
+@media #{$breakpoint-lg} {
+  .links {
+    padding-right: 30px;
+    width: calc(100% - 600px);
+  }
+
+  .image-container {
+    width: 600px;
+    order: 1;
+  }
+}
+
+@media #{$breakpoint-xl} {
+  .links {
+    width: 770px;
+    padding-right: 60px;
+    display: flex;
+
+    > div:first-child {
+      margin-right: 60px;
+    }
+  }
+}

@@ -1,0 +1,41 @@
+@import '../variables';
+
+.project {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #eee;
+  margin: 30px 0;
+  padding-bottom: 30px;
+
+  &:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+  }
+}
+
+.content {
+  .title {
+    display: flex;
+    margin-bottom: 20px;
+
+    .status-container {
+      margin-left: auto;
+      padding-left: 15px;
+    }
+  }
+
+  .description {
+    white-space: pre-wrap;
+  }
+}
+
+@media #{$breakpoint-xl} {
+  .project {
+    position: relative;
+  }
+
+  .content {
+    width: 770px;
+    padding-right: 60px;
+  }
+}

@@ -33,7 +33,23 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: ['style-loader', 'css-loader', 'sass-loader'],
+        loader: 'style-loader',
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[path][name]__[local]--[hash:base64:5]',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.scss$/,
+        loader: 'sass-loader',
       },
       {
         test: /\.(png|gif|jpg)/,

@@ -6,7 +6,7 @@ import store from '../store';
 import Header from './Header';
 import Home from './home/Home';
 import Blog from './blog/Blog';
-import SideProjects from './sideProjects/SideProjects';
+import SideProjects from '../../src/components/sideProjects/SideProjects';
 import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';
 

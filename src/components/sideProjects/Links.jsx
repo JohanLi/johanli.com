@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { Link } from 'react-router-dom';
+
+import styles from './links.scss';
 
 const isInternal = url => url[0] === '/';
 
@@ -58,7 +59,7 @@ const Links = ({ project }) => {
   }
 
   return (
-    <div className="links">
+    <div className={styles.links}>
       {links}
       {blogEntries}
     </div>

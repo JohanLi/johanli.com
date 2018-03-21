@@ -5,7 +5,7 @@ import DocumentTitle from 'react-document-title';
 
 import Project from './Project';
 import PokemonGo from './PokemonGo';
-
+import styles from './sideProjects.scss';
 
 class SideProjects extends React.Component {
   componentDidMount() {
@@ -19,7 +19,7 @@ class SideProjects extends React.Component {
 
     return (
       <DocumentTitle title="Side Projects - Johan Li">
-        <main id="side-projects">
+        <main className={styles['side-projects']}>
           <Route
             exact
             path="/side-projects"

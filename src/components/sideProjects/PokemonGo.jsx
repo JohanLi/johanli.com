@@ -1,6 +1,7 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
-import map from '../../js/map';
+import map from '../../../client/js/map';
+import styles from './pokemonGo.scss';
 
 class PokemonGo extends React.Component {
   componentDidMount() {
@@ -16,10 +17,10 @@ class PokemonGo extends React.Component {
   render() {
     return (
       <DocumentTitle title="Pokestops and Gyms in Stockholm - Johan Li">
-        <div id="pokemon-go">
+        <div className={styles['pokemon-go']}>
           <h2>Pokestops and Gyms in Stockholm</h2>
-          <div className="map" />
-          <div className="controls">
+          <div className={styles.map} />
+          <div className={styles.controls}>
             <label htmlFor="pokestops">
               <input id="pokestops" type="checkbox" defaultChecked />
               Pokestops
