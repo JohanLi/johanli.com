@@ -5,7 +5,7 @@ import DocumentTitle from 'react-document-title';
 import Entry from './Entry';
 import Pagination from './Pagination';
 import Archive from './Archive';
-import Loading from '../Loading';
+import Loading from '../../../src/components/Loading';
 
 import zoom from '../../js/zoom';
 

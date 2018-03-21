@@ -3,6 +3,7 @@
 
 import React from 'react';
 
+import styles from './footer.scss';
 import emailIcon from '../../public/img/email.svg';
 import githubIcon from '../../public/img/github.svg';
 
@@ -18,11 +19,11 @@ const Footer = () => {
   `;
 
   return (
-    <footer>
-      <div className="details">
+    <footer className={styles.footer}>
+      <div className={styles.details}>
         © 2016 - {currentYear} Johan Li
       </div>
-      <div className="links">
+      <div className={styles.links}>
         <a
           href="mailto:johan@johanli.com"
           dangerouslySetInnerHTML={{ __html: email }}

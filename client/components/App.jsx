@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import store from '../store';
 
-import Header from './Header';
+import Header from '../../src/components/Header';
 import Home from './home/Home';
 import Blog from './blog/Blog';
 import SideProjects from '../../src/components/sideProjects/SideProjects';
-import Footer from './Footer';
-import ScrollToTop from './ScrollToTop';
+import Footer from '../../src/components/Footer';
+import ScrollToTop from '../../src/components/ScrollToTop';
 
 import '../styles/index.scss';
 

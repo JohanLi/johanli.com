@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 
+import styles from './header.scss';
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -28,50 +30,51 @@ class Header extends React.Component {
 
   render() {
     const headerClass = classNames({
-      active: this.state.active,
-      transition: this.state.transition,
+      [styles.header]: true,
+      [styles.active]: this.state.active,
+      [styles.transition]: this.state.transition,
     });
 
     return (
       <header className={headerClass}>
-        <div className="navbar">
+        <div className={styles.navbar}>
           <button
-            className="hamburger-menu"
+            className={styles['hamburger-menu']}
             onClick={event => this.toggle()}
           >
-            <div className="top" />
-            <div className="mid" />
-            <div className="bottom" />
+            <div className={styles.top} />
+            <div className={styles.mid} />
+            <div className={styles.bottom} />
           </button>
-          <div className="logo">
-            <Link to="/" className="logo">Johan Li</Link>
+          <div className={styles.logo}>
+            <Link to="/" className={styles.logo}>Johan Li</Link>
           </div>
         </div>
-        <nav className="link-menu">
-          <ul className="links">
-            <li className="link">
+        <nav className={styles['link-menu']}>
+          <ul className={styles.links}>
+            <li className={styles.link}>
               <NavLink
                 exact
                 to="/"
-                activeClassName="active"
+                activeClassName={styles.active}
                 onClick={() => this.navigate()}
               >
                 Home
               </NavLink>
             </li>
-            <li className="link">
+            <li className={styles.link}>
               <NavLink
                 to="/blog"
-                activeClassName="active"
+                activeClassName={styles.active}
                 onClick={() => this.navigate()}
               >
                 Blog
               </NavLink>
             </li>
-            <li className="link">
+            <li className={styles.link}>
               <NavLink
                 to="/side-projects"
-                activeClassName="active"
+                activeClassName={styles.active}
                 onClick={() => this.navigate()}
               >
                 Side Projects

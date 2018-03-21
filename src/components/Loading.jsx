@@ -3,11 +3,12 @@
 
 import React from 'react';
 
+import styles from './loading.scss';
 import loadingIcon from '../../public/img/loading.svg';
 
 const Loading = () => (
   <div
-    className="loading"
+    className={styles.loading}
     dangerouslySetInnerHTML={{ __html: loadingIcon }}
   />
 );
