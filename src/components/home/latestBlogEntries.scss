@@ -1,0 +1,30 @@
+@import '../variables';
+
+.entry {
+  display: block;
+  text-decoration: none;
+  border-bottom: 0;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+  color: #222;
+
+  &:last-child {
+    border-bottom-color: transparent;
+  }
+}
+
+.title {
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+.excerpt {
+  margin-top: 5px;
+}
+
+@media #{$breakpoint-lg} {
+  .entry {
+    padding: 30px 0;
+  }
+}

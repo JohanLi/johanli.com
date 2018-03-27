@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
-import store from '../store';
+import store from '../../client/store';
 
-import Header from '../../src/components/Header';
+import Header from './Header';
 import Home from './home/Home';
-import Blog from './blog/Blog';
+import Blog from '../../client/components/blog/Blog';
 import SideProjects from '../../src/components/sideProjects/SideProjects';
 import Footer from '../../src/components/Footer';
 import ScrollToTop from '../../src/components/ScrollToTop';
 
-import '../styles/index.scss';
+import styles from './app.scss';
 
 class App extends React.Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div id="app">
+      <div className={styles.app}>
         <Header />
         <Route
           exact

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 
 import LatestBlogEntries from './LatestBlogEntries';
+import styles from './home.scss';
 
 import personalPortrait from '../../../public/img/johan.jpg';
 
@@ -19,11 +20,11 @@ const Home = ({ blog, update }) => {
 
   return (
     <DocumentTitle title="Johan Li - Web Developer">
-      <div id="home">
-        <div className="banner" />
+      <div className={styles.home}>
+        <div className={styles.banner} />
         <main>
-          <div className="about-me clearfix">
-            <div className="image-container">
+          <div className={`${styles['about-me']} clearfix`}>
+            <div className={styles['image-container']}>
               <div style={{ paddingBottom: '100%' }}>
                 <img src={personalPortrait} alt="Johan Li" />
               </div>
@@ -39,7 +40,7 @@ const Home = ({ blog, update }) => {
               the future.
             </p>
           </div>
-          <div className="latest-blog">
+          <div className={styles['latest-blog']}>
             <h2>Latest Blog Entries</h2>
             {entries}
           </div>

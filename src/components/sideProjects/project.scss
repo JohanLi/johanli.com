@@ -29,6 +29,24 @@
   }
 }
 
+.image-container {
+  width: 100%;
+  margin-top: 30px;
+
+  &:hover {
+    border: 0;
+  }
+}
+
+@import '../imageContainer.scss';
+
+@media #{$breakpoint-lg} {
+  .image-container {
+    width: 600px;
+    order: 1;
+  }
+}
+
 @media #{$breakpoint-xl} {
   .project {
     position: relative;
@@ -37,5 +55,12 @@
   .content {
     width: 770px;
     padding-right: 60px;
+  }
+
+  .image-container {
+    margin-top: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }

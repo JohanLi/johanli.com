@@ -23,11 +23,6 @@
     padding-right: 30px;
     width: calc(100% - 600px);
   }
-
-  .image-container {
-    width: 600px;
-    order: 1;
-  }
 }
 
 @media #{$breakpoint-xl} {
