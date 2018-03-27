@@ -38,7 +38,7 @@
   }
 }
 
-@import '../imageContainer.scss';
+@import '../imageContainer';
 
 @media #{$breakpoint-lg} {
   .image-container {

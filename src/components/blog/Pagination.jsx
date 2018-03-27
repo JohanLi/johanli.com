@@ -2,17 +2,19 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import styles from './pagination.scss';
+
 const range = 2;
 
 const Pagination = ({ pageOrUrlKey, totalPages }) => {
   if (!/^[0-9]+$/.test(pageOrUrlKey)) {
     return (
-      <div className="pagination">
-        <div className="read-more">
+      <div className={styles.pagination}>
+        <div className={styles['read-more']}>
           <Link to="/blog">
-            <div className="label">
+            <div className={styles.label}>
               View More Entries
-              <span className="arrow-right" />
+              <span className={styles['arrow-right']} />
             </div>
           </Link>
         </div>
@@ -29,10 +31,10 @@ const Pagination = ({ pageOrUrlKey, totalPages }) => {
     const url = currentPage === 2 ? '/blog' : `/blog/${currentPage - 1}`;
 
     previous = (
-      <div className="previous">
+      <div className={styles.previous}>
         <Link to={url}>
-          <div className="label">
-            <span className="arrow-left" />
+          <div className={styles.label}>
+            <span className={styles['arrow-left']} />
             Previous
           </div>
         </Link>
@@ -42,11 +44,11 @@ const Pagination = ({ pageOrUrlKey, totalPages }) => {
 
   if (currentPage < totalPages) {
     next = (
-      <div className="next">
+      <div className={styles.next}>
         <Link to={`/blog/${currentPage + 1}`}>
-          <div className="label">
+          <div className={styles.label}>
             Next
-            <span className="arrow-right" />
+            <span className={styles['arrow-right']} />
           </div>
         </Link>
       </div>
@@ -60,14 +62,14 @@ const Pagination = ({ pageOrUrlKey, totalPages }) => {
     const url = i === 1 ? '/blog' : `/blog/${i}`;
 
     pages.push(
-      <NavLink key={i} exact to={url} className="page-link">
+      <NavLink key={i} exact to={url} className={styles['page-link']}>
         {i}
       </NavLink>,
     );
   }
 
   return (
-    <div className="pagination">
+    <div className={styles.pagination}>
       {previous}
       {pages}
       {next}

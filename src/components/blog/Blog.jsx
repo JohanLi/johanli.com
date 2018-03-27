@@ -7,7 +7,8 @@ import Pagination from './Pagination';
 import Archive from './Archive';
 import Loading from '../../../src/components/Loading';
 
-import zoom from '../../js/zoom';
+import zoom from '../../../client/js/zoom';
+import './blog.scss';
 
 class Blog extends React.Component {
   componentDidMount() {

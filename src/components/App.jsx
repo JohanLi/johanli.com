@@ -5,10 +5,10 @@ import store from '../../client/store';
 
 import Header from './Header';
 import Home from './home/Home';
-import Blog from '../../client/components/blog/Blog';
-import SideProjects from '../../src/components/sideProjects/SideProjects';
-import Footer from '../../src/components/Footer';
-import ScrollToTop from '../../src/components/ScrollToTop';
+import Blog from './blog/Blog';
+import SideProjects from './sideProjects/SideProjects';
+import Footer from './Footer';
+import ScrollToTop from './ScrollToTop';
 
 import styles from './app.scss';
 
