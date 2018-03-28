@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
-import store from '../../client/store';
+import store from '../store';
 
 import Header from './Header';
 import Home from './home/Home';

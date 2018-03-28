@@ -60,7 +60,7 @@ module.exports = [
     entry: [
       'babel-polyfill',
       'whatwg-fetch',
-      './client/index',
+      './src/index',
     ],
     output: {
       path: path.resolve(__dirname, 'build'),

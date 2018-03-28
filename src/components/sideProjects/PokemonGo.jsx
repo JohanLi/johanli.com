@@ -1,6 +1,6 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
-import map from '../../../client/js/map';
+import map from '../../js/map';
 import styles from './pokemonGo.scss';
 
 class PokemonGo extends React.Component {

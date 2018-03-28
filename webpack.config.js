@@ -9,7 +9,7 @@ module.exports = {
     'babel-polyfill',
     'whatwg-fetch',
     'react-hot-loader/patch',
-    './client/index',
+    './src/index',
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
