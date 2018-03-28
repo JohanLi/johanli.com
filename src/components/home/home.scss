@@ -4,26 +4,30 @@
   width: 100%;
 
   .banner {
-    background: url('../../../public/img/fukuoka640.jpg') no-repeat,
+    background:
+      url('../../../public/img/fukuoka640.jpg') no-repeat,
       linear-gradient(to bottom, #a9c7e2 12.5%, #6a96b4 37.5%, #4d7388 62.5%, #807c62 87.5%);
     background-size: contain;
     width: 100%;
     padding-bottom: 68.75%; // width / height of background image, with the last digit rounded up
 
     @media #{$breakpoint-sm} {
-      background-image: url('../../../public/img/fukuoka1024.jpg'),
+      background-image:
+        url('../../../public/img/fukuoka1024.jpg'),
         linear-gradient(to bottom, #a1c1de 12.5%, #5f89a5 37.5%, #446778 62.5%, #61624d 87.5%);
       padding-bottom: 42.97%;
     }
 
     @media #{$breakpoint-lg} {
-      background-image: url('../../../public/img/fukuoka1400.jpg'),
+      background-image:
+        url('../../../public/img/fukuoka1400.jpg'),
         linear-gradient(to bottom, #87afcd 12.5%, #5c859f 37.5%, #3f6985 62.5%, #56614d 87.5%);
       padding-bottom: 31.43%;
     }
 
     @media #{$breakpoint-xl} {
-      background-image: url('../../../public/img/fukuoka1920.jpg'),
+      background-image:
+        url('../../../public/img/fukuoka1920.jpg'),
         linear-gradient(to bottom, #6694b3 12.5%, #5d849e 37.5%, #3f6987 62.5%, #496565 87.5%);
       padding-bottom: 22.92%;
     }

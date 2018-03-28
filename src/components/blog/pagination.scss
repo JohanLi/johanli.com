@@ -13,7 +13,8 @@
     }
   }
 
-  .previous, .next {
+  .previous,
+  .next {
     flex: 1;
     max-width: 20%;
 
@@ -31,7 +32,8 @@
     text-align: right;
   }
 
-  .arrow-left, .arrow-right {
+  .arrow-left,
+  .arrow-right {
     width: 0;
     height: 0;
     border-top: 5px solid transparent;
