@@ -17,7 +17,7 @@ class PokemonGo extends React.Component {
   render() {
     return (
       <DocumentTitle title="Pokestops and Gyms in Stockholm - Johan Li">
-        <div className={styles['pokemon-go']}>
+        <div className={styles.pokemonGo}>
           <h2>Pokestops and Gyms in Stockholm</h2>
           <div className={styles.map} />
           <div className={styles.controls}>

@@ -21,15 +21,15 @@ describe('ImageContainer', () => {
   const modifiedEntries = imageContainer(entries, __dirname);
 
   it('Parses one image', () => {
-    assert.include(modifiedEntries[0].html, '<div class="image-container" style="width: 60px;">');
+    assert.include(modifiedEntries[0].html, '<div class="imageContainer" style="width: 60px;">');
     assert.include(modifiedEntries[0].html, '<div style="padding-bottom: 50%">');
   });
 
   it('Parses multiple images', () => {
-    assert.include(modifiedEntries[1].html, '<div class="image-container" style="width: 20px;">');
+    assert.include(modifiedEntries[1].html, '<div class="imageContainer" style="width: 20px;">');
     assert.include(modifiedEntries[1].html, '<div style="padding-bottom: 250%">');
 
-    assert.include(modifiedEntries[1].html, '<div class="image-container" style="width: 40px;">');
+    assert.include(modifiedEntries[1].html, '<div class="imageContainer" style="width: 40px;">');
     assert.include(modifiedEntries[1].html, '<div style="padding-bottom: 25%">');
   });
 

@@ -27,7 +27,7 @@ export default (window, document) => {
     const zoomContainer = document.createElement('div');
     const overlay = document.createElement('div');
 
-    zoomContainer.className = 'zoom-container';
+    zoomContainer.className = 'zoomContainer';
     overlay.className = 'overlay';
 
     zoomContainer.appendChild(overlay);
@@ -37,7 +37,7 @@ export default (window, document) => {
     // window.getComputedStyle(overlay).opacity;
     overlay.classList.add('fade');
 
-    document.querySelector('.zoom-container').addEventListener('click', unzoom);
+    document.querySelector('.zoomContainer').addEventListener('click', unzoom);
     window.addEventListener('scroll', unzoom);
     window.addEventListener('keyup', unzoom);
   }
@@ -47,7 +47,7 @@ export default (window, document) => {
       return;
     }
 
-    const zoomContainer = document.querySelector('.zoom-container');
+    const zoomContainer = document.querySelector('.zoomContainer');
     zoomContainer.parentNode.removeChild(zoomContainer);
 
     window.removeEventListener('scroll', unzoom);

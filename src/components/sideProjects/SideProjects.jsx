@@ -19,7 +19,7 @@ class SideProjects extends React.Component {
 
     return (
       <DocumentTitle title="Side Projects - Johan Li">
-        <main className={styles['side-projects']}>
+        <main className={styles.sideProjects}>
           <Route
             exact
             path="/side-projects"

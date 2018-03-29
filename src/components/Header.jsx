@@ -39,7 +39,7 @@ class Header extends React.Component {
       <header className={headerClass}>
         <div className={styles.navbar}>
           <button
-            className={styles['hamburger-menu']}
+            className={styles.hamburgerMenu}
             onClick={event => this.toggle()}
           >
             <div className={styles.top} />
@@ -50,7 +50,7 @@ class Header extends React.Component {
             <Link to="/" className={styles.logo}>Johan Li</Link>
           </div>
         </div>
-        <nav className={styles['link-menu']}>
+        <nav className={styles.linkMenu}>
           <ul className={styles.links}>
             <li className={styles.link}>
               <NavLink

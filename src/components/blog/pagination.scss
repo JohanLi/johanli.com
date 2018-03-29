@@ -2,7 +2,7 @@
   display: flex;
   margin-bottom: 60px;
 
-  .page-link {
+  .pageLink {
     flex: 1;
     text-align: center;
     max-width: 20%;
@@ -29,8 +29,8 @@
     text-align: right;
   }
 
-  .arrow-left,
-  .arrow-right {
+  .arrowLeft,
+  .arrowRight {
     width: 0;
     height: 0;
     border-top: 5px solid transparent;
@@ -38,17 +38,17 @@
     display: inline-block;
   }
 
-  .arrow-left {
+  .arrowLeft {
     border-right: 5px solid #aaa;
     margin-right: 8px;
   }
 
-  .arrow-right {
+  .arrowRight {
     border-left: 5px solid #aaa;
     margin-left: 8px;
   }
 
-  .read-more {
+  .readMore {
     margin-left: auto;
 
     a {

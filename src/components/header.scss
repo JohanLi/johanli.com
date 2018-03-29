@@ -16,7 +16,7 @@
     left: 0;
   }
 
-  .hamburger-menu {
+  .hamburgerMenu {
     position: absolute;
     height: 60px;
     width: 68px;
@@ -57,7 +57,7 @@
     }
   }
 
-  .link-menu {
+  .linkMenu {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -100,7 +100,7 @@
       transform: translateY(-8px) rotate(135deg);
     }
 
-    .link-menu {
+    .linkMenu {
       transform: translateY(0);
     }
   }
@@ -112,7 +112,7 @@
       transition: transform 0.25s cubic-bezier(0.05, 1.04, 0.72, 0.98);
     }
 
-    .link-menu {
+    .linkMenu {
       transition: transform 0.35s cubic-bezier(0.05, 1.04, 0.72, 0.98);
     }
   }
@@ -125,11 +125,11 @@
       width: auto;
     }
 
-    .hamburger-menu {
+    .hamburgerMenu {
       display: none;
     }
 
-    .link-menu {
+    .linkMenu {
       position: static;
       transform: none;
       transition: none;

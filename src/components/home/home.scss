@@ -37,10 +37,10 @@
     margin: 0 auto;
   }
 
-  .about-me {
+  .aboutMe {
     padding: 25px 0 15px 0;
 
-    .image-container {
+    .imageContainer {
       min-width: 100px;
       max-width: 200px;
       width: 33%;
@@ -60,7 +60,7 @@
     }
 
     @media #{$breakpoint-sm} {
-      .image-container {
+      .imageContainer {
         margin: 0 0 30px 30px;
       }
     }
@@ -70,7 +70,7 @@
       width: 50%;
       float: right;
 
-      .image-container {
+      .imageContainer {
         margin: 0 0 40px 40px;
       }
     }
@@ -78,14 +78,14 @@
     @media #{$breakpoint-xl} {
       width: 60%;
 
-      .image-container {
+      .imageContainer {
         margin: 0 0 60px 60px;
         max-width: 400px;
       }
     }
   }
 
-  .latest-blog {
+  .latestBlog {
     h2 {
       font-size: 18px;
       margin: 0;

@@ -11,7 +11,7 @@ const Project = ({ project }) => (
     <div className={styles.content}>
       <div className={styles.title}>
         <h2>{project.name}</h2>
-        <div className={styles['status-container']}>
+        <div className={styles.statusContainer}>
           <Status key={project.id} state={project.state} />
         </div>
       </div>
@@ -19,7 +19,7 @@ const Project = ({ project }) => (
         {project.description}
       </div>
     </div>
-    <a className={styles['image-container']} href={project.homepage_url}>
+    <a className={styles.imageContainer} href={project.homepage_url}>
       <div style={{ paddingBottom: '50%' }}>
         <img src={project.image_url} alt={project.name} />
       </div>

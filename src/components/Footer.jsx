@@ -17,13 +17,13 @@ const Footer = () => {
           href="mailto:johan@johanli.com"
         >
           <EmailIcon />
-          <div className={styles['icon-text']}>johan@johanli.com</div>
+          <div className={styles.iconText}>johan@johanli.com</div>
         </a>
         <a
           href="https://github.com/JohanLi"
         >
           <GithubIcon />
-          <div className={styles['icon-text']}>JohanLi</div>
+          <div className={styles.iconText}>JohanLi</div>
         </a>
       </div>
     </footer>

@@ -12,7 +12,7 @@ const Status = (props) => {
   } else if (props.state === 1) {
     status = <div className={classNames(styles.status, styles.complete)}>Complete</div>;
   } else if (props.state === 2) {
-    status = <div className={classNames(styles.status, styles['in-progress'])}>In Progress</div>;
+    status = <div className={classNames(styles.status, styles.inProgress)}>In Progress</div>;
   }
 
   return status;

@@ -23,8 +23,8 @@ const Home = ({ blog, update }) => {
       <div className={styles.home}>
         <div className={styles.banner} />
         <main>
-          <div className={`${styles['about-me']} clearfix`}>
-            <div className={styles['image-container']}>
+          <div className={`${styles.aboutMe} clearfix`}>
+            <div className={styles.imageContainer}>
               <div style={{ paddingBottom: '100%' }}>
                 <img src={personalPortrait} alt="Johan Li" />
               </div>
@@ -40,7 +40,7 @@ const Home = ({ blog, update }) => {
               the future.
             </p>
           </div>
-          <div className={styles['latest-blog']}>
+          <div className={styles.latestBlog}>
             <h2>Latest Blog Entries</h2>
             {entries}
           </div>

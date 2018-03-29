@@ -41,7 +41,7 @@
       color: #ccc;
       text-align: center;
 
-      .image-container,
+      .imageContainer,
       pre {
         max-width: 100%;
         height: auto;
@@ -178,7 +178,7 @@
     }
   }
 
-  @import 'image-zoom';
+  @import 'imageZoom';
   @import 'prism';
   @import '../imageContainer';
 }

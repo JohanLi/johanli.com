@@ -10,11 +10,11 @@ const Pagination = ({ pageOrUrlKey, totalPages }) => {
   if (!/^[0-9]+$/.test(pageOrUrlKey)) {
     return (
       <div className={styles.pagination}>
-        <div className={styles['read-more']}>
+        <div className={styles.readMore}>
           <Link to="/blog">
             <div className={styles.label}>
               View More Entries
-              <span className={styles['arrow-right']} />
+              <span className={styles.arrowRight} />
             </div>
           </Link>
         </div>
@@ -34,7 +34,7 @@ const Pagination = ({ pageOrUrlKey, totalPages }) => {
       <div className={styles.previous}>
         <Link to={url}>
           <div className={styles.label}>
-            <span className={styles['arrow-left']} />
+            <span className={styles.arrowLeft} />
             Previous
           </div>
         </Link>
@@ -48,7 +48,7 @@ const Pagination = ({ pageOrUrlKey, totalPages }) => {
         <Link to={`/blog/${currentPage + 1}`}>
           <div className={styles.label}>
             Next
-            <span className={styles['arrow-right']} />
+            <span className={styles.arrowRight} />
           </div>
         </Link>
       </div>
@@ -66,7 +66,7 @@ const Pagination = ({ pageOrUrlKey, totalPages }) => {
         key={i}
         exact to={url}
         activeClassName={styles.active}
-        className={styles['page-link']}
+        className={styles.pageLink}
       >
         {i}
       </NavLink>,
