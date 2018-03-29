@@ -56,7 +56,7 @@ class Blog extends React.Component {
 
     return (
       <DocumentTitle title={title}>
-        <main id="blog">
+        <main className="blog">
           {entries}
           <Pagination
             pageOrUrlKey={this.props.pageOrUrlKey}
