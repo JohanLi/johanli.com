@@ -9,7 +9,7 @@ import path from 'path';
 import { promisify } from 'util';
 
 import './config';
-import App from '../client/components/App';
+import App from '../src/components/App';
 
 import sideProjectsModel from './api/models/side-projects';
 import blog from './render/blog';

@@ -1,11 +1,13 @@
 import React from 'react';
-import { hydrate } from 'react-dom';
+import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { BrowserRouter } from 'react-router-dom';
 import App from './components/App';
 
 const render = (Component) => {
-  hydrate(
+  const method = module.hot ? ReactDOM.render : ReactDOM.hydrate;
+
+  method(
     <AppContainer>
       <BrowserRouter>
         <Component {...window.APP_INITIAL_STATE} />

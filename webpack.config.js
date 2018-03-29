@@ -33,11 +33,10 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: 'style-loader',
-      },
-      {
-        test: /\.scss$/,
         use: [
+          {
+            loader: "style-loader"
+          },
           {
             loader: 'css-loader',
             options: {
@@ -45,11 +44,10 @@ module.exports = {
               localIdentName: '[path][name]__[local]--[hash:base64:5]',
             },
           },
+          {
+            loader: "sass-loader"
+          }
         ],
-      },
-      {
-        test: /\.scss$/,
-        loader: 'sass-loader',
       },
       {
         test: /\.(png|gif|jpg)/,
