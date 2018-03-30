@@ -71,7 +71,7 @@ module.exports = [
       extensions: ['.js', '.jsx'],
     },
     plugins: [
-      new ExtractTextPlugin('styles-[contenthash].css'),
+      new ExtractTextPlugin('styles-[hash].css'),
     ],
     target: 'node',
     node: {
@@ -139,7 +139,7 @@ module.exports = [
       extensions: ['.js', '.jsx'],
     },
     plugins: [
-      new ExtractTextPlugin('styles-[contenthash].css'),
+      new ExtractTextPlugin('styles-[hash].css'),
       new HtmlWebpackPlugin({
         favicon: './public/img/favicon.ico',
         template: './public/index.html',

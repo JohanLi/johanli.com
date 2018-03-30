@@ -2,7 +2,7 @@ import React from 'react';
 import { assert } from 'chai';
 import { shallow } from 'enzyme';
 
-import Footer from '../client/components/Footer';
+import Footer from '../src/components/Footer';
 
 describe('Footer', () => {
   const wrapper = shallow(<Footer />);

@@ -3,7 +3,7 @@ import { assert } from 'chai';
 import { shallow, render } from 'enzyme';
 import { StaticRouter } from 'react-router-dom';
 
-import Pagination from '../client/components/blog/Pagination';
+import Pagination from '../src/components/blog/Pagination';
 
 describe('Pagination', () => {
   it('Shows View More Entries if a single entry is loaded', () => {
@@ -94,7 +94,7 @@ describe('Pagination', () => {
         />,
       );
 
-      assert.equal(wrapper.find('.page-link').length, testCase.expectedPageLinks);
+      assert.equal(wrapper.find('.pageLink').length, testCase.expectedPageLinks);
     });
   });
 
