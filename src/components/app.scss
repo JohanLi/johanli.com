@@ -1,0 +1,87 @@
+@import './variables';
+
+:global {
+  @font-face {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 400;
+    src:
+      url(https://fonts.gstatic.com/s/roboto/v15/CWB0XYA8bzo0kSThX0UTuA.woff2) format('woff2'),
+      url(https://fonts.gstatic.com/s/roboto/v15/2UX7WLTfW3W8TclTUvlFyQ.woff) format('woff');
+  }
+
+  @font-face {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    src:
+      url(https://fonts.gstatic.com/s/roboto/v15/RxZJdnzeo3R5zSexge8UUVtXRa8TVwTICgirnJhmVJw.woff2) format('woff2'),
+      url(https://fonts.gstatic.com/s/roboto/v15/RxZJdnzeo3R5zSexge8UUT8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+  }
+
+  @font-face {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 700;
+    src:
+      url(https://fonts.gstatic.com/s/roboto/v15/d-6IYplOFocCacKzxwXSOFtXRa8TVwTICgirnJhmVJw.woff2) format('woff2'),
+      url(https://fonts.gstatic.com/s/roboto/v15/d-6IYplOFocCacKzxwXSOD8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0;
+    padding: 0;
+    color: #000;
+    overflow-y: scroll;
+  }
+
+  .fontLoaded body {
+    font-family: Roboto, sans-serif;
+  }
+
+  .clearfix {
+    &::before,
+    &::after {
+      display: table;
+      content: ' ';
+    }
+
+    &::after {
+      clear: both;
+    }
+  }
+
+  main {
+    flex: 1 0 auto;
+    width: 100%;
+    padding: 0 15px 30px;
+
+    @media #{$breakpoint-sm} {
+      padding: 0 30px;
+    }
+
+    @media #{$breakpoint-lg} {
+      max-width: 1200px;
+      padding: 40px 15px 60px;
+    }
+
+    @media #{$breakpoint-xl} {
+      max-width: 1400px;
+      padding: 60px 15px 90px;
+    }
+  }
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+}

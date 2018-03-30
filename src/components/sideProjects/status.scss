@@ -1,0 +1,19 @@
+.status {
+  color: #fff;
+  font-size: 16px;
+  padding: 4px 6px;
+  display: inline-block;
+  white-space: nowrap;
+
+  &.inProgress {
+    background-color: #4f529b;
+  }
+
+  &.complete {
+    background-color: #569b1b;
+  }
+
+  &.inactive {
+    background-color: #9b0000;
+  }
+}

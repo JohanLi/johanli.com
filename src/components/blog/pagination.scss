@@ -1,0 +1,59 @@
+.pagination {
+  display: flex;
+  margin-bottom: 60px;
+
+  .pageLink {
+    flex: 1;
+    text-align: center;
+    max-width: 20%;
+    display: block;
+    border-bottom: 0;
+
+    &.active {
+      font-weight: 700;
+      color: #000;
+    }
+  }
+
+  .previous,
+  .next {
+    flex: 1;
+    max-width: 20%;
+
+    .label {
+      color: #aaa;
+    }
+  }
+
+  .next {
+    text-align: right;
+  }
+
+  .arrowLeft,
+  .arrowRight {
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    display: inline-block;
+  }
+
+  .arrowLeft {
+    border-right: 5px solid #aaa;
+    margin-right: 8px;
+  }
+
+  .arrowRight {
+    border-left: 5px solid #aaa;
+    margin-left: 8px;
+  }
+
+  .readMore {
+    margin-left: auto;
+
+    a {
+      color: #aaa;
+      font-size: 18px;
+    }
+  }
+}

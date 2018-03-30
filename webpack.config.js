@@ -9,7 +9,7 @@ module.exports = {
     'babel-polyfill',
     'whatwg-fetch',
     'react-hot-loader/patch',
-    './client/index',
+    './src/index',
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -33,7 +33,21 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[path][name]__[local]--[hash:base64:5]',
+            },
+          },
+          {
+            loader: "sass-loader"
+          }
+        ],
       },
       {
         test: /\.(png|gif|jpg)/,
@@ -44,8 +58,18 @@ module.exports = {
         },
       },
       {
-        test: /\.(svg)/,
-        loader: 'raw-loader',
+        test: /\.svg$/,
+        use: [
+          {
+            loader: "babel-loader"
+          },
+          {
+            loader: "react-svg-loader",
+            options: {
+              jsx: true,
+            },
+          },
+        ],
       },
     ],
   },

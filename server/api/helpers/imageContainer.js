@@ -18,7 +18,7 @@ const imageContainer = (entries, pathToImages = filePaths.img) => {
       const lengthBefore = entry.html.length;
 
       entry.html = `${entry.html.substring(0, match.index)}
-        <div class="image-container" style="width: ${width}px;">
+        <div class="imageContainer" style="width: ${width}px;">
           <div style="padding-bottom: ${paddingBottom}%">
             ${match[0]}
           </div>
