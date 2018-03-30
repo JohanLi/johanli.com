@@ -1,5 +1,3 @@
-import { assert } from 'chai';
-
 import imageContainer from '../server/api/helpers/imageContainer';
 
 const entries = [
@@ -21,24 +19,24 @@ describe('ImageContainer', () => {
   const modifiedEntries = imageContainer(entries, __dirname);
 
   it('Parses one image', () => {
-    assert.include(modifiedEntries[0].html, '<div class="imageContainer" style="width: 60px;">');
-    assert.include(modifiedEntries[0].html, '<div style="padding-bottom: 50%">');
+    expect(modifiedEntries[0].html).toContain('<div class="imageContainer" style="width: 60px;">');
+    expect(modifiedEntries[0].html).toContain('<div style="padding-bottom: 50%">');
   });
 
   it('Parses multiple images', () => {
-    assert.include(modifiedEntries[1].html, '<div class="imageContainer" style="width: 20px;">');
-    assert.include(modifiedEntries[1].html, '<div style="padding-bottom: 250%">');
+    expect(modifiedEntries[1].html).toContain('<div class="imageContainer" style="width: 20px;">');
+    expect(modifiedEntries[1].html).toContain('<div style="padding-bottom: 250%">');
 
-    assert.include(modifiedEntries[1].html, '<div class="imageContainer" style="width: 40px;">');
-    assert.include(modifiedEntries[1].html, '<div style="padding-bottom: 25%">');
+    expect(modifiedEntries[1].html).toContain('<div class="imageContainer" style="width: 40px;">');
+    expect(modifiedEntries[1].html).toContain('<div style="padding-bottom: 25%">');
   });
 
   it('Doesn’t parse things it shouldn’t', () => {
-    assert.equal(modifiedEntries[2].html.length, entries[2].html.length);
+    expect(modifiedEntries[2].html.length).toEqual(entries[2].html.length);
   });
 
   it('Doesn’t crash when passing in an empty array', () => {
     const emptyEntries = [];
-    assert.equal(emptyEntries, imageContainer(emptyEntries));
+    expect(emptyEntries).toEqual(imageContainer(emptyEntries));
   });
 });

@@ -1,55 +1,85 @@
-import chai, { assert } from 'chai';
+import chai from 'chai';
 import chaiHttp from 'chai-http';
 
 import apiOnly from '../server/apiOnly';
 
 chai.use(chaiHttp);
 
-const blog = {
-  entries: {
-    id: '',
-    url: '',
-    title: '',
-    html: '',
-    excerpt: '',
-    published: '',
-    side_project_id: '',
-  },
-  archive: {
-    entries: '',
-    year: '',
-  },
-  totalPages: '',
+const published = {
+  timestamp: expect.any(Number),
+  month: expect.any(String),
+  date: expect.any(Number),
+  year: expect.any(Number),
 };
 
-const sideProjects = {
-  id: '',
-  name: '',
-  description: '',
-  homepage_url: '',
-  github_url: '',
-  image_url: '',
-  state: '',
-  blogEntries: '',
+const blog = {
+  entries: expect.arrayContaining([
+    {
+      id: expect.any(Number),
+      url: expect.any(String),
+      title: expect.any(String),
+      html: expect.any(String),
+      excerpt: expect.any(String),
+      published,
+      side_project_id: expect.any(Number),
+    },
+  ]),
+  archive: expect.arrayContaining([
+    {
+      entries: expect.arrayContaining([
+        {
+          url: expect.any(String),
+          title: expect.any(String),
+          published,
+        },
+      ]),
+      year: expect.any(Number),
+    },
+  ]),
+  totalPages: expect.any(Number),
+};
+
+const sideProjects = expect.arrayContaining([
+  {
+    id: expect.any(Number),
+    name: expect.any(String),
+    description: expect.any(String),
+    homepage_url: expect.any(String),
+    github_url: expect.any(String),
+    image_url: expect.any(String),
+    state: expect.any(Number),
+    blogEntries: expect.arrayContaining([
+      {
+        url: expect.any(String),
+        title: expect.any(String),
+      },
+    ]),
+  }
+]);
+
+const mapObject = {
+  id: expect.any(String),
+  type: expect.any(Number),
+  latitude: expect.any(String),
+  longitude: expect.any(String),
+  neighbor_count: expect.any(Number),
+  neighbor_group_count: expect.any(Number),
 };
 
 const mapObjects = {
-  gyms: '',
-  pokestops: '',
+  gyms: expect.arrayContaining([mapObject]),
+  pokestops: expect.arrayContaining([mapObject]),
 };
-
 
 describe('Api', () => {
   it('Responds to GET /api/blog/:pageOrUrlKey for page', (done) => {
     chai.request(apiOnly)
       .get('/api/blog/1')
       .end((err, res) => {
-        assert.equal(err, null);
-        assert.equal(res.statusCode, 200);
-        assert.hasAllKeys(res.body, Object.keys(blog));
-        assert.hasAllKeys(res.body.entries[0], Object.keys(blog.entries));
-        assert.hasAllKeys(res.body.archive[0], Object.keys(blog.archive));
-        assert.equal(Number.isInteger(res.body.totalPages), true);
+        expect(err).toEqual(null);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toEqual(blog);
+        expect(res.body.entries.length).toBeGreaterThan(1);
         done();
       });
   });
@@ -58,13 +88,10 @@ describe('Api', () => {
     chai.request(apiOnly)
       .get('/api/blog/everything-is-more-complex-than-we-think-it-is')
       .end((err, res) => {
-        assert.equal(err, null);
-        assert.equal(res.statusCode, 200);
-        assert.hasAllKeys(res.body, Object.keys(blog));
-        assert.hasAllKeys(res.body.entries[0], Object.keys(blog.entries));
-        assert.hasAllKeys(res.body.archive[0], Object.keys(blog.archive));
-        assert.equal(Number.isInteger(res.body.totalPages), true);
-        assert.equal(res.body.entries.length, 1);
+        expect(err).toEqual(null);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toEqual(blog);
+        expect(res.body.entries.length).toEqual(1);
         done();
       });
   });
@@ -73,9 +100,9 @@ describe('Api', () => {
     chai.request(apiOnly)
       .get('/api/side-projects')
       .end((err, res) => {
-        assert.equal(err, null);
-        assert.equal(res.statusCode, 200);
-        assert.hasAllKeys(res.body[0], Object.keys(sideProjects));
+        expect(err).toEqual(null);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toEqual(sideProjects);
         done();
       });
   });
@@ -84,9 +111,9 @@ describe('Api', () => {
     chai.request(apiOnly)
       .get('/api/pokemon-go/map-objects')
       .end((err, res) => {
-        assert.equal(err, null);
-        assert.equal(res.statusCode, 200);
-        assert.hasAllKeys(res.body, Object.keys(mapObjects));
+        expect(err).toEqual(null);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toEqual(mapObjects);
         done();
       });
   });

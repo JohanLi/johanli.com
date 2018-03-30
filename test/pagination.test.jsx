@@ -14,7 +14,7 @@ describe('Pagination', () => {
       />,
     );
 
-    assert.equal(wrapper.find('.label').text(), 'View More Entries');
+    expect(wrapper.find('.label').text()).toEqual('View More Entries');
   });
 
   it('Shows the previous button correctly', () => {
@@ -25,7 +25,7 @@ describe('Pagination', () => {
       />,
     );
 
-    assert.equal(wrapper.find('.previous').length, 1);
+    expect(wrapper.find('.previous').length).toEqual(1);
 
     wrapper = shallow(
       <Pagination
@@ -34,7 +34,7 @@ describe('Pagination', () => {
       />,
     );
 
-    assert.equal(wrapper.find('.previous').length, 0);
+    expect(wrapper.find('.previous').length).toEqual(0);
   });
 
   it('Shows the next button correctly', () => {
@@ -45,7 +45,7 @@ describe('Pagination', () => {
       />,
     );
 
-    assert.equal(wrapper.find('.next').length, 1);
+    expect(wrapper.find('.next').length).toEqual(1);
 
     wrapper = shallow(
       <Pagination
@@ -54,7 +54,7 @@ describe('Pagination', () => {
       />,
     );
 
-    assert.equal(wrapper.find('.next').length, 0);
+    expect(wrapper.find('.next').length).toEqual(0);
   });
 
   it('Shows page links correctly', () => {
@@ -94,7 +94,7 @@ describe('Pagination', () => {
         />,
       );
 
-      assert.equal(wrapper.find('.pageLink').length, testCase.expectedPageLinks);
+      expect(wrapper.find('.pageLink').length).toEqual(testCase.expectedPageLinks);
     });
   });
 
@@ -111,7 +111,7 @@ describe('Pagination', () => {
       </StaticRouter>,
     );
 
-    assert.equal(wrapper.find('.active').text(), page);
+    expect(wrapper.find('.active').text()).toEqual(page);
 
     page = '1';
     wrapper = render(
@@ -123,6 +123,6 @@ describe('Pagination', () => {
       </StaticRouter>,
     );
 
-    assert.equal(wrapper.find('.active').text(), page);
+    expect(wrapper.find('.active').text()).toEqual(page);
   });
 });

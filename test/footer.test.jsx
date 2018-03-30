@@ -1,5 +1,4 @@
 import React from 'react';
-import { assert } from 'chai';
 import { shallow } from 'enzyme';
 
 import Footer from '../src/components/Footer';
@@ -10,10 +9,10 @@ describe('Footer', () => {
   it('Shows up-to-date copyright', () => {
     const currentYear = new Date().getFullYear();
 
-    assert.include(wrapper.find('.details').text(), `2016 - ${currentYear}`);
+    expect(wrapper.find('.details').text()).toContain(`2016 - ${currentYear}`);
   });
 
   it('Contains two links', () => {
-    assert.equal(wrapper.find('.links a').length, 2);
+    expect(wrapper.find('.links a').length).toEqual(2);
   });
 });
