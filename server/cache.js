@@ -32,6 +32,10 @@ const cache = {
   async flush() {
     await client.flushdb();
   },
+
+  quit() {
+    client.quit();
+  }
 };
 
 export default cache;

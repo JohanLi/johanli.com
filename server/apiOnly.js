@@ -7,6 +7,6 @@ const app = express();
 
 app.use('/api', api);
 
-app.listen(8081);
+const server = app.listen(8081);
 
-export default app;
+export default server;
