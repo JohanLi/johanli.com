@@ -43,7 +43,7 @@
     "env": {
       "browser": true,
       "node": true,
-      "mocha": true
+      "jest": true
     },
     "rules": {
       "react/no-did-mount-set-state": 0,

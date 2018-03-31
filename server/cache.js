@@ -35,7 +35,7 @@ const cache = {
 
   quit() {
     client.quit();
-  }
+  },
 };
 
 export default cache;

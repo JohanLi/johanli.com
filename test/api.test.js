@@ -1,7 +1,5 @@
 import request from 'request-promise';
 
-import server from '../server/apiOnly';
-
 const published = {
   timestamp: expect.any(Number),
   month: expect.any(String),
@@ -51,7 +49,7 @@ const sideProjects = expect.arrayContaining([
         title: expect.any(String),
       },
     ]),
-  }
+  },
 ]);
 
 const mapObject = {
