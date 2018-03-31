@@ -1,16 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<% if (process.env.NODE_ENV === 'production') { %>
+  <html lang="en">
+<% } else { %>
+  <html lang="en" class="fontLoaded">
+<% } %>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-  <title></title>
-  <script></script>
-  <script>
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-81964900-1', 'auto');
-    ga('send', 'pageview');
-  </script>
-  <script async src='https://www.google-analytics.com/analytics.js'></script>
+  <% if (process.env.NODE_ENV === 'production') { %>
+    <title></title>
+    <script></script>
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-81964900-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  <% } %>
 </head>
 <body>
 <div id="root"></div>
