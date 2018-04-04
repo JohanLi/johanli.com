@@ -83,6 +83,7 @@ class ImageZoom extends React.Component {
 ImageZoom.propTypes = {
   src: PropTypes.string.isRequired,
   zoomSrc: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
 };
 
 export default ImageZoom;
