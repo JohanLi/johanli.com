@@ -7,17 +7,11 @@ import Pagination from './Pagination';
 import Archive from './Archive';
 import Loading from '../../../src/components/Loading';
 
-import zoom from '../../js/zoom';
 import './blog.scss';
 
 class Blog extends React.Component {
   componentDidMount() {
     this.props.update(this.props.pageOrUrlKey);
-    zoom(window, document);
-  }
-
-  componentDidUpdate() {
-    zoom(window, document);
   }
 
   render() {
