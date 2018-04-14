@@ -6,7 +6,7 @@ import styles from './archive.scss';
 
 const Archive = ({ archive }) => {
   const years = archive.map((year) => {
-    const entries = year.entries.map((entry) => (
+    const entries = year.entries.map(entry => (
       <div className={styles.entry} key={entry.url}>
         <Link to={`/blog/${entry.url}`}>
           {entry.title}
@@ -22,7 +22,7 @@ const Archive = ({ archive }) => {
         <h2>{year.year}</h2>
         {entries}
       </div>
-    )
+    );
   });
 
   return (

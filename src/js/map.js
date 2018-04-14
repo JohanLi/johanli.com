@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { MarkerClusterer } from './markerclusterer';
 
 export default (window, document) => {

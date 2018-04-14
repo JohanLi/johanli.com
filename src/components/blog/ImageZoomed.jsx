@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 
 import styles from './imageZoomed.scss';
 
-const Fragment = React.Fragment;
+const { Fragment } = React;
 
 class ImageZoomed extends React.Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class ImageZoomed extends React.Component {
     return createPortal(
       <Fragment>
         <div className={styles.overlay} />
-        <img src={this.props.src} className={styles.imageZoomed} />
+        <img src={this.props.src} className={styles.imageZoomed} alt="" />
       </Fragment>,
       this.element,
     );

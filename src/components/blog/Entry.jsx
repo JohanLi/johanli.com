@@ -17,7 +17,9 @@ const parserOptions = {
       const { attribs } = domNode;
       return <ImageZoom src={attribs.src} zoomSrc={attribs['data-zoom-src']} alt={attribs.alt} />;
     }
-  }
+
+    return null;
+  },
 };
 
 const Entry = ({ entry }) => (
