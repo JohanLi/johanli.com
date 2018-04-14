@@ -1,0 +1,77 @@
+@import '../variables';
+
+.entry {
+  padding: 30px 0;
+}
+
+.published {
+  color: #ccc;
+  margin: 0 0 10px 0;
+}
+
+.month,
+.date,
+.year {
+  margin-right: 5px;
+}
+
+h2 {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+}
+
+h3 {
+  margin: 30px 0 10px 0;
+  font-size: 18px;
+}
+
+h4 {
+  margin: 30px 0 5px 0;
+  font-size: 16px;
+}
+
+@media #{$breakpoint-lg} {
+  .entry {
+    padding: 60px 0;
+    position: relative;
+  }
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    margin: 40px 0 20px 0;
+    font-size: 18px;
+  }
+}
+
+@media #{$breakpoint-xl} {
+  .published {
+    position: absolute;
+    top: 60px;
+    left: -120px;
+    text-align: center;
+    color: #ccc;
+    border-right: 1px solid #f4f4f4;
+    width: 80px;
+  }
+
+  .month,
+  .date,
+  .year {
+    display: block;
+    margin-right: 0;
+  }
+
+  .month,
+  .year {
+    text-transform: uppercase;
+    font-size: 18px;
+  }
+
+  .date {
+    font-size: 30px;
+  }
+}

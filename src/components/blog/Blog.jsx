@@ -44,10 +44,6 @@ class Blog extends React.Component {
       );
     }
 
-    const archive = this.props.blog.archive.map(
-      year => <Archive key={year.year} year={year} />,
-    );
-
     return (
       <DocumentTitle title={title}>
         <main className="blog">
@@ -56,9 +52,7 @@ class Blog extends React.Component {
             pageOrUrlKey={this.props.pageOrUrlKey}
             totalPages={this.props.blog.totalPages}
           />
-          <div className="archive">
-            {archive}
-          </div>,
+          <Archive archive={this.props.blog.archive} />
         </main>
       </DocumentTitle>
     );
