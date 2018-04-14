@@ -20,9 +20,9 @@ const Home = ({ blog, update }) => {
 
   return (
     <DocumentTitle title="Johan Li - Web Developer">
-      <div className={styles.home}>
+      <div className={styles.wrapper}>
         <div className={styles.banner} />
-        <main>
+        <main className={styles.home}>
           <div className={`${styles.aboutMe} clearfix`}>
             <div className={styles.imageContainer}>
               <div style={{ paddingBottom: '100%' }}>
