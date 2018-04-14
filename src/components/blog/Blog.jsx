@@ -7,17 +7,11 @@ import Pagination from './Pagination';
 import Archive from './Archive';
 import Loading from '../../../src/components/Loading';
 
-import zoom from '../../js/zoom';
 import './blog.scss';
 
 class Blog extends React.Component {
   componentDidMount() {
     this.props.update(this.props.pageOrUrlKey);
-    zoom(window, document);
-  }
-
-  componentDidUpdate() {
-    zoom(window, document);
   }
 
   render() {
@@ -50,10 +44,6 @@ class Blog extends React.Component {
       );
     }
 
-    const archive = this.props.blog.archive.map(
-      year => <Archive key={year.year} year={year} />,
-    );
-
     return (
       <DocumentTitle title={title}>
         <main className="blog">
@@ -62,9 +52,7 @@ class Blog extends React.Component {
             pageOrUrlKey={this.props.pageOrUrlKey}
             totalPages={this.props.blog.totalPages}
           />
-          <div className="archive">
-            {archive}
-          </div>,
+          <Archive archive={this.props.blog.archive} />
         </main>
       </DocumentTitle>
     );

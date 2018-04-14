@@ -40,7 +40,7 @@ class Header extends React.Component {
         <div className={styles.navbar}>
           <button
             className={styles.hamburgerMenu}
-            onClick={event => this.toggle()}
+            onClick={() => this.toggle()}
           >
             <div className={styles.top} />
             <div className={styles.mid} />

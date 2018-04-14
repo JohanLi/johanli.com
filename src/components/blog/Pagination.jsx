@@ -64,7 +64,8 @@ const Pagination = ({ pageOrUrlKey, totalPages }) => {
     pages.push(
       <NavLink
         key={i}
-        exact to={url}
+        exact
+        to={url}
         activeClassName={styles.active}
         className={styles.pageLink}
       >

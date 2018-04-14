@@ -1,0 +1,33 @@
+@import '../variables';
+
+.archive {
+  margin: 0 0 30px 0;
+
+  h2 {
+    margin: 0 0 10px 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+.year {
+  margin-top: 30px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.entry {
+  display: flex;
+  padding: 10px 0;
+}
+
+.published {
+  margin-left: auto;
+  color: #ccc;
+  text-align: right;
+  text-transform: uppercase;
+}

@@ -2,35 +2,45 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const Archive = ({ year }) => {
-  const entries = [];
+import styles from './archive.scss';
 
-  year.entries.forEach((entry) => {
-    entries.push(
-      <div className="entry" key={entry.url}>
+const Archive = ({ archive }) => {
+  const years = archive.map((year) => {
+    const entries = year.entries.map(entry => (
+      <div className={styles.entry} key={entry.url}>
         <Link to={`/blog/${entry.url}`}>
           {entry.title}
         </Link>
-        <div className="published">
+        <div className={styles.published}>
           {entry.published.month} {entry.published.date} {entry.published.year}
         </div>
-      </div>,
+      </div>
+    ));
+
+    return (
+      <div className={styles.year} key={year.year}>
+        <h2>{year.year}</h2>
+        {entries}
+      </div>
     );
   });
 
   return (
-    <div className="year">
-      <h2>{year.year}</h2>
-      {entries}
+    <div className={styles.archive}>
+      {years}
     </div>
   );
 };
 
 Archive.propTypes = {
-  year: PropTypes.shape({
-    entries: PropTypes.array,
-    year: PropTypes.number,
-  }).isRequired,
+  archive: PropTypes.arrayOf(
+    PropTypes.shape({
+      entries: PropTypes.arrayOf(
+        PropTypes.object,
+      ),
+      year: PropTypes.number,
+    }).isRequired,
+  ).isRequired,
 };
 
 export default Archive;
