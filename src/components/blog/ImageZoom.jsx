@@ -6,7 +6,6 @@ import ImageZoomed from './ImageZoomed';
 
 import styles from './imageZoom.scss';
 
-const { Fragment } = React;
 const pressedKeyButNotEscape = event => event && event.type === 'keyup' && event.key !== 'Escape';
 
 class ImageZoom extends React.Component {
@@ -65,14 +64,14 @@ class ImageZoom extends React.Component {
 
     if (this.state.active) {
       return (
-        <Fragment>
+        <>
           {image}
           <ImageZoomed
             key={this.props.zoomSrc}
             src={this.props.zoomSrc}
             toggle={event => this.toggle(event)}
           />
-        </Fragment>
+        </>
       );
     }
 
