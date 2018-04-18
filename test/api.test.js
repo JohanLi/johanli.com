@@ -1,4 +1,25 @@
 import request from 'request-promise';
+import express from 'express';
+
+import api from '../server/api';
+import cache from '../server/cache';
+import database from '../server/api/models/database';
+
+let server;
+let port = 8090;
+
+beforeAll(() => {
+  const app = express();
+  app.use('/api', api);
+
+  server = app.listen(port);
+});
+
+afterAll(() => {
+  server.close();
+  cache.quit();
+  database.end();
+});
 
 const published = {
   timestamp: expect.any(Number),
@@ -67,7 +88,7 @@ const mapObjects = {
 };
 
 const r = request.defaults({
-  baseUrl: 'http://localhost:8081',
+  baseUrl: `http://localhost:${port}`,
   json: true,
 });
 
