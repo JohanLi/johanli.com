@@ -6,7 +6,7 @@ import cache from '../server/cache';
 import database from '../server/api/models/database';
 
 let server;
-let port = 8090;
+const port = 8090;
 
 beforeAll(() => {
   const app = express();

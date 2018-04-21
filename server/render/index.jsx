@@ -3,30 +3,21 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 import express from 'express';
-import cookieParser from 'cookie-parser';
 import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 
-import './config';
-import App from '../src/components/App';
+import App from '../../src/components/App';
 
-import sideProjectsModel from './api/models/side-projects';
-import blog from './render/blog';
-import inlineCss from './render/inlineCss';
-import api from './api';
+import sideProjectsModel from '../api/models/side-projects';
+import blog from './blog';
+import inlineCss from './inlineCss';
 
 const readFileAsync = promisify(fs.readFile);
 
-const app = express();
+const router = express.Router();
 
-app.use('/api', api);
-app.use(cookieParser());
-
-// served by nginx in production
-app.use(express.static(path.resolve(__dirname, 'public')));
-
-app.get('*', async (req, res) => {
+router.get('*', async (req, res) => {
   const context = {};
 
   let templateHtml = await readFileAsync(
@@ -68,4 +59,4 @@ app.get('*', async (req, res) => {
   res.send(templateHtml);
 });
 
-app.listen(8080);
+export default router;
