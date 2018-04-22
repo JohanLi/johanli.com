@@ -19,7 +19,7 @@ class ImageZoom extends React.Component {
   }
 
   componentDidMount() {
-    if (window.screen.width < 992) {
+    if (!window.matchMedia('(min-width: 992px)').matches) {
       return;
     }
 
