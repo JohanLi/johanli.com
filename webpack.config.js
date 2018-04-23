@@ -6,7 +6,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 module.exports = {
   entry: [
-    'babel-polyfill',
+    '@babel/polyfill',
     'whatwg-fetch',
     'react-hot-loader/patch',
     './src/index',
@@ -21,14 +21,18 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          babelrc: false,
-          presets: [
-            ['es2015', { modules: false }],
-            'react',
-            'stage-0',
-          ],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              [
+                "@babel/preset-env",
+                {
+                  "modules": false, // for react-hot-loader
+                },
+              ],
+            ],
+          },
         },
       },
       {

@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -11,7 +10,7 @@ const nodeExternals = require('webpack-node-externals');
 module.exports = [
   {
     entry: [
-      'babel-polyfill',
+      '@babel/polyfill',
       'whatwg-fetch',
       './server/index',
     ],
@@ -82,7 +81,7 @@ module.exports = [
   },
   {
     entry: [
-      'babel-polyfill',
+      '@babel/polyfill',
       'whatwg-fetch',
       './src/index',
     ],

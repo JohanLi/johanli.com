@@ -20,6 +20,11 @@
     flex: 1;
     max-width: 20%;
 
+    a {
+      display: block;
+      border-bottom: 0;
+    }
+
     .label {
       color: #aaa;
     }
@@ -54,6 +59,8 @@
     a {
       color: #aaa;
       font-size: 18px;
+      display: block;
+      border-bottom: 0;
     }
   }
 }

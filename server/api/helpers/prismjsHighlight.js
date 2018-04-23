@@ -2,6 +2,7 @@ import Prism from 'prismjs';
 
 import 'prismjs/components/prism-php';
 import 'prismjs/components/prism-php-extras';
+import 'prismjs/components/prism-markup-templating';
 
 const prismjsRegexp = /<prismjs language="(javascript|php)">\r?\n([\s\S]*?)\r?\n<\/prismjs>/g;
 
