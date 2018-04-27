@@ -1,35 +1,16 @@
 import express from 'express';
-import cache from '../cache';
-import blogModel from './models/blog';
-import sideProjects from './models/side-projects';
-import pokemonGoMap from './models/pokemon-go-map';
+import blog from './controllers/blog';
+import sideProjects from './controllers/side-projects';
+import pokemonGoMap from './controllers/pokemon-go-map';
 
 const router = express.Router();
 
-router.get('/blog/:pageOrUrlKey', async (req, res) => {
-  let blog;
+router.get('/blog', blog.getPage);
+router.get('/blog/:page([0-9]+)', blog.getPage);
+router.get('/blog/:urlKey', blog.getByUrlKey);
 
-  if (/^[0-9]+$/.test(req.params.pageOrUrlKey)) {
-    const page = req.params.pageOrUrlKey;
-    blog = await cache.remember(`/blog/${page}`, () => blogModel.getPage(page));
-  } else {
-    const urlKey = req.params.pageOrUrlKey;
-    blog = await cache.remember(`/blog/${urlKey}`, () => blogModel.getByUrlKey(urlKey));
-  }
+router.get('/side-projects', sideProjects.get);
 
-  res.json(blog);
-});
-
-router.get('/side-projects', async (req, res) => {
-  const projects = await cache.remember('/side-projects', () => sideProjects.getAll());
-
-  res.json(projects);
-});
-
-router.get('/pokemon-go/map-objects', async (req, res) => {
-  const mapObjects = await cache.remember('/pokemon-go/map-objects', () => pokemonGoMap.getMapObjects());
-
-  res.json(mapObjects);
-});
+router.get('/pokemon-go/map-objects', pokemonGoMap.getMapObjects);
 
 export default router;
