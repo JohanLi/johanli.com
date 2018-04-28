@@ -1,15 +1,38 @@
 import database from '../../database';
 
 export default {
-  page: (entriesPerPage, offset) =>
-    database.query('SELECT * FROM blog ORDER BY published DESC LIMIT ? OFFSET ?', [entriesPerPage, offset]),
+  page: async (entriesPerPage, offset) => {
+    const [rows] = await database.query(`
+      SELECT url, title, excerpt, html, published FROM blog
+      ORDER BY published DESC
+      LIMIT ? OFFSET ?
+    `, [entriesPerPage, offset]);
+    return rows;
+  },
 
-  urlKey: urlKey =>
-    database.query('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [urlKey]),
+  urlKey: async urlKey => {
+    const [rows] = await database.query(`
+      SELECT url, title, excerpt, html, published FROM blog
+      WHERE url = ?
+      ORDER BY published DESC
+    `, [urlKey]);
+    return rows;
+  },
 
-  archive: () =>
-    database.query('SELECT url, title, published FROM blog ORDER BY published DESC'),
+  archive: async () => {
+    const [rows] = await database.query(`
+      SELECT url, title, published
+      FROM blog
+      ORDER BY published DESC
+    `);
+    return rows;
+  },
 
-  entriesCount: () =>
-    database.query('SELECT count(*) AS numberOfEntries FROM blog'),
+  entriesCount: async () => {
+    const [rows] = await database.query(`
+      SELECT count(*) AS numberOfEntries
+      FROM blog
+    `);
+    return rows;
+  },
 };

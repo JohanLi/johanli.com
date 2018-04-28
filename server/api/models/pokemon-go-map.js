@@ -1,9 +1,21 @@
 import database from '../../database';
 
 export default {
-  gyms: () =>
-    database.query('SELECT * FROM pokemon_go_map_objects WHERE type = 0'),
+  gyms: async () => {
+    const [rows] = await database.query(`
+      SELECT latitude, longitude
+      FROM pokemon_go_map_objects
+      WHERE type = 0
+    `);
+    return rows;
+  },
 
-  pokestops: () =>
-    database.query('SELECT * FROM pokemon_go_map_objects WHERE type = 1 AND neighbor_group_count > 2'),
+  pokestops: async () => {
+    const [rows] = await database.query(`
+      SELECT latitude, longitude
+      FROM pokemon_go_map_objects
+      WHERE type = 1 AND neighbor_group_count > 2
+    `);
+    return rows;
+  },
 };

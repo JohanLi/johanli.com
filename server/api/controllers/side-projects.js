@@ -22,8 +22,8 @@ const joinBlogEntries = (projects, blogEntries) => {
 
 export default {
   async get(req, res) {
-    const [projects] = await sideProjects.projects();
-    const [blogEntries] = await sideProjects.blogEntries();
+    const projects = await sideProjects.projects();
+    const blogEntries = await sideProjects.blogEntries();
 
     res.json(joinBlogEntries(projects, blogEntries));
   },

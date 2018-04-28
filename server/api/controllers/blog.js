@@ -39,14 +39,14 @@ const setArchive = (entries) => {
 };
 
 const getArchive = async () => {
-  let [entries] = await blog.archive();
+  let entries = await blog.archive();
   entries = setPublished(entries);
 
   return setArchive(entries);
 };
 
 const getTotalPages = async () => {
-  const [result] = await blog.entriesCount();
+  const result = await blog.entriesCount();
 
   return Math.ceil(result[0].numberOfEntries / entriesPerPage);
 };
@@ -56,7 +56,7 @@ export default {
     const page = req.params.page || 1;
     const offset = (parseInt(page, 10) - 1) * entriesPerPage;
 
-    let [entries] = await blog.page(entriesPerPage, offset);
+    let entries = await blog.page(entriesPerPage, offset);
 
     if (!entries.length) {
       throw new Error('Page not found!');
@@ -74,7 +74,7 @@ export default {
   },
 
   async getByUrlKey(req, res) {
-    let [entries] = await blog.urlKey(req.params.urlKey);
+    let entries = await blog.urlKey(req.params.urlKey);
 
     if (!entries.length) {
       throw new Error('URL not found!');
