@@ -35,4 +35,14 @@ export default {
     `);
     return rows;
   },
+
+  latest: async () => {
+    const [rows] = await database.query(`
+      SELECT url, title, excerpt
+      FROM blog
+      ORDER BY published DESC
+      LIMIT 3
+    `);
+    return rows;
+  },
 };

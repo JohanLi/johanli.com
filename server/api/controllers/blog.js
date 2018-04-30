@@ -38,13 +38,6 @@ const setArchive = (entries) => {
   return archive;
 };
 
-const getArchive = async () => {
-  let entries = await blog.archive();
-  entries = setPublished(entries);
-
-  return setArchive(entries);
-};
-
 const getTotalPages = async () => {
   const result = await blog.entriesCount();
 
@@ -68,7 +61,6 @@ export default {
 
     res.json({
       entries,
-      archive: await getArchive(),
       totalPages: await getTotalPages(),
     });
   },
@@ -84,10 +76,19 @@ export default {
     entries = prismjsHighlight(entries);
     entries = imageContainer(entries);
 
-    res.json({
-      entries,
-      archive: await getArchive(),
-      totalPages: await getTotalPages(),
-    });
+    res.json(entries[0]);
+  },
+
+  async getArchive(req, res) {
+    let entries = await blog.archive();
+    entries = setPublished(entries);
+
+    const archive = setArchive(entries);
+    res.json(archive);
+  },
+
+  async getLatest(req, res) {
+    const entries = await blog.latest();
+    res.json(entries);
   },
 };

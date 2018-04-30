@@ -1,14 +1,41 @@
-const store = {
-  get: (key) => {
-    if (store.isServer()) {
-      return null;
-    }
+import { decorate, observable, action } from 'mobx';
 
-    return JSON.parse(localStorage.getItem(key));
+const store = {
+  blogLatest: [],
+  blog: {
+    entries: new Map(),
+    pages: new Map(),
+    archive: [],
+    totalPages: 0,
+  },
+  sideProjects: [],
+
+  updateBlogLatest: async () => {
+    store.blogLatest = await store.request('/api/blog/latest');
   },
 
-  set: (key, value) => {
-    localStorage.setItem(key, JSON.stringify(value));
+  updateBlogPage: async (page) => {
+    const { entries, totalPages } = await store.request(`/api/blog/${page}`);
+
+    entries.forEach((entry) => {
+      store.blog.entries.set(entry.url, entry);
+    });
+
+    store.blog.pages.set(page, entries.map(entry => entry.url));
+    store.blog.totalPages = totalPages;
+  },
+
+  updateBlogUrlKey: async (urlKey) => {
+    const entry = await store.request(`/api/blog/${urlKey}`);
+    store.blog.entries.set(entry.url, entry);
+  },
+
+  updateBlogArchive: async (urlKey) => {
+    store.blog.archive = await store.request('/api/blog/archive');
+  },
+
+  updateSideProjects: async () => {
+    store.sideProjects = await store.request('/api/side-projects');
   },
 
   request: async (url) => {
@@ -22,56 +49,16 @@ const store = {
 
     return response.json();
   },
-
-  isServer: () => typeof window === 'undefined',
-
-  getBlog: () => store.get('blog'),
-
-  updateBlog: async (pageOrUrlKey) => {
-    const { entries, archive, totalPages } = await store.request(`/api/blog/${pageOrUrlKey}`);
-    const updatedBlog = {
-      entries: {},
-      pages: {},
-      archive,
-      totalPages,
-    };
-
-    entries.forEach((entry) => {
-      updatedBlog.entries[entry.url] = entry;
-    });
-
-    if (store.blogPageRequested(pageOrUrlKey)) {
-      updatedBlog.pages[pageOrUrlKey] = entries.map(entry => entry.url);
-    }
-
-    const blog = store.getBlog();
-
-    if (!blog) {
-      store.set('blog', updatedBlog);
-      return updatedBlog;
-    }
-
-    const mergedBlog = {
-      entries: Object.assign(blog.entries, updatedBlog.entries),
-      pages: Object.assign(blog.pages, updatedBlog.pages),
-      archive: updatedBlog.archive,
-      totalPages: updatedBlog.totalPages,
-    };
-
-    store.set('blog', mergedBlog);
-    return mergedBlog;
-  },
-
-  blogPageRequested: pageOrUrlKey => /^[0-9]+$/.test(pageOrUrlKey),
-
-  getSideProjects: () => store.get('sideProjects'),
-
-  updateSideProjects: async () => {
-    const sideProjects = await store.request('/api/side-projects');
-    store.set('sideProjects', sideProjects);
-
-    return sideProjects;
-  },
 };
+
+decorate(store, {
+  blogLatest: observable,
+  blog: observable,
+  updateBlogLatest: action,
+  updateBlogPage: action,
+  updateBlogUrlKey: action,
+  updateBlogArchive: action,
+  sideProjects: observable,
+});
 
 export default store;

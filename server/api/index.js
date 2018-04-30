@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.get('/blog', blog.getPage);
 router.get('/blog/:page([0-9]+)', blog.getPage);
+router.get('/blog/archive', blog.getArchive);
+router.get('/blog/latest', blog.getLatest);
 router.get('/blog/:urlKey', blog.getByUrlKey);
 
 router.get('/side-projects', sideProjects.get);
