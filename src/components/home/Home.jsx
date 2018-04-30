@@ -5,20 +5,18 @@ import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 
 import LatestBlogEntries from './LatestBlogEntries';
-import store from "../../store";
+import blog from "../../stores/blog";
 import styles from './home.scss';
 
 import personalPortrait from '../../../public/img/johan.jpg';
 
 const Home = withRouter(observer(class Home extends React.Component {
   componentDidMount() {
-    store.updateBlogLatest();
+    blog.getLatest();
   }
 
   render() {
-    const { blogLatest } = store;
-
-    const entries = blogLatest.map(
+    const entries = blog.latest.map(
       entry => (<LatestBlogEntries key={entry.url} entry={entry} />),
     );
 

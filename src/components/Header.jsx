@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import classNames from 'classnames';
 
-import header from '../header';
+import header from '../stores/header';
 import styles from './header.scss';
 
 const Header = withRouter(observer(() => {

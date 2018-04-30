@@ -6,16 +6,18 @@ import DocumentTitle from 'react-document-title';
 import Project from './Project';
 import PokemonGo from './PokemonGo';
 
-import store from '../../store';
+import sideProjects from '../../stores/side-projects';
 import styles from './sideProjects.scss';
 
 const SideProjects = withRouter(observer(class SideProjects extends React.Component {
   componentDidMount() {
-    store.updateSideProjects();
+    sideProjects.getProjects();
   }
 
   render() {
-    const { sideProjects } = store;
+    const projects = sideProjects.projects.map(
+      project => <Project key={project.id} project={project}/>
+    );
 
     return (
       <DocumentTitle title="Side Projects - Johan Li">
@@ -25,7 +27,7 @@ const SideProjects = withRouter(observer(class SideProjects extends React.Compon
             path="/side-projects"
             render={() => (
               <>
-                {sideProjects.map(project => <Project key={project.id} project={project}/>)}
+                {projects}
               </>
             )}
           />

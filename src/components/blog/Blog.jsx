@@ -8,7 +8,7 @@ import Pagination from './Pagination';
 import Archive from './Archive';
 import Loading from '../../../src/components/Loading';
 
-import store from "../../store";
+import blog from "../../stores/blog";
 import './blog.scss';
 
 const blogPageRequested = pageOrUrlKey => /^[0-9]+$/.test(pageOrUrlKey);
@@ -18,16 +18,15 @@ const Blog = observer(class Blog extends React.Component {
     const { pageOrUrlKey } = this.props;
 
     if (blogPageRequested(pageOrUrlKey)) {
-      store.updateBlogPage(pageOrUrlKey);
+      blog.getPage(pageOrUrlKey);
     } else {
-      store.updateBlogUrlKey(pageOrUrlKey);
+      blog.getUrlKey(pageOrUrlKey);
     }
 
-    store.updateBlogArchive();
+    blog.getArchive();
   }
 
   render () {
-    const { blog } = store;
     const { pageOrUrlKey } = this.props;
 
     let title;
