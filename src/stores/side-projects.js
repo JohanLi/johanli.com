@@ -1,9 +1,9 @@
 import { decorate, observable, action } from 'mobx';
-import appInitialState from './helpers/app-initial-state';
+import initialState from './helpers/initial-state';
 import request from './helpers/request';
 
 const sideProjects = {
-  projects: appInitialState.get('sideProjects') || [],
+  projects: initialState('sideProjects'),
 
   getProjects: async () => {
     sideProjects.projects = await request('/api/side-projects');

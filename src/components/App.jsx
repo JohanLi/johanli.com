@@ -10,26 +10,35 @@ import ScrollToTop from './ScrollToTop';
 
 import styles from './app.scss';
 
-const App = () => (
+const App = ({ latestBlogEntries, blog, sideProjects }) => (
   <div className={styles.app}>
     <Header />
     <Route
       exact
       path="/"
-      render={Home}
+      render={() => (
+        <Home
+          latestBlogEntries={latestBlogEntries}
+        />
+      )}
     />
     <Route
       path="/blog/:pageOrUrlKey?"
       render={({ match }) => (
         <Blog
           key={match.params.pageOrUrlKey}
+          blog={blog}
           pageOrUrlKey={match.params.pageOrUrlKey}
         />
       )}
     />
     <Route
       path="/side-projects"
-      render={SideProjects}
+      render={() => (
+        <SideProjects
+          projects={sideProjects}
+        />
+      )}
     />
     <Footer />
     <ScrollToTop />

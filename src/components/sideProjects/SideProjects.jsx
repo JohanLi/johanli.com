@@ -8,6 +8,7 @@ import PokemonGo from './PokemonGo';
 
 import sideProjects from '../../stores/side-projects';
 import styles from './sideProjects.scss';
+import PropTypes from "prop-types";
 
 const SideProjects = withRouter(observer(class SideProjects extends React.Component {
   componentDidMount() {
@@ -15,9 +16,7 @@ const SideProjects = withRouter(observer(class SideProjects extends React.Compon
   }
 
   render() {
-    const projects = sideProjects.projects.map(
-      project => <Project key={project.id} project={project}/>
-    );
+    const projects = sideProjects.projects || this.props.projects;
 
     return (
       <DocumentTitle title="Side Projects - Johan Li">
@@ -27,7 +26,7 @@ const SideProjects = withRouter(observer(class SideProjects extends React.Compon
             path="/side-projects"
             render={() => (
               <>
-                {projects}
+                {projects.map(project => <Project key={project.id} project={project} />)}
               </>
             )}
           />
@@ -38,6 +37,12 @@ const SideProjects = withRouter(observer(class SideProjects extends React.Compon
   }
 }));
 
-SideProjects.propTypes = {};
+SideProjects.propTypes = {
+  projects: PropTypes.array,
+};
+
+SideProjects.defaultProps = {
+  projects: [],
+};
 
 export default SideProjects;

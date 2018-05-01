@@ -22,13 +22,11 @@ const Blog = observer(class Blog extends React.Component {
     } else {
       blogStore.getUrlKey(pageOrUrlKey);
     }
-
-    blogStore.getArchive();
   }
 
   render () {
     const { pageOrUrlKey } = this.props;
-    const { blog } = blogStore;
+    const blog = blogStore.blog || this.props.blog;
 
     if (blog.entries.length === 0) {
       return (
@@ -65,10 +63,20 @@ const Blog = observer(class Blog extends React.Component {
 });
 
 Blog.propTypes = {
+  blog: PropTypes.shape({
+    entries: PropTypes.array,
+    totalPages: PropTypes.number,
+    archive: PropTypes.array,
+  }),
   pageOrUrlKey: PropTypes.string,
 };
 
 Blog.defaultProps = {
+  blog: {
+    entries: [],
+    totalPages: 0,
+    archive: [],
+  },
   pageOrUrlKey: '1',
 };
 

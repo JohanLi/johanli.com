@@ -9,7 +9,8 @@ import { promisify } from 'util';
 
 import { useStaticRendering } from 'mobx-react';
 
-import appInitialState from '../../src/stores/helpers/app-initial-state';
+import App from '../../src/components/App';
+
 import blog from '../api/models/blog';
 import sideProjects from '../api/models/side-projects';
 
@@ -29,22 +30,14 @@ router.get('*', async (req, res) => {
     'utf8',
   );
 
-  appInitialState.new();
-
-  const initialBlog = {
-    latest: [],
-    entries: [],
-    archive: [],
-    totalPages: 0,
-  };
+  const appInitialState = {};
 
   if (req.url === '/') {
-    initialBlog.latest = await blog.getLatest();
-    appInitialState.set('blog', initialBlog);
+    appInitialState.latestBlogEntries = await blog.getLatest();
   }
 
   if (req.url === '/side-projects') {
-    appInitialState.set('sideProjects', await sideProjects.get());
+    appInitialState.sideProjects = await sideProjects.get();
   }
 
   const blogRequested = matchPath(req.url, {
@@ -60,30 +53,31 @@ router.get('*', async (req, res) => {
         blog.getArchive(),
       ]);
 
-      initialBlog.entries = page.entries;
-      initialBlog.archive = archive;
-      initialBlog.totalPages = page.totalPages;
+      appInitialState.blog = {
+        entries: page.entries,
+        totalPages: page.totalPages,
+        archive,
+      };
     } else {
       const [entries, archive] = await Promise.all([
         blog.getByUrlKey(pageOrUrlKey),
         blog.getArchive(),
       ]);
 
-      initialBlog.entries = [entries];
-      initialBlog.archive = archive;
+      appInitialState.blog = {
+        entries: [entries],
+        totalPages: 0,
+        archive,
+      };
     }
-
-    appInitialState.set('blog', initialBlog);
   }
-
-  const App = require('../../src/components/App').default;
 
   const appHtml = renderToString(
     <StaticRouter
       location={req.url}
       context={context}
     >
-      <App />
+      <App {...appInitialState} />
     </StaticRouter>,
   );
 
@@ -99,7 +93,7 @@ router.get('*', async (req, res) => {
 
   templateHtml = templateHtml.replace(
     '<script></script>',
-    `<script>window.APP_INITIAL_STATE = ${JSON.stringify(appInitialState.get())}</script>`,
+    `<script>window.APP_INITIAL_STATE = ${JSON.stringify(appInitialState)}</script>`,
   );
 
   templateHtml = await inlineCss(templateHtml, req, res);

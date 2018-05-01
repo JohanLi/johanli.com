@@ -10,7 +10,7 @@ const render = (Component) => {
   method(
     <AppContainer>
       <BrowserRouter>
-        <Component />
+        <Component {...window.APP_INITIAL_STATE} />
       </BrowserRouter>
     </AppContainer>,
     document.getElementById('root'),

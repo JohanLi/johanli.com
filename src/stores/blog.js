@@ -1,41 +1,48 @@
 import { decorate, observable, action } from 'mobx';
-import appInitialState from './helpers/app-initial-state';
+import initialState from './helpers/initial-state';
 import request from './helpers/request';
 
 const blog = {
-  blog: appInitialState.get('blog') || {
-    latest: [],
-    entries: [],
-    archive: [],
-    totalPages: 0,
-  },
+  latestBlogEntries: initialState('latestBlogEntries'),
+  blog: initialState('blog'),
 
   getLatest: async () => {
-    blog.blog.latest = await request('/api/blog/latest');
+    blog.latestBlogEntries = await request('/api/blog/latest');
   },
 
   getPage: async (page) => {
-    const { entries, totalPages } = await request(`/api/blog/${page}`);
+    const [blogPage, archive] = await Promise.all([
+      request(`/api/blog/${page}`),
+      request('/api/blog/archive'),
+    ]);
 
-    blog.blog.entries = entries;
-    blog.blog.totalPages = totalPages;
+    blog.blog = {
+      entries: blogPage.entries,
+      totalPages: blogPage.totalPages,
+      archive,
+    };
   },
 
   getUrlKey: async (urlKey) => {
-    blog.blog.entries = [await request(`/api/blog/${urlKey}`)];
-  },
+    const [entries, archive] = await Promise.all([
+      request(`/api/blog/${urlKey}`),
+      request('/api/blog/archive'),
+    ]);
 
-  getArchive: async (urlKey) => {
-    blog.blog.archive = await request('/api/blog/archive');
+    blog.blog = {
+      entries: [entries],
+      totalPages: 0,
+      archive,
+    };
   },
 };
 
 decorate(blog, {
+  latestBlogEntries: observable,
   blog: observable,
   getLatest: action,
   getPage: action,
   getUrlKey: action,
-  getArchive: action,
 });
 
 export default blog;

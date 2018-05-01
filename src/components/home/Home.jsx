@@ -16,7 +16,9 @@ const Home = withRouter(observer(class Home extends React.Component {
   }
 
   render() {
-    const entries = blog.blog.latest.map(
+    const latestBlogEntries = blog.latestBlogEntries || this.props.latestBlogEntries;
+
+    const entries = latestBlogEntries.map(
       entry => (<LatestBlogEntries key={entry.url} entry={entry} />),
     );
 
@@ -54,11 +56,11 @@ const Home = withRouter(observer(class Home extends React.Component {
 }));
 
 Home.propTypes = {
-  blog: PropTypes.shape({
-    entries: PropTypes.object,
-    pages: PropTypes.object,
-  }).isRequired,
-  update: PropTypes.func.isRequired,
+  latestBlogEntries: PropTypes.array,
+};
+
+Home.defaultProps = {
+  latestBlogEntries: [],
 };
 
 export default Home;
