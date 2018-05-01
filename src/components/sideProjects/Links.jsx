@@ -38,7 +38,7 @@ const Links = ({ project }) => {
     );
   }
 
-  if (project.blogEntries) {
+  if (project.blogEntries.length) {
     const entries = [];
 
     project.blogEntries.forEach((entry) => {
