@@ -1,12 +1,7 @@
 import pokemonGoMap from './pokemon-go-map';
-import model from '../models/pokemon-go-map';
 
-model.gyms = jest.fn();
-model.pokestops = jest.fn();
-
-const res = {
-  json: jest.fn(),
-};
+pokemonGoMap.gyms = jest.fn();
+pokemonGoMap.pokestops = jest.fn();
 
 const mapObjects = [
   {
@@ -27,12 +22,12 @@ const mapObjects2 = [
 ];
 
 describe('pokemon go map', () => {
-  it('returns gyms and pokestops', async () => {
-    model.gyms.mockResolvedValue(mapObjects);
-    model.pokestops.mockResolvedValue(mapObjects2);
-    await pokemonGoMap.getMapObjects({}, res);
+  it('returns gyms and pokestops', () => {
+    pokemonGoMap.gyms.mockResolvedValue(mapObjects);
+    pokemonGoMap.pokestops.mockResolvedValue(mapObjects2);
 
-    expect(res.json).toHaveBeenCalledWith({
+    expect.assertions(1);
+    return expect(pokemonGoMap.getMapObjects()).resolves.toEqual({
       gyms: mapObjects,
       pokestops: mapObjects2,
     });

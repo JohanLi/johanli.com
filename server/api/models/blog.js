@@ -11,9 +11,9 @@ const setPublished = entries => entries.map((entry) => {
     ...entry,
     published: {
       timestamp: entry.published,
-      month: date.toLocaleString('en-us', { month: 'short' }),
-      date: date.getDate(),
-      year: date.getFullYear(),
+      month: date.toLocaleString('en-us', { month: 'short', timeZone: 'UTC' }),
+      date: date.getUTCDate(),
+      year: date.getUTCFullYear(),
     },
   };
 });
