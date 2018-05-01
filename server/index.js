@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== 'development') {
   app.use(cookieParser());
   app.use(express.static(path.resolve(__dirname, 'public')));
 
-  app.use('*', render);
+  app.use('/', render);
 
   app.listen(8080);
 } else {

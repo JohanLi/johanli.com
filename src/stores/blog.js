@@ -1,44 +1,37 @@
 import { decorate, observable, action } from 'mobx';
-import { request } from './helpers';
+import appInitialState from './helpers/app-initial-state';
+import request from './helpers/request';
 
 const blog = {
-  latest: [],
-  entries: new Map(),
-  pages: new Map(),
-  archive: [],
-  totalPages: 0,
+  blog: appInitialState.get('blog') || {
+    latest: [],
+    entries: [],
+    archive: [],
+    totalPages: 0,
+  },
 
   getLatest: async () => {
-    blog.latest = await request('/api/blog/latest');
+    blog.blog.latest = await request('/api/blog/latest');
   },
 
   getPage: async (page) => {
     const { entries, totalPages } = await request(`/api/blog/${page}`);
 
-    entries.forEach((entry) => {
-      blog.entries.set(entry.url, entry);
-    });
-
-    blog.pages.set(page, entries.map(entry => entry.url));
-    blog.totalPages = totalPages;
+    blog.blog.entries = entries;
+    blog.blog.totalPages = totalPages;
   },
 
   getUrlKey: async (urlKey) => {
-    const entry = await request(`/api/blog/${urlKey}`);
-    blog.entries.set(entry.url, entry);
+    blog.blog.entries = [await request(`/api/blog/${urlKey}`)];
   },
 
   getArchive: async (urlKey) => {
-    blog.archive = await request('/api/blog/archive');
+    blog.blog.archive = await request('/api/blog/archive');
   },
 };
 
 decorate(blog, {
-  latest: observable,
-  entries: observable,
-  pages: observable,
-  archive: observable,
-  totalPages: observable,
+  blog: observable,
   getLatest: action,
   getPage: action,
   getUrlKey: action,

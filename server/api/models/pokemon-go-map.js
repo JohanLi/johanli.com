@@ -1,6 +1,13 @@
 import database from '../../database';
 
-export default {
+const pokemonGoMap = {
+  getMapObjects: async () => {
+    const gyms = await pokemonGoMap.gyms();
+    const pokestops = await pokemonGoMap.pokestops();
+
+    return { gyms, pokestops };
+  },
+
   gyms: async () => {
     const [rows] = await database.query(`
       SELECT latitude, longitude
@@ -19,3 +26,5 @@ export default {
     return rows;
   },
 };
+
+export default pokemonGoMap;

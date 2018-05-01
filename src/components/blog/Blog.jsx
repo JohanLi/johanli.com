@@ -8,7 +8,7 @@ import Pagination from './Pagination';
 import Archive from './Archive';
 import Loading from '../../../src/components/Loading';
 
-import blog from "../../stores/blog";
+import blogStore from "../../stores/blog";
 import './blog.scss';
 
 const blogPageRequested = pageOrUrlKey => /^[0-9]+$/.test(pageOrUrlKey);
@@ -18,43 +18,35 @@ const Blog = observer(class Blog extends React.Component {
     const { pageOrUrlKey } = this.props;
 
     if (blogPageRequested(pageOrUrlKey)) {
-      blog.getPage(pageOrUrlKey);
+      blogStore.getPage(pageOrUrlKey);
     } else {
-      blog.getUrlKey(pageOrUrlKey);
+      blogStore.getUrlKey(pageOrUrlKey);
     }
 
-    blog.getArchive();
+    blogStore.getArchive();
   }
 
   render () {
     const { pageOrUrlKey } = this.props;
+    const { blog } = blogStore;
 
-    let title;
-    let entries = [];
-
-    if (blogPageRequested(pageOrUrlKey)) {
-      title = 'Blog - Johan Li';
-      entries = blog.pages.get(pageOrUrlKey) || [];
-      entries = entries.map(
-        entryUrl => (<Entry key={entryUrl} entry={blog.entries.get(entryUrl)} />),
-      );
-    } else {
-      const entry = blog.entries.get(pageOrUrlKey);
-
-      if (entry) {
-        title = `${entry.title} - Johan Li`;
-        entries = [
-          <Entry key={entry.url} entry={entry} />,
-        ];
-      }
-    }
-
-    if (entries.length === 0) {
+    if (blog.entries.length === 0) {
       return (
         <main id="blog">
           <Loading />
         </main>
       );
+    }
+
+    const entries = blog.entries.map(
+      entry => (<Entry key={entry.url} entry={entry} />),
+    );
+
+    let title;
+    if (blogPageRequested(pageOrUrlKey)) {
+      title = 'Blog - Johan Li';
+    } else {
+      title = `${blog.entries[0].title} - Johan Li`;
     }
 
     return (

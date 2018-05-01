@@ -16,7 +16,7 @@ const Home = withRouter(observer(class Home extends React.Component {
   }
 
   render() {
-    const entries = blog.latest.map(
+    const entries = blog.blog.latest.map(
       entry => (<LatestBlogEntries key={entry.url} entry={entry} />),
     );
 

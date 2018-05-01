@@ -10,4 +10,4 @@ const request = async (url) => {
   return response.json();
 };
 
-export { request };
+export default request;

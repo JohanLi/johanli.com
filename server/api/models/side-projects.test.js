@@ -1,12 +1,7 @@
 import sideProjects from './side-projects';
-import model from '../models/side-projects';
 
-model.projects = jest.fn();
-model.blogEntries = jest.fn();
-
-const res = {
-  json: jest.fn(),
-};
+sideProjects.projects = jest.fn();
+sideProjects.blogEntries = jest.fn();
 
 const projects = [
   {
@@ -42,12 +37,12 @@ const blogEntries = [
 ];
 
 describe('side projects', () => {
-  it('joins in blog entries', async () => {
-    model.projects.mockResolvedValue(projects);
-    model.blogEntries.mockResolvedValue(blogEntries);
-    await sideProjects.get({}, res);
+  it('joins in blog entries', () => {
+    sideProjects.projects.mockResolvedValue(projects);
+    sideProjects.blogEntries.mockResolvedValue(blogEntries);
 
-    expect(res.json).toHaveBeenCalledWith([
+    expect.assertions(1);
+    return expect(sideProjects.get()).resolves.toEqual([
       {
         id: 1,
         name: 'First Project',
@@ -80,20 +75,20 @@ describe('side projects', () => {
     ]);
   });
 
-  it('handles zero side projects', async () => {
-    model.projects.mockResolvedValue([]);
-    model.blogEntries.mockResolvedValue(blogEntries);
-    await sideProjects.get({}, res);
+  it('handles zero side projects', () => {
+    sideProjects.projects.mockResolvedValue([]);
+    sideProjects.blogEntries.mockResolvedValue(blogEntries);
 
-    expect(res.json).toHaveBeenCalledWith([]);
+    expect.assertions(1);
+    return expect(sideProjects.get()).resolves.toEqual([]);
   });
 
-  it('handles zero blog entries', async () => {
-    model.projects.mockResolvedValue(projects);
-    model.blogEntries.mockResolvedValue([]);
-    await sideProjects.get({}, res);
+  it('handles zero blog entries', () => {
+    sideProjects.projects.mockResolvedValue(projects);
+    sideProjects.blogEntries.mockResolvedValue([]);
 
-    expect(res.json).toHaveBeenCalledWith([
+    expect.assertions(1);
+    return expect(sideProjects.get()).resolves.toEqual([
       {
         id: 1,
         name: 'First Project',

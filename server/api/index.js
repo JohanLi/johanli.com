@@ -1,18 +1,34 @@
 import express from 'express';
-import blog from './controllers/blog';
-import sideProjects from './controllers/side-projects';
-import pokemonGoMap from './controllers/pokemon-go-map';
+import blog from './models/blog';
+import sideProjects from './models/side-projects';
+import pokemonGoMap from './models/pokemon-go-map';
 
 const router = express.Router();
 
-router.get('/blog', blog.getPage);
-router.get('/blog/:page([0-9]+)', blog.getPage);
-router.get('/blog/archive', blog.getArchive);
-router.get('/blog/latest', blog.getLatest);
-router.get('/blog/:urlKey', blog.getByUrlKey);
+router.get('/blog/archive', async (req, res) => {
+  res.json(await blog.getArchive());
+});
 
-router.get('/side-projects', sideProjects.get);
+router.get('/blog/latest', async (req, res) => {
+  res.json(await blog.getLatest());
+});
 
-router.get('/pokemon-go/map-objects', pokemonGoMap.getMapObjects);
+router.get('/blog/:pageOrUrlKey', async (req, res) => {
+  const { pageOrUrlKey } = req.params;
+
+  if (/^[0-9]+$/.test(pageOrUrlKey)) {
+    res.json(await blog.getPage(pageOrUrlKey));
+  } else {
+    res.json(await blog.getByUrlKey(pageOrUrlKey));
+  }
+});
+
+router.get('/side-projects', async (req, res) => {
+  res.json(await sideProjects.get());
+});
+
+router.get('/pokemon-go/map-objects', async (req, res) => {
+  res.json(await pokemonGoMap.getMapObjects());
+});
 
 export default router;
