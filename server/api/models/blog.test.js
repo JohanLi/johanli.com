@@ -59,14 +59,14 @@ describe('blog', () => {
     blog.page.mockResolvedValue([]);
 
     expect.assertions(1);
-    return expect(blog.getPage('0')).rejects.toBeInstanceOf(Error)
+    return expect(blog.getPage('0')).rejects.toBeInstanceOf(Error);
   });
 
   it('throws if no entries were found by page', () => {
     blog.page.mockResolvedValue([]);
 
     expect.assertions(1);
-    return expect(blog.getPage('9999')).rejects.toBeInstanceOf(Error)
+    return expect(blog.getPage('9999')).rejects.toBeInstanceOf(Error);
   });
 
   it('returns entry by urlKey', () => {
@@ -95,7 +95,7 @@ describe('blog', () => {
     blog.urlKey.mockResolvedValue([]);
 
     expect.assertions(1);
-    return expect(blog.getByUrlKey('not-found')).rejects.toBeInstanceOf(Error)
+    return expect(blog.getByUrlKey('not-found')).rejects.toBeInstanceOf(Error);
   });
 
   it('returns archive', () => {
@@ -193,7 +193,7 @@ describe('blog', () => {
         url: 'second',
         title: 'second title',
         excerpt: 'second excerpt',
-      }
+      },
     ];
 
     blog.latest.mockResolvedValue(latest);

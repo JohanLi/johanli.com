@@ -1,7 +1,6 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { observer, PropTypes as MPropTypes } from 'mobx-react';
 import PropTypes from 'prop-types';
-import { PropTypes as MPropTypes } from 'mobx-react';
 
 import Status from './Status';
 import Links from './Links';

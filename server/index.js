@@ -10,6 +10,8 @@ const app = express();
 app.use('/api', api);
 
 if (process.env.NODE_ENV !== 'development') {
+  // causes issues otherwise, when loading the non-bundled api endpoints during development
+  // eslint-disable-next-line
   const render = require('./render').default;
 
   app.use(cookieParser());

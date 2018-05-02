@@ -8,7 +8,7 @@ import Pagination from './Pagination';
 import Archive from './Archive';
 import Loading from '../../../src/components/Loading';
 
-import blogStore from "../../stores/blog";
+import blogStore from '../../stores/blog';
 import './blog.scss';
 
 const blogPageRequested = pageOrUrlKey => /^[0-9]+$/.test(pageOrUrlKey);
@@ -24,7 +24,7 @@ const Blog = observer(class Blog extends React.Component {
     }
   }
 
-  render () {
+  render() {
     const { pageOrUrlKey } = this.props;
     const blog = blogStore.blog || this.props.blog;
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { PropTypes as MPropTypes } from 'mobx-react';
 
 import styles from './links.scss';
-import {PropTypes as MPropTypes} from 'mobx-react';
 
 const isInternal = url => url[0] === '/';
 

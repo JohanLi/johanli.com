@@ -3,7 +3,7 @@ import { throwError } from '../helpers/error';
 import prismjsHighlight from '../helpers/prismjsHighlight';
 import imageContainer from '../helpers/imageContainer';
 
-const entriesPerPage = 3;
+const ENTRIES_PER_PAGE = 3;
 
 const setPublished = entries => entries.map((entry) => {
   const date = new Date(entry.published * 1000);
@@ -39,12 +39,6 @@ const setArchive = (entries) => {
   return archive;
 };
 
-const getTotalPages = async () => {
-  const result = await blog.entriesCount();
-
-  return Math.ceil(result[0].numberOfEntries / entriesPerPage);
-};
-
 const blog = {
   getPage: async (page) => {
     const pageInt = parseInt(page, 10);
@@ -53,9 +47,9 @@ const blog = {
       throwError('bad-request', 'Page has to be a positive number.');
     }
 
-    const offset = (pageInt - 1) * entriesPerPage;
+    const offset = (pageInt - 1) * ENTRIES_PER_PAGE;
 
-    let entries = await blog.page(entriesPerPage, offset);
+    let entries = await blog.page(ENTRIES_PER_PAGE, offset);
 
     if (!entries.length) {
       throwError('not-found', 'No blog entries were found on this page.');
@@ -67,7 +61,7 @@ const blog = {
 
     return {
       entries,
-      totalPages: await getTotalPages(),
+      totalPages: await blog.getTotalPages(),
     };
   },
 
@@ -92,9 +86,13 @@ const blog = {
     return setArchive(entries);
   },
 
-  getLatest: async () => {
-    return await blog.latest();
+  getTotalPages: async () => {
+    const result = await blog.entriesCount();
+
+    return Math.ceil(result[0].numberOfEntries / ENTRIES_PER_PAGE);
   },
+
+  getLatest: () => blog.latest(),
 
   page: async (entriesPerPage, offset) => {
     const [rows] = await database.query(`
@@ -105,7 +103,7 @@ const blog = {
     return rows;
   },
 
-  urlKey: async urlKey => {
+  urlKey: async (urlKey) => {
     const [rows] = await database.query(`
       SELECT url, title, excerpt, html, published FROM blog
       WHERE url = ?

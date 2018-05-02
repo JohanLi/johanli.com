@@ -15,7 +15,7 @@ const handleError = (res, { code, message }) => {
     res.status(500);
     res.json({
       code: 'internal-server-error',
-      message: 'An internal server error occurred!'
+      message: 'An internal server error occurred!',
     });
   }
 };

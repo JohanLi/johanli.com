@@ -1,11 +1,11 @@
 import React from 'react';
-import { observer } from "mobx-react/index";
-import { withRouter } from "react-router-dom";
+import { observer } from 'mobx-react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 
 import LatestBlogEntries from './LatestBlogEntries';
-import blog from "../../stores/blog";
+import blog from '../../stores/blog';
 import styles from './home.scss';
 
 import personalPortrait from '../../../public/img/johan.jpg';
