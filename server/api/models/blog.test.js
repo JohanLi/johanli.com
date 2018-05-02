@@ -55,6 +55,20 @@ describe('blog', () => {
     });
   });
 
+  it('throws if getting non-positive page', () => {
+    blog.page.mockResolvedValue([]);
+
+    expect.assertions(1);
+    return expect(blog.getPage('0')).rejects.toBeInstanceOf(Error)
+  });
+
+  it('throws if no entries were found by page', () => {
+    blog.page.mockResolvedValue([]);
+
+    expect.assertions(1);
+    return expect(blog.getPage('9999')).rejects.toBeInstanceOf(Error)
+  });
+
   it('returns entry by urlKey', () => {
     blog.urlKey.mockResolvedValue([
       {
@@ -75,13 +89,6 @@ describe('blog', () => {
         year: 2018,
       },
     });
-  });
-
-  it('throws if no entries were found by page', () => {
-    blog.page.mockResolvedValue([]);
-
-    expect.assertions(1);
-    return expect(blog.getPage('9999')).rejects.toBeInstanceOf(Error)
   });
 
   it('throws if no entry by urlKey is found', () => {

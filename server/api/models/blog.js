@@ -47,7 +47,13 @@ const getTotalPages = async () => {
 
 const blog = {
   getPage: async (page) => {
-    const offset = (parseInt(page, 10) - 1) * entriesPerPage;
+    const pageInt = parseInt(page, 10);
+
+    if (!pageInt > 0) {
+      throwError('bad-request', 'Page has to be a positive number.');
+    }
+
+    const offset = (pageInt - 1) * entriesPerPage;
 
     let entries = await blog.page(entriesPerPage, offset);
 
