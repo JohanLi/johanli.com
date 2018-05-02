@@ -1,21 +1,26 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
+import { matchPath, StaticRouter } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 
+import { useStaticRendering } from 'mobx-react';
+
 import App from '../../src/components/App';
 
-import sideProjectsModel from '../api/models/side-projects';
-import blog from './blog';
+import blog from '../api/models/blog';
+import sideProjects from '../api/models/side-projects';
+
 import inlineCss from './inlineCss';
 
 const readFileAsync = promisify(fs.readFile);
 
 const router = express.Router();
+
+useStaticRendering(true);
 
 router.get('*', async (req, res) => {
   const context = {};
@@ -25,10 +30,47 @@ router.get('*', async (req, res) => {
     'utf8',
   );
 
-  const appInitialState = {
-    blog: await blog(req),
-    sideProjects: await sideProjectsModel.getAll(),
-  };
+  const appInitialState = {};
+
+  if (req.url === '/') {
+    appInitialState.latestBlogEntries = await blog.getLatest();
+  }
+
+  if (req.url === '/side-projects') {
+    appInitialState.sideProjects = await sideProjects.get();
+  }
+
+  const blogRequested = matchPath(req.url, {
+    path: '/blog/:pageOrUrlKey?',
+  });
+
+  if (blogRequested) {
+    const pageOrUrlKey = blogRequested.params.pageOrUrlKey || 1;
+
+    if (/^[0-9]+$/.test(pageOrUrlKey)) {
+      const [page, archive] = await Promise.all([
+        blog.getPage(pageOrUrlKey),
+        blog.getArchive(),
+      ]);
+
+      appInitialState.blog = {
+        entries: page.entries,
+        totalPages: page.totalPages,
+        archive,
+      };
+    } else {
+      const [entries, archive] = await Promise.all([
+        blog.getByUrlKey(pageOrUrlKey),
+        blog.getArchive(),
+      ]);
+
+      appInitialState.blog = {
+        entries: [entries],
+        totalPages: 0,
+        archive,
+      };
+    }
+  }
 
   const appHtml = renderToString(
     <StaticRouter

@@ -1,6 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { PropTypes as MPropTypes } from 'mobx-react';
 
 import styles from './links.scss';
 
@@ -37,7 +38,7 @@ const Links = ({ project }) => {
     );
   }
 
-  if (project.blogEntries) {
+  if (project.blogEntries.length) {
     const entries = [];
 
     project.blogEntries.forEach((entry) => {
@@ -67,11 +68,16 @@ const Links = ({ project }) => {
 };
 
 Links.propTypes = {
-  project: PropTypes.objectOf(PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-    PropTypes.array,
-  ])).isRequired,
+  project: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    homepage_url: PropTypes.string.isRequired,
+    github_url: PropTypes.string.isRequired,
+    image_url: PropTypes.string.isRequired,
+    state: PropTypes.number.isRequired,
+    blogEntries: MPropTypes.observableArray.isRequired,
+  }).isRequired,
 };
 
 export default Links;

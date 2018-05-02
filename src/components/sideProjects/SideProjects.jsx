@@ -1,21 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { observer } from 'mobx-react';
+import { Route, withRouter } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 
 import Project from './Project';
 import PokemonGo from './PokemonGo';
-import styles from './sideProjects.scss';
 
-class SideProjects extends React.Component {
+import sideProjects from '../../stores/side-projects';
+import styles from './sideProjects.scss';
+import PropTypes from "prop-types";
+
+const SideProjects = withRouter(observer(class SideProjects extends React.Component {
   componentDidMount() {
-    this.props.update();
+    sideProjects.getProjects();
   }
 
   render() {
-    const projects = this.props.projects.map(
-      project => <Project key={project.id} project={project} />,
-    );
+    const projects = sideProjects.projects || this.props.projects;
 
     return (
       <DocumentTitle title="Side Projects - Johan Li">
@@ -24,21 +25,24 @@ class SideProjects extends React.Component {
             exact
             path="/side-projects"
             render={() => (
-              <div>
-                {projects}
-              </div>
+              <>
+                {projects.map(project => <Project key={project.id} project={project} />)}
+              </>
             )}
           />
-          <Route exact path="/side-projects/pokemon-go" component={PokemonGo} />
+          <Route exact path="/side-projects/pokemon-go" component={PokemonGo}/>
         </main>
       </DocumentTitle>
     );
   }
-}
+}));
 
 SideProjects.propTypes = {
-  projects: PropTypes.arrayOf(PropTypes.object).isRequired,
-  update: PropTypes.func.isRequired,
+  projects: PropTypes.array,
+};
+
+SideProjects.defaultProps = {
+  projects: [],
 };
 
 export default SideProjects;

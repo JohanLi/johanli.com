@@ -1,30 +1,51 @@
-import database from './database';
+import database from '../../database';
 
-const joinBlogEntries = (sideProjects, blogEntries) => {
+const joinBlogEntries = (projects, blogEntries) => {
   const groupedBlogEntries = {};
 
-  blogEntries.forEach((entry) => {
-    if (!groupedBlogEntries[entry.side_project_id]) {
-      groupedBlogEntries[entry.side_project_id] = [];
+  blogEntries.forEach(({ side_project_id, url, title }) => {
+    if (!groupedBlogEntries[side_project_id]) {
+      groupedBlogEntries[side_project_id] = [];
     }
 
-    groupedBlogEntries[entry.side_project_id].push({
-      url: entry.url,
-      title: entry.title,
+    groupedBlogEntries[side_project_id].push({
+      url,
+      title,
     });
   });
 
-  return sideProjects.map(project => ({
+  return projects.map(project => ({
     ...project,
-    blogEntries: groupedBlogEntries[project.id],
+    blogEntries: groupedBlogEntries[project.id] || [],
   }));
 };
 
-export default {
-  async getAll() {
-    const [sideProjects] = await database.query('SELECT * FROM side_projects ORDER BY state DESC, id DESC');
-    const [blogEntries] = await database.query('SELECT side_project_id, url, title FROM blog WHERE side_project_id > 0 ORDER BY published ASC');
+const sideProjects = {
+  get: async () => {
+    const projects = await sideProjects.projects();
+    const blogEntries = await sideProjects.blogEntries();
 
-    return joinBlogEntries(sideProjects, blogEntries);
+    return joinBlogEntries(projects, blogEntries);
+  },
+
+  projects: async () => {
+    const [rows] = await database.query(`
+      SELECT id, name, description, homepage_url, github_url, image_url, state
+      FROM side_projects
+      ORDER BY state DESC, id DESC
+    `);
+    return rows;
+  },
+
+  blogEntries: async () => {
+    const [rows] = await database.query(`
+      SELECT side_project_id, url, title
+      FROM blog
+      WHERE side_project_id > 0
+      ORDER BY published ASC
+    `);
+    return rows;
   },
 };
+
+export default sideProjects;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { observer, PropTypes as MPropTypes } from 'mobx-react';
 import PropTypes from 'prop-types';
 
 import Status from './Status';
@@ -6,7 +7,7 @@ import Links from './Links';
 
 import styles from './project.scss';
 
-const Project = ({ project }) => (
+const Project = observer(({ project }) => (
   <div className={styles.project}>
     <div className={styles.content}>
       <div className={styles.title}>
@@ -26,14 +27,19 @@ const Project = ({ project }) => (
     </a>
     <Links key={project.id} project={project} />
   </div>
-);
+));
 
 Project.propTypes = {
-  project: PropTypes.objectOf(PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-    PropTypes.array,
-  ])).isRequired,
+  project: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    homepage_url: PropTypes.string.isRequired,
+    github_url: PropTypes.string.isRequired,
+    image_url: PropTypes.string.isRequired,
+    state: PropTypes.number.isRequired,
+    blogEntries: MPropTypes.observableArray.isRequired,
+  }).isRequired,
 };
 
 export default Project;

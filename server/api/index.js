@@ -1,35 +1,58 @@
 import express from 'express';
-import cache from '../cache';
-import blogModel from './models/blog';
+import { handleError } from './helpers/error';
+import blog from './models/blog';
 import sideProjects from './models/side-projects';
 import pokemonGoMap from './models/pokemon-go-map';
 
 const router = express.Router();
 
-router.get('/blog/:pageOrUrlKey', async (req, res) => {
-  let blog;
-
-  if (/^[0-9]+$/.test(req.params.pageOrUrlKey)) {
-    const page = req.params.pageOrUrlKey;
-    blog = await cache.remember(`/blog/${page}`, () => blogModel.getPage(page));
-  } else {
-    const urlKey = req.params.pageOrUrlKey;
-    blog = await cache.remember(`/blog/${urlKey}`, () => blogModel.getByUrlKey(urlKey));
+router.get('/blog/archive', async (req, res) => {
+  try {
+    res.json(await blog.getArchive());
+  } catch (error) {
+    handleError(res, error);
   }
+});
 
-  res.json(blog);
+router.get('/blog/latest', async (req, res) => {
+  try {
+    res.json(await blog.getLatest());
+  } catch (error) {
+    handleError(res, error);
+  }
+});
+
+router.get('/blog/:pageOrUrlKey', async (req, res) => {
+  try {
+    const { pageOrUrlKey } = req.params;
+    let entries;
+
+    if (/^[0-9]+$/.test(pageOrUrlKey)) {
+      entries = await blog.getPage(pageOrUrlKey);
+    } else {
+      entries = await blog.getByUrlKey(pageOrUrlKey);
+    }
+
+    res.json(entries);
+  } catch (error) {
+    handleError(res, error);
+  }
 });
 
 router.get('/side-projects', async (req, res) => {
-  const projects = await cache.remember('/side-projects', () => sideProjects.getAll());
-
-  res.json(projects);
+  try {
+    res.json(await sideProjects.get());
+  } catch (error) {
+    handleError(res, error);
+  }
 });
 
 router.get('/pokemon-go/map-objects', async (req, res) => {
-  const mapObjects = await cache.remember('/pokemon-go/map-objects', () => pokemonGoMap.getMapObjects());
-
-  res.json(mapObjects);
+  try {
+    res.json(await pokemonGoMap.getMapObjects());
+  } catch (error) {
+    handleError(res, error);
+  }
 });
 
 export default router;

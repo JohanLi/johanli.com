@@ -1,8 +1,9 @@
-import database from './database';
+import database from '../../database';
+import { throwError } from '../helpers/error';
 import prismjsHighlight from '../helpers/prismjsHighlight';
 import imageContainer from '../helpers/imageContainer';
 
-const entriesPerPage = 3;
+const ENTRIES_PER_PAGE = 3;
 
 const setPublished = entries => entries.map((entry) => {
   const date = new Date(entry.published * 1000);
@@ -11,9 +12,9 @@ const setPublished = entries => entries.map((entry) => {
     ...entry,
     published: {
       timestamp: entry.published,
-      month: date.toLocaleString('en-us', { month: 'short' }),
-      date: date.getDate(),
-      year: date.getFullYear(),
+      month: date.toLocaleString('en-us', { month: 'short', timeZone: 'UTC' }),
+      date: date.getUTCDate(),
+      year: date.getUTCFullYear(),
     },
   };
 });
@@ -39,14 +40,19 @@ const setArchive = (entries) => {
 };
 
 const blog = {
-  async getPage(page) {
-    const pageInteger = parseInt(page, 10);
+  getPage: async (page) => {
+    const pageInt = parseInt(page, 10);
 
-    const offset = (pageInteger - 1) * entriesPerPage;
-    let [entries] = await database.query('SELECT * FROM blog ORDER BY published DESC LIMIT ? OFFSET ?', [entriesPerPage, offset]);
+    if (!pageInt > 0) {
+      throwError('bad-request', 'Page has to be a positive number.');
+    }
+
+    const offset = (pageInt - 1) * ENTRIES_PER_PAGE;
+
+    let entries = await blog.page(ENTRIES_PER_PAGE, offset);
 
     if (!entries.length) {
-      throw new Error('Page not found!');
+      throwError('not-found', 'No blog entries were found on this page.');
     }
 
     entries = setPublished(entries);
@@ -55,40 +61,82 @@ const blog = {
 
     return {
       entries,
-      archive: await blog.getArchive(),
       totalPages: await blog.getTotalPages(),
     };
   },
 
-  async getByUrlKey(urlKey) {
-    let [entries] = await database.query('SELECT * FROM blog WHERE url = ? ORDER BY published DESC', [urlKey]);
+  getByUrlKey: async (urlKey) => {
+    let entries = await blog.urlKey(urlKey);
 
     if (!entries.length) {
-      throw new Error('URL not found!');
+      throwError('not-found', 'No blog entry was found on this URL.');
     }
 
     entries = setPublished(entries);
     entries = prismjsHighlight(entries);
     entries = imageContainer(entries);
 
-    return {
-      entries,
-      archive: await blog.getArchive(),
-      totalPages: await blog.getTotalPages(),
-    };
+    return entries[0];
   },
 
-  async getArchive() {
-    let [entries] = await database.query('SELECT url, title, published FROM blog ORDER BY published DESC');
+  getArchive: async () => {
+    let entries = await blog.archive();
     entries = setPublished(entries);
 
     return setArchive(entries);
   },
 
-  async getTotalPages() {
-    const [result] = await database.query('SELECT count(*) AS numberOfEntries FROM blog');
+  getTotalPages: async () => {
+    const result = await blog.entriesCount();
 
-    return Math.ceil(result[0].numberOfEntries / entriesPerPage);
+    return Math.ceil(result[0].numberOfEntries / ENTRIES_PER_PAGE);
+  },
+
+  getLatest: () => blog.latest(),
+
+  page: async (entriesPerPage, offset) => {
+    const [rows] = await database.query(`
+      SELECT url, title, excerpt, html, published FROM blog
+      ORDER BY published DESC
+      LIMIT ? OFFSET ?
+    `, [entriesPerPage, offset]);
+    return rows;
+  },
+
+  urlKey: async (urlKey) => {
+    const [rows] = await database.query(`
+      SELECT url, title, excerpt, html, published FROM blog
+      WHERE url = ?
+      ORDER BY published DESC
+    `, [urlKey]);
+    return rows;
+  },
+
+  archive: async () => {
+    const [rows] = await database.query(`
+      SELECT url, title, published
+      FROM blog
+      ORDER BY published DESC
+    `);
+    return rows;
+  },
+
+  entriesCount: async () => {
+    const [rows] = await database.query(`
+      SELECT count(*) AS numberOfEntries
+      FROM blog
+    `);
+    return rows;
+  },
+
+  latest: async () => {
+    const [rows] = await database.query(`
+      SELECT url, title, excerpt
+      FROM blog
+      ORDER BY published DESC
+      LIMIT 3
+    `);
+    return rows;
   },
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 
@@ -7,36 +8,27 @@ import Pagination from './Pagination';
 import Archive from './Archive';
 import Loading from '../../../src/components/Loading';
 
+import blogStore from '../../stores/blog';
 import './blog.scss';
 
-class Blog extends React.Component {
+const blogPageRequested = pageOrUrlKey => /^[0-9]+$/.test(pageOrUrlKey);
+
+const Blog = observer(class Blog extends React.Component {
   componentDidMount() {
-    this.props.update(this.props.pageOrUrlKey);
+    const { pageOrUrlKey } = this.props;
+
+    if (blogPageRequested(pageOrUrlKey)) {
+      blogStore.getPage(pageOrUrlKey);
+    } else {
+      blogStore.getUrlKey(pageOrUrlKey);
+    }
   }
 
   render() {
-    const blogPageRequested = /^[0-9]+$/.test(this.props.pageOrUrlKey);
-    let title;
-    let entries = [];
+    const { pageOrUrlKey } = this.props;
+    const blog = blogStore.blog || this.props.blog;
 
-    if (blogPageRequested) {
-      title = 'Blog - Johan Li';
-      entries = this.props.blog.pages[this.props.pageOrUrlKey] || [];
-      entries = entries.map(
-        entryUrl => (<Entry key={entryUrl} entry={this.props.blog.entries[entryUrl]} />),
-      );
-    } else {
-      const entry = this.props.blog.entries[this.props.pageOrUrlKey];
-
-      if (entry) {
-        title = `${entry.title} - Johan Li`;
-        entries = [
-          <Entry key={entry.url} entry={entry} />,
-        ];
-      }
-    }
-
-    if (entries.length === 0) {
+    if (blog.entries.length === 0) {
       return (
         <main id="blog">
           <Loading />
@@ -44,33 +36,47 @@ class Blog extends React.Component {
       );
     }
 
+    const entries = blog.entries.map(
+      entry => (<Entry key={entry.url} entry={entry} />),
+    );
+
+    let title;
+    if (blogPageRequested(pageOrUrlKey)) {
+      title = 'Blog - Johan Li';
+    } else {
+      title = `${blog.entries[0].title} - Johan Li`;
+    }
+
     return (
       <DocumentTitle title={title}>
         <main className="blog">
           {entries}
           <Pagination
-            pageOrUrlKey={this.props.pageOrUrlKey}
-            totalPages={this.props.blog.totalPages}
+            pageOrUrlKey={pageOrUrlKey}
+            totalPages={blog.totalPages}
           />
-          <Archive archive={this.props.blog.archive} />
+          <Archive archive={blog.archive} />
         </main>
       </DocumentTitle>
     );
   }
-}
+});
 
 Blog.propTypes = {
   blog: PropTypes.shape({
-    entries: PropTypes.object,
-    pages: PropTypes.object,
-    archive: PropTypes.array,
+    entries: PropTypes.array,
     totalPages: PropTypes.number,
-  }).isRequired,
-  update: PropTypes.func.isRequired,
+    archive: PropTypes.array,
+  }),
   pageOrUrlKey: PropTypes.string,
 };
 
 Blog.defaultProps = {
+  blog: {
+    entries: [],
+    totalPages: 0,
+    archive: [],
+  },
   pageOrUrlKey: '1',
 };
 
