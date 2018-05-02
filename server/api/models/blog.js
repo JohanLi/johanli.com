@@ -1,4 +1,5 @@
 import database from '../../database';
+import { throwError } from '../helpers/error';
 import prismjsHighlight from '../helpers/prismjsHighlight';
 import imageContainer from '../helpers/imageContainer';
 
@@ -51,7 +52,7 @@ const blog = {
     let entries = await blog.page(entriesPerPage, offset);
 
     if (!entries.length) {
-      throw new Error('Page not found!');
+      throwError('not-found', 'No blog entries were found on this page.');
     }
 
     entries = setPublished(entries);
@@ -68,7 +69,7 @@ const blog = {
     let entries = await blog.urlKey(urlKey);
 
     if (!entries.length) {
-      throw new Error('URL not found!');
+      throwError('not-found', 'No blog entry was found on this URL.');
     }
 
     entries = setPublished(entries);
