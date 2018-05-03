@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { PropTypes as MPropTypes } from 'mobx-react';
 
 import styles from './archive.scss';
 
@@ -34,7 +33,7 @@ const Archive = ({ archive }) => {
 };
 
 Archive.propTypes = {
-  archive: MPropTypes.observableArrayOf(
+  archive: PropTypes.arrayOf(
     PropTypes.object.isRequired,
   ).isRequired,
 };

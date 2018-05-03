@@ -22,6 +22,8 @@ const router = express.Router();
 
 useStaticRendering(true);
 
+const blogPageRequested = pageOrUrlKey => /^[0-9]+$/.test(pageOrUrlKey);
+
 router.get('*', async (req, res) => {
   const context = {};
 
@@ -47,7 +49,7 @@ router.get('*', async (req, res) => {
   if (blogRequested) {
     const pageOrUrlKey = blogRequested.params.pageOrUrlKey || 1;
 
-    if (/^[0-9]+$/.test(pageOrUrlKey)) {
+    if (blogPageRequested(pageOrUrlKey)) {
       const [page, archive] = await Promise.all([
         blog.getPage(pageOrUrlKey),
         blog.getArchive(),

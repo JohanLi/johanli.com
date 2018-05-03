@@ -16,19 +16,14 @@ const blogPageRequested = pageOrUrlKey => /^[0-9]+$/.test(pageOrUrlKey);
 const Blog = observer(class Blog extends React.Component {
   componentDidMount() {
     const { pageOrUrlKey } = this.props;
-
-    if (blogPageRequested(pageOrUrlKey)) {
-      blogStore.getPage(pageOrUrlKey);
-    } else {
-      blogStore.getUrlKey(pageOrUrlKey);
-    }
+    blogStore.get(pageOrUrlKey);
   }
 
   render() {
     const { pageOrUrlKey } = this.props;
     const blog = blogStore.blog || this.props.blog;
 
-    if (blog.entries.length === 0) {
+    if (blogStore.isLoading(pageOrUrlKey)) {
       return (
         <main id="blog">
           <Loading />
@@ -55,7 +50,7 @@ const Blog = observer(class Blog extends React.Component {
             pageOrUrlKey={pageOrUrlKey}
             totalPages={blog.totalPages}
           />
-          <Archive archive={blog.archive} />
+          <Archive archive={blog.archive.slice()} />
         </main>
       </DocumentTitle>
     );
