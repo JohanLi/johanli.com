@@ -5,71 +5,107 @@
 
   # required because NodeSource uses https repositories
   - name: install apt-transport-https
-    apt: name=apt-transport-https state=latest update_cache=yes
+    apt:
+      name: apt-transport-https
+      state: latest
+      update_cache: yes
 
   # https://github.com/nodesource/distributions
   - name: add NodeSource package signing key
-    apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    apt_key:
+      url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
 
   - name: add NodeSource repository
-    apt_repository: repo={{ item }} state=present filename=nodesource.list
-    with_items:
-    - deb https://deb.nodesource.com/node_8.x jessie main
-    - deb-src https://deb.nodesource.com/node_8.x jessie main
+    apt_repository:
+      repo: "{{ item }}"
+      state: present
+      filename: nodesource.list
+    loop:
+      - deb https://deb.nodesource.com/node_10.x stretch main
+      - deb-src https://deb.nodesource.com/node_10.x stretch main
 
   # https://nginx.org/en/linux_packages.html
   - name: add nginx package signing key
-    apt_key: url=https://nginx.org/keys/nginx_signing.key
+    apt_key:
+      url: https://nginx.org/keys/nginx_signing.key
 
   - name: add nginx repository
-    apt_repository: repo={{ item }} state=present filename=nginx.list
-    with_items:
-    - deb https://nginx.org/packages/mainline/debian/ jessie nginx
-    - deb-src https://nginx.org/packages/mainline/debian/ jessie nginx
+    apt_repository:
+      repo: "{{ item }}"
+      state: present
+      filename: nginx.list
+    loop:
+      - deb https://nginx.org/packages/mainline/debian/ stretch nginx
+      - deb-src https://nginx.org/packages/mainline/debian/ stretch nginx
 
-  - name: install nodejs, git, nginx
-    apt: name={{ item }} state=latest update_cache=yes
-    with_items:
-    - nodejs
-    - git
-    - nginx
+  - name: install nodejs, git, nginx, ntp
+    apt:
+      name: "{{ item }}"
+      state: latest
+      update_cache: yes
+    loop:
+      - nodejs
+      - git
+      - nginx
+      - ntp
 
   - name: delete default server block
-    file: path=/etc/nginx/conf.d/default.conf state=absent
+    file:
+      path: /etc/nginx/conf.d/default.conf
+      state: absent
 
   - name: add server block
-    template: src=../templates/server-block.conf dest=/etc/nginx/conf.d/{{ domain }}.conf
+    template:
+      src: ../templates/server-block.conf
+      dest: /etc/nginx/conf.d/{{ domain }}.conf
 
   - name: create /etc/ssl/{{ domain }} directory
-    file: path=/etc/ssl/{{ domain }} state=directory
+    file:
+      path: /etc/ssl/{{ domain }}
+      state: directory
 
   - name: copy ssl bundle
-    copy: src=../templates/ssl-bundle.crt dest=/etc/ssl/{{ domain }}/ssl-bundle.crt
+    copy:
+      src: ../templates/ssl-bundle.crt
+      dest: /etc/ssl/{{ domain }}/ssl-bundle.crt
 
   - name: copy ssl ca bundle
-    copy: src=../templates/ssl-bundle.crt dest=/etc/ssl/{{ domain }}/ssl-ca-bundle.crt
+    copy:
+      src: ../templates/ssl-bundle.crt
+      dest: /etc/ssl/{{ domain }}/ssl-ca-bundle.crt
 
   - name: copy private key
-    copy: src=../templates/server.key dest=/etc/ssl/{{ domain }}/server.key
+    copy:
+      src: ../templates/server.key
+      dest: /etc/ssl/{{ domain }}/server.key
 
   - name: restart nginx
-    service: name=nginx enabled=yes state=restarted
+    service:
+      name: nginx
+      enabled: yes
+      state: restarted
 
   - name: deploy master branch
-    git: repo=https://github.com/JohanLi/johanli.com.git dest=/var/www/{{ domain }}
+    git:
+      repo: https://github.com/JohanLi/johanli.com.git
+      dest: /var/www/{{ domain }}
+      force: yes
 
   - name: deploy static files
-    synchronize: src=../../build/ dest=/var/www/{{ domain }}/build/
+    synchronize:
+      src: ../../build/
+      dest: /var/www/{{ domain }}/build/
 
   - name: deploy .env file
-    copy: src=../templates/.env dest=/var/www/{{ domain }}/.env
+    copy:
+      src: ../templates/.env
+      dest: /var/www/{{ domain }}/.env
 
-  - name: npm install and rebuild node-sass
-    command: "{{ item }} chdir=/var/www/{{ domain }}"
-    ignore_errors: yes
-    with_items:
-    - npm install
-    - npm rebuild node-sass
+  - name: install latest npm
+    command: npm install -g npm
+
+  - name: npm install
+    command: "npm install --production chdir=/var/www/{{ domain }}"
 
   - cron:
       name: "start application on reboot"

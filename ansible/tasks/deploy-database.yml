@@ -1,2 +1,2 @@
-- include: deploy-mysql.yml
-- include: redis-flush.yml
+- import_playbook: deploy-mysql.yml
+- import_playbook: redis-flush.yml

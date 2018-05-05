@@ -1,3 +1,4 @@
-- include: webserver.yml
-- include: mysql.yml
-- include: redis.yml
+---
+- import_playbook: webserver.yml
+- import_playbook: mysql.yml
+- import_playbook: redis.yml

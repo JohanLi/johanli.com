@@ -4,13 +4,18 @@
   tasks:
 
   - name: deploy master branch
-    git: repo=https://github.com/JohanLi/johanli.com.git dest=/var/www/{{ domain }}
+    git:
+      repo: https://github.com/JohanLi/johanli.com.git
+      dest: /var/www/{{ domain }}
+      force: yes
 
   - name: deploy static files
-    synchronize: src=../../build/ dest=/var/www/{{ domain }}/build/
+    synchronize:
+      src: ../../build/
+      dest: /var/www/{{ domain }}/build/
 
   - name: start application
     command: "{{ item }} chdir=/var/www/{{ domain }}"
-    with_items:
-    - npm install
-    - npm run prod:start
+    loop:
+      - npm install --production
+      - npm run prod:start
