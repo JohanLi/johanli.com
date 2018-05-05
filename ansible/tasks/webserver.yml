@@ -107,7 +107,7 @@
   - name: npm install
     command: "npm install --production chdir=/var/www/{{ domain }}"
 
-  - cron:
-      name: "start application on reboot"
-      special_time: reboot
-      job: "cd /var/www/{{ domain }} && npm run prod:start"
+  - name: register application as a service
+    template:
+      src: ../templates/systemd.service
+      dest: /lib/systemd/system/{{ domain }}.service

@@ -21,8 +21,6 @@
     "build:webpack": "webpack -p --mode production --config webpack.production.js",
     "build:imagemin": "node cli/imagemin.js",
     "build:move-files": "cd build && rm -rf img public/index.html && mv styles* client* favicon.ico public",
-    "prod:start": "forever restart build/server.js || forever start build/server.js",
-    "prod:stop": "forever stop build/server.js",
     "setup": "ansible-playbook -i ansible/hosts ansible/tasks/setup.yml",
     "deploy": "ansible-playbook -i ansible/hosts ansible/tasks/deploy.yml",
     "deploy:database": "ansible-playbook -i ansible/hosts ansible/tasks/deploy-database.yml"
@@ -86,7 +84,6 @@
     "cookie-parser": "^1.4.3",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
-    "forever": "^0.15.3",
     "html-react-parser": "^0.4.3",
     "image-size": "^0.6.2",
     "mobx": "^4.2.0",

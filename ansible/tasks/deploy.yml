@@ -14,8 +14,11 @@
       src: ../../build/
       dest: /var/www/{{ domain }}/build/
 
-  - name: start application
-    command: "{{ item }} chdir=/var/www/{{ domain }}"
-    loop:
-      - npm install --production
-      - npm run prod:start
+  - name: npm install
+    command: npm install --production chdir=/var/www/{{ domain }}
+
+  - name: restart application
+    systemd:
+      state: restarted
+      daemon_reload: yes
+      name: "{{ domain }}.service"
