@@ -4,7 +4,7 @@ describe('Homepage', () => {
   viewports.forEach(({ name, viewport }) => {
     context(name, () => {
       beforeEach(() => {
-        cy.viewport(...viewport)
+        cy.viewport(...viewport);
       });
 
       it('displays latest blog entries', () => {
@@ -16,7 +16,7 @@ describe('Homepage', () => {
           .first()
           .click()
           .location('pathname')
-          .should('contain', '/blog/')
+          .should('contain', '/blog/');
       });
     });
   });

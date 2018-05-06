@@ -7,17 +7,17 @@ describe('Blog', () => {
   const imageZoom = '.imageContainer';
   const imageZoomed = '[class*="imageZoomed__imageZoomed"]';
 
-  viewports.forEach(({name, viewport}) => {
+  viewports.forEach(({ name, viewport }) => {
     context(name, () => {
       beforeEach(() => {
-        cy.viewport(...viewport)
+        cy.viewport(...viewport);
       });
 
       it('displays 3 entries per page', () => {
         cy
           .visit('/blog')
           .get('article')
-          .should('have.length', 3)
+          .should('have.length', 3);
       });
 
       it('displays publish dates', () => {
@@ -26,7 +26,7 @@ describe('Blog', () => {
           .each(($article) => {
             const date = $article.find(published).text();
             expect(date).to.match(/^[A-Za-z]{3}[0-9]{5,6}$/);
-          })
+          });
       });
 
       it('has pagination', () => {
@@ -50,7 +50,7 @@ describe('Blog', () => {
           .contains('1')
           .click()
           .location('pathname')
-          .should('eq', '/blog')
+          .should('eq', '/blog');
       });
 
       it('displays an archive of entries', () => {
@@ -65,7 +65,7 @@ describe('Blog', () => {
           .contains('Mapping Pokestop Clusters in Stockholm')
           .click()
           .location('pathname')
-          .should('eq', '/blog/mapping-pokestop-clusters-in-stockholm')
+          .should('eq', '/blog/mapping-pokestop-clusters-in-stockholm');
       });
 
       it('displays single blog entries', () => {
@@ -77,7 +77,7 @@ describe('Blog', () => {
           .contains('View More Entries')
           .click()
           .location('pathname')
-          .should('eq', '/blog')
+          .should('eq', '/blog');
       });
 
       it('renders code snippets using Prism', () => {
@@ -86,7 +86,7 @@ describe('Blog', () => {
           .get('pre.language-php')
           .should('have.length', 1)
           .get('code.language-php')
-          .should('have.length', 1)
+          .should('have.length', 1);
       });
 
       if (name === 'mobile') {
@@ -97,7 +97,7 @@ describe('Blog', () => {
             .first()
             .click()
             .get(imageZoomed)
-            .should('have.length', 0)
+            .should('have.length', 0);
         });
       }
 

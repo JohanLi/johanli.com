@@ -51,7 +51,7 @@ const blog = {
     }
 
     return blog.current !== pageOrUrlKey;
-  }
+  },
 };
 
 decorate(blog, {

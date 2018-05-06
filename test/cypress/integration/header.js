@@ -1,10 +1,10 @@
 import viewports from '../viewports';
 
 describe('Header', () => {
-  viewports.forEach(({name, viewport}) => {
+  viewports.forEach(({ name, viewport }) => {
     context(name, () => {
       beforeEach(() => {
-        cy.viewport(...viewport)
+        cy.viewport(...viewport);
       });
 
       if (name === 'mobile') {
@@ -26,7 +26,7 @@ describe('Header', () => {
             .contains('Home')
             .click()
             .location('pathname')
-            .should('eq', '/')
+            .should('eq', '/');
         });
       }
 
@@ -43,7 +43,7 @@ describe('Header', () => {
             .contains('Johan Li')
             .click()
             .location('pathname')
-            .should('eq', '/')
+            .should('eq', '/');
         });
       }
     });
