@@ -44,7 +44,9 @@ const Links = ({ project }) => {
     project.blogEntries.forEach((entry) => {
       entries.push(
         <li key={entry.url}>
-          <a href={`/blog/${entry.url}`}>{entry.title}</a>
+          <Link to={`/blog/${entry.url}`}>
+            {entry.title}
+          </Link>
         </li>,
       );
     });
