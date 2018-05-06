@@ -59,19 +59,14 @@ const Blog = observer(class Blog extends React.Component {
 
 Blog.propTypes = {
   blog: PropTypes.shape({
-    entries: PropTypes.array,
-    totalPages: PropTypes.number,
-    archive: PropTypes.array,
-  }),
+    entries: PropTypes.array.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    archive: PropTypes.array.isRequired,
+  }).isRequired,
   pageOrUrlKey: PropTypes.string,
 };
 
 Blog.defaultProps = {
-  blog: {
-    entries: [],
-    totalPages: 0,
-    archive: [],
-  },
   pageOrUrlKey: '1',
 };
 

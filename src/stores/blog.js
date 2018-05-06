@@ -1,17 +1,11 @@
 import { decorate, observable, action } from 'mobx';
-import initialState from './helpers/initial-state';
 import request from './helpers/request';
 
 const blogPageRequested = pageOrUrlKey => /^[0-9]+$/.test(pageOrUrlKey);
 
 const blog = {
-  latestBlogEntries: initialState('latestBlogEntries'),
-  blog: initialState('blog'),
+  blog: null,
   current: null,
-
-  getLatest: async () => {
-    blog.latestBlogEntries = await request('/api/blog/latest');
-  },
 
   get: (pageOrUrlKey) => {
     blog.current = pageOrUrlKey;
@@ -61,11 +55,8 @@ const blog = {
 };
 
 decorate(blog, {
-  latestBlogEntries: observable,
   blog: observable,
-  getLatest: action,
-  getPage: action,
-  getUrlKey: action,
+  get: action,
 });
 
 export default blog;

@@ -5,18 +5,18 @@ import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 
 import LatestBlogEntries from './LatestBlogEntries';
-import blog from '../../stores/blog';
+import home from '../../stores/home';
 import styles from './home.scss';
 
 import personalPortrait from '../../../public/img/johan.jpg';
 
 const Home = withRouter(observer(class Home extends React.Component {
   componentDidMount() {
-    blog.getLatest();
+    home.getLatestBlogEntries();
   }
 
   render() {
-    const latestBlogEntries = blog.latestBlogEntries || this.props.latestBlogEntries;
+    const latestBlogEntries = home.latestBlogEntries || this.props.latestBlogEntries;
 
     const entries = latestBlogEntries.map(
       entry => (<LatestBlogEntries key={entry.url} entry={entry} />),
@@ -56,11 +56,7 @@ const Home = withRouter(observer(class Home extends React.Component {
 }));
 
 Home.propTypes = {
-  latestBlogEntries: PropTypes.array,
-};
-
-Home.defaultProps = {
-  latestBlogEntries: [],
+  latestBlogEntries: PropTypes.array.isRequired,
 };
 
 export default Home;

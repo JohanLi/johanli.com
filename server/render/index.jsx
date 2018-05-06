@@ -35,11 +35,15 @@ router.get('*', async (req, res) => {
   const appInitialState = {};
 
   if (req.url === '/') {
-    appInitialState.latestBlogEntries = await blog.getLatest();
+    appInitialState.home = {
+      latestBlogEntries: await blog.getLatest(),
+    };
   }
 
   if (req.url === '/side-projects') {
-    appInitialState.sideProjects = await sideProjects.get();
+    appInitialState.sideProjects = {
+      projects: await sideProjects.get(),
+    };
   }
 
   const blogRequested = matchPath(req.url, {
@@ -56,9 +60,11 @@ router.get('*', async (req, res) => {
       ]);
 
       appInitialState.blog = {
-        entries: page.entries,
-        totalPages: page.totalPages,
-        archive,
+        blog: {
+          entries: page.entries,
+          totalPages: page.totalPages,
+          archive,
+        },
       };
     } else {
       const [entries, archive] = await Promise.all([
@@ -67,9 +73,11 @@ router.get('*', async (req, res) => {
       ]);
 
       appInitialState.blog = {
-        entries: [entries],
-        totalPages: 0,
-        archive,
+        blog: {
+          entries: [entries],
+          totalPages: 0,
+          archive,
+        },
       };
     }
   }

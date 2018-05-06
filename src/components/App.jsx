@@ -9,8 +9,9 @@ import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';
 
 import styles from './app.scss';
+import PropTypes from "prop-types";
 
-const App = ({ latestBlogEntries, blog, sideProjects }) => (
+const App = ({ home, blog, sideProjects }) => (
   <div className={styles.app}>
     <Header />
     <Route
@@ -18,7 +19,7 @@ const App = ({ latestBlogEntries, blog, sideProjects }) => (
       path="/"
       render={() => (
         <Home
-          latestBlogEntries={latestBlogEntries}
+          latestBlogEntries={home.latestBlogEntries}
         />
       )}
     />
@@ -27,7 +28,7 @@ const App = ({ latestBlogEntries, blog, sideProjects }) => (
       render={({ match }) => (
         <Blog
           key={match.params.pageOrUrlKey}
-          blog={blog}
+          blog={blog.blog}
           pageOrUrlKey={match.params.pageOrUrlKey}
         />
       )}
@@ -36,7 +37,7 @@ const App = ({ latestBlogEntries, blog, sideProjects }) => (
       path="/side-projects"
       render={() => (
         <SideProjects
-          projects={sideProjects}
+          projects={sideProjects.projects}
         />
       )}
     />
@@ -45,6 +46,36 @@ const App = ({ latestBlogEntries, blog, sideProjects }) => (
   </div>
 );
 
-App.propTypes = {};
+App.propTypes = {
+  home: PropTypes.shape({
+    latestBlogEntries: PropTypes.array,
+  }),
+  blog: PropTypes.shape({
+    blog: PropTypes.shape({
+      entries: PropTypes.array,
+      totalPages: PropTypes.number,
+      archive: PropTypes.array,
+    }),
+  }),
+  sideProjects: PropTypes.shape({
+    projects: PropTypes.array,
+  }),
+};
+
+App.defaultProps = {
+  home: {
+    latestBlogEntries: [],
+  },
+  blog: {
+    blog: {
+      entries: [],
+      totalPages: 0,
+      archive: [],
+    },
+  },
+  sideProjects: {
+    projects: [],
+  },
+};
 
 export default App;
