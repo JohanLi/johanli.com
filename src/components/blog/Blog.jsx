@@ -15,15 +15,16 @@ const blogPageRequested = pageOrUrlKey => /^[0-9]+$/.test(pageOrUrlKey);
 
 const Blog = observer(class Blog extends React.Component {
   componentDidMount() {
-    const { pageOrUrlKey } = this.props;
-    blogStore.get(pageOrUrlKey);
+    blogStore.get(this.props.pageOrUrlKey);
   }
 
   render() {
     const { pageOrUrlKey } = this.props;
     const blog = blogStore.blog || this.props.blog;
 
-    if (blogStore.isLoading(pageOrUrlKey)) {
+    const isLoading = blogStore.currentNotLoaded(pageOrUrlKey) || blog.entries.length === 0;
+
+    if (isLoading) {
       return (
         <main id="blog">
           <Loading />

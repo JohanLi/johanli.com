@@ -43,7 +43,7 @@ const blog = {
     };
   },
 
-  isLoading: (pageOrUrlKey) => {
+  currentNotLoaded: (pageOrUrlKey) => {
     const initialExists = !blog.current;
 
     if (initialExists) {
