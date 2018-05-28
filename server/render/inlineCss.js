@@ -9,7 +9,8 @@ const linkRegexp = /<link href="\/styles-([\s\S]*?).css" rel="stylesheet">/;
 export default async (html, req, res) => {
   const match = html.match(linkRegexp);
 
-  if (req.cookies['css-loaded'] === match[1]) {
+  // TODO: Better solution for testing this, as hash is non-trivial to obtain
+  if (req.cookies['css-loaded'] === match[1] || req.cookies['css-loaded'] === 'loadedDuringTest') {
     return html.replace('<html lang="en">', '<html lang="en" class="fontLoaded">');
   }
 
