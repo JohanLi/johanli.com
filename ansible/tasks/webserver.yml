@@ -38,7 +38,7 @@
       - deb https://nginx.org/packages/mainline/debian/ stretch nginx
       - deb-src https://nginx.org/packages/mainline/debian/ stretch nginx
 
-  - name: install nodejs, git, nginx, ntp
+  - name: install nodejs, git, nginx, ntp, certbot
     apt:
       name: "{{ item }}"
       state: latest
@@ -48,6 +48,13 @@
       - git
       - nginx
       - ntp
+      - certbot
+
+  - name: setup let's encrypt certificate
+    command: certbot certonly --standalone --noninteractive --agree-tos --email johan@johanli.com -d {{ domain }} --pre-hook "service nginx stop" --post-hook "service nginx start"
+
+  - name: verify that renewal works
+    command: certbot renew --dry-run
 
   - name: delete default server block
     file:
@@ -58,26 +65,6 @@
     template:
       src: ../templates/server-block.conf
       dest: /etc/nginx/conf.d/{{ domain }}.conf
-
-  - name: create /etc/ssl/{{ domain }} directory
-    file:
-      path: /etc/ssl/{{ domain }}
-      state: directory
-
-  - name: copy ssl bundle
-    copy:
-      src: ../templates/ssl-bundle.crt
-      dest: /etc/ssl/{{ domain }}/ssl-bundle.crt
-
-  - name: copy ssl ca bundle
-    copy:
-      src: ../templates/ssl-bundle.crt
-      dest: /etc/ssl/{{ domain }}/ssl-ca-bundle.crt
-
-  - name: copy private key
-    copy:
-      src: ../templates/server.key
-      dest: /etc/ssl/{{ domain }}/server.key
 
   - name: restart nginx
     service:
