@@ -34,14 +34,13 @@ const Home = withRouter(observer(class Home extends React.Component {
                 </div>
               </div>
               <p>
-                Hi, I’m Johan Li. I work at <a href="https://en.wikipedia.org/wiki/Paradox_Interactive">Paradox Interactive</a> as
-                a web developer, building our e-commerce platform and online services.
+                Hi, I’m Johan Li. I work for Bonnier News on an editorial platform used by journalists to publish
+                articles on some of the largest Swedish newspapers. Used to work for Paradox Interactive.
               </p>
               <p>
-                What fascinates me is how complex and fast-moving of a world we live
-                in, not least in the tech industry. It’s interesting to reflect over
-                how tech has changed society, as well as predict what will happen in
-                the future.
+                I’m fascinated by what a complex and fast-moving world we live in. Identifying contrasts also
+                interests me. What are they, and why can they sometimes be worlds apart? What are the contrasts in
+                the world of software, across industries and across levels of technical literacy?
               </p>
             </div>
             <div className={styles.latestBlog}>
