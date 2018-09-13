@@ -4,7 +4,6 @@ npm-debug.log
 .env
 
 build/
-public/img
 
 ansible/hosts
 ansible/tasks/*.retry

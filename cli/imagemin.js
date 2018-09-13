@@ -17,6 +17,10 @@ const inputs = [
     input: ['./public/img/side-projects/*.png'],
     output: './build/public/img/side-projects',
   },
+  {
+    input: ['./public/img/side-projects/pokemon-go/*.png'],
+    output: './build/public/img/side-projects/pokemon-go',
+  },
 ];
 
 inputs.forEach((input) => {

@@ -123,7 +123,7 @@ class PokemonGo extends React.Component {
         lat: parseFloat(mapObject.latitude),
         lng: parseFloat(mapObject.longitude),
       },
-      icon: '/img/pokestop.png',
+      icon: '/img/side-projects/pokemon-go/pokestop.png',
     }));
   }
 
@@ -133,7 +133,7 @@ class PokemonGo extends React.Component {
         lat: parseFloat(mapObject.latitude),
         lng: parseFloat(mapObject.longitude),
       },
-      icon: '/img/gym.png',
+      icon: '/img/side-projects/pokemon-go/gym.png',
     }));
   }
 
