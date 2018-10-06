@@ -6,5 +6,5 @@
   "integrationFolder": "integration",
   "pluginsFile": false,
   "supportFile": false,
-  "videoRecording": false
+  "video": false
 }
