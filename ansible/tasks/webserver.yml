@@ -3,13 +3,6 @@
 
   tasks:
 
-  # required because NodeSource uses https repositories
-  - name: install apt-transport-https
-    apt:
-      name: apt-transport-https
-      state: latest
-      update_cache: yes
-
   # https://github.com/nodesource/distributions
   - name: add NodeSource package signing key
     apt_key:
@@ -21,10 +14,10 @@
       state: present
       filename: nodesource.list
     loop:
-      - deb https://deb.nodesource.com/node_10.x stretch main
-      - deb-src https://deb.nodesource.com/node_10.x stretch main
+      - deb https://deb.nodesource.com/node_12.x disco main
+      - deb-src https://deb.nodesource.com/node_12.x disco main
 
-  # https://nginx.org/en/linux_packages.html
+ # https://nginx.org/en/linux_packages.html
   - name: add nginx package signing key
     apt_key:
       url: https://nginx.org/keys/nginx_signing.key
@@ -35,20 +28,22 @@
       state: present
       filename: nginx.list
     loop:
-      - deb https://nginx.org/packages/mainline/debian/ stretch nginx
-      - deb-src https://nginx.org/packages/mainline/debian/ stretch nginx
+      - deb https://nginx.org/packages/mainline/ubuntu/ disco nginx
+      - deb-src https://nginx.org/packages/mainline/ubuntu/ disco nginx
 
   - name: install nodejs, git, nginx, ntp, certbot
     apt:
-      name: "{{ item }}"
+      name: "{{ packages }}"
       state: latest
       update_cache: yes
-    loop:
-      - nodejs
-      - git
-      - nginx
-      - ntp
-      - certbot
+      force_apt_get: yes
+    vars:
+      packages:
+        - nodejs
+        - git
+        - nginx
+        - ntp
+        - certbot
 
   - name: setup let's encrypt certificate
     command: certbot certonly --standalone --noninteractive --agree-tos --email johan@johanli.com -d {{ domain }} --pre-hook "service nginx stop" --post-hook "service nginx start"

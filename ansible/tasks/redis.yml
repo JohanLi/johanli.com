@@ -5,12 +5,14 @@
 
   - name: install make and gcc
     apt:
-      name: "{{ item }}"
+      name: "{{ packages }}"
       state: latest
       update_cache: yes
-    with_items:
-      - make
-      - gcc
+      force_apt_get: yes
+    vars:
+      packages:
+        - make
+        - gcc
 
   - name: download latest redis
     unarchive:

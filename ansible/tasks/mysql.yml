@@ -5,12 +5,14 @@
 
   - name: install mysql-server
     apt:
-      name: "{{ item }}"
+      name: "{{ packages }}"
       state: latest
       update_cache: yes
-    loop:
-      - mysql-server
-      - python-mysqldb
+      force_apt_get: yes
+    vars:
+        packages:
+        - mysql-server
+        - python-mysqldb
 
   - name: delete anonymous users
     mysql_user:
@@ -34,10 +36,6 @@
       - 127.0.0.1
       - ::1
       - localhost
-
-  # https://github.com/mysqljs/mysql/issues/1507
-  - name: set user plugin to mysql_native_password
-    command: mysql -e "UPDATE mysql.user SET plugin = 'mysql_native_password'"
 
   - name: add .my.cnf with new credentials
     template:
